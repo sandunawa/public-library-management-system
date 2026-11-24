@@ -436,19 +436,18 @@ export const StudentGateKioskPage: React.FC = () => {
 
   return (
     <div className="relative min-h-screen w-full text-white flex flex-col justify-between overflow-hidden select-none font-sinhala transition-colors duration-500 bg-black">
-      {/* MASTER BACKGROUND IMAGE: Ultra-realistic cinematic Sri Lankan Literary Education & Library Environment */}
+      {/* MASTER BACKGROUND IMAGE: Ultra-realistic daylight smart library matching hero aesthetic */}
       <div className="absolute inset-0 z-0">
         <img
-          src={webSettings.kioskBgImage}
-          alt="Sinhala Literary Classroom & Heritage Library Background"
-          className="w-full h-full object-cover object-center filter brightness-[0.78] contrast-[1.08]"
+          src="/images/smart-gate-kiosk-bg.jpg"
+          alt="Smart Gate Library Access Terminal Background"
+          className="w-full h-full object-cover object-center filter brightness-[0.92] contrast-[1.04]"
           onError={(e) => {
             // fallback
-            (e.target as HTMLElement).style.display = 'none';
+            (e.target as HTMLImageElement).src = '/images/enivac-hero-bg.jpg';
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/75 backdrop-blur-[0.5px]" />
-        <div className="absolute inset-0 bg-[#064B2A]/20 mix-blend-color" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/70 backdrop-blur-[0.5px]" />
       </div>
 
       {/* INVISIBLE HIGH-SPEED SCANNER INPUT */}

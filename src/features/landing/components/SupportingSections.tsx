@@ -167,7 +167,7 @@ export const SupportingSections: React.FC<SupportingSectionsProps> = ({ lang, on
       </div>
 
       {/* SECTION 8: SUPPORTED HARDWARE */}
-      <section id="hardware" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="hardware" className="max-w-[90rem] mx-auto px-4 sm:px-8 lg:px-12">
         <div className="p-10 rounded-3xl bg-gradient-to-r from-violet-50/80 via-indigo-50/70 to-purple-50/80 border border-violet-200/70 shadow-sm text-center space-y-8">
           <div>
             <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading">
@@ -202,7 +202,7 @@ export const SupportingSections: React.FC<SupportingSectionsProps> = ({ lang, on
       </section>
 
       {/* SECTION 10: DEMO REQUEST / CONTACT */}
-      <section id="contact" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="contact" className="max-w-[90rem] mx-auto px-4 sm:px-8 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           {/* Form */}
           <div className="lg:col-span-7 p-8 sm:p-10 rounded-3xl bg-white border border-slate-200/90 shadow-sm text-left space-y-6">
@@ -333,7 +333,7 @@ export const SupportingSections: React.FC<SupportingSectionsProps> = ({ lang, on
       </section>
 
       {/* SECTION 11: FINAL CTA BAND */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-[90rem] mx-auto px-4 sm:px-8 lg:px-12">
         <div className="p-12 sm:p-16 rounded-3xl bg-gradient-to-r from-[#1E0FA8] via-[#4F35E8] to-[#1E0FA8] text-center space-y-6 shadow-xl relative overflow-hidden">
           <h2 className="text-3xl sm:text-5xl font-black text-white font-heading">
             {t.cta.headline}
