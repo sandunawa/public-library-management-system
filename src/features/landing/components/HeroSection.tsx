@@ -10,6 +10,8 @@ import {
 import { landingEn } from '@/i18n/landing/en';
 import { landingSi } from '@/i18n/landing/si';
 
+import heroBgImage from '/images/enivac-hero-bg.jpg?url';
+
 interface HeroSectionProps {
   lang: 'en' | 'si';
   onOpenLogin: () => void;
@@ -19,23 +21,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ lang, onOpenLogin }) =
   const t = lang === 'en' ? landingEn.hero : landingSi.hero;
 
   return (
-    <section className="relative min-h-[92vh] pt-32 pb-20 flex flex-col justify-center overflow-hidden">
-      {/* Photorealistic Hero Background Image with Clean White Glass Overlay */}
-      <div className="absolute inset-0 -z-20">
-        <img
-          src="/images/enivac-hero-bg.jpg"
-          alt="Bright modern smart automated library interior"
-          className="w-full h-full object-cover object-center"
-        />
-        {/* Soft white gradient scrim ensuring 100% readable text and clean white aesthetic */}
-        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/88 to-white/75 backdrop-blur-[2px]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-transparent to-white" />
-      </div>
-
-      {/* Background Radial Glow & Concentric Rings */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-gradient-to-tr from-[#1E0FA8]/10 via-[#4F35E8]/10 to-violet-100/40 rounded-full blur-[140px] pointer-events-none -z-10" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+    <section
+      className="relative min-h-[92vh] pt-32 pb-20 flex flex-col justify-center overflow-hidden bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage: `linear-gradient(to right, rgba(255, 255, 255, 0.90) 0%, rgba(255, 255, 255, 0.78) 50%, rgba(255, 255, 255, 0.45) 100%), url(${heroBgImage})`,
+      }}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
         <div className="max-w-3xl space-y-7 text-left">
           {/* Eyebrow Pill */}
           <motion.div
