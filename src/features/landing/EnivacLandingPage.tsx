@@ -48,43 +48,74 @@ export const EnivacLandingPage: React.FC = () => {
       {/* Section 1: Hero Section */}
       <HeroSection lang={lang} onOpenLogin={handleOpenLogin} />
 
-      {/* Section 2: What is Smart Library Intro with Connected Ecosystem Visual */}
-      <section className="py-12 max-w-6xl mx-auto px-4 sm:px-6 text-center space-y-8">
-        <div className="space-y-3 max-w-3xl mx-auto">
-          <span className="text-xs font-bold uppercase tracking-wider text-[#4F35E8] px-4 py-1.5 rounded-full bg-violet-50 border border-violet-200 shadow-xs">
-            Enterprise Overview
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 font-heading">
-            {introT.title}
-          </h2>
-          <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
-            {introT.p1}
-          </p>
-        </div>
+      {/* Section 2: What is Smart Library Intro with Connected Ecosystem Visual (Side-by-Side) */}
+      <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          {/* Left Column: Description & Feature Points */}
+          <div className="lg:col-span-5 space-y-6 text-left">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-violet-50 border border-violet-200/80 shadow-xs">
+              <span className="w-2 h-2 rounded-full bg-[#1E0FA8]" />
+              <span className="text-xs font-bold uppercase tracking-wider text-[#1E0FA8]">
+                Enterprise Overview
+              </span>
+            </div>
 
-        {/* Photorealistic 3D Connected Ecosystem Module Graphic */}
-        <div className="relative rounded-3xl overflow-hidden border border-slate-200/80 shadow-2xl bg-white p-2 sm:p-4 group">
-          <div className="relative rounded-2xl overflow-hidden border border-slate-100 shadow-inner">
-            <img
-              src={ecosystemImage}
-              alt="Interconnected Smart Library Operating System Modules"
-              className="w-full h-auto max-h-[460px] object-cover object-center group-hover:scale-[1.02] transition-transform duration-700"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-75" />
+            <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 font-heading leading-tight">
+              {introT.title}
+            </h2>
 
-            <div className="absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-3 p-4 rounded-2xl bg-white/90 border border-slate-200/80 backdrop-blur-md text-left shadow-lg">
-              <div>
-                <span className="text-xs font-bold text-slate-900 block">
-                  Unified Smart Operations Architecture (ඒකාබද්ධ ස්මාර්ට් පද්ධති ව්‍යුහය)
-                </span>
-                <span className="text-[11px] text-slate-600">
-                  Entrance Kiosk • Circulation Desk • Member PVC Cards • Timetable Grid • Executive Analytics
+            <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
+              {introT.p1}
+            </p>
+
+            <div className="pt-2 space-y-3">
+              <div className="flex items-center gap-3 p-3 rounded-2xl bg-white border border-slate-200/80 shadow-xs">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+                <span className="text-xs font-semibold text-slate-800">
+                  Entrance Kiosk & Automated Attendance Synchronization
                 </span>
               </div>
-              <span className="px-3 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                Active Inter-Module Sync
-              </span>
+              <div className="flex items-center gap-3 p-3 rounded-2xl bg-white border border-slate-200/80 shadow-xs">
+                <span className="w-2 h-2 rounded-full bg-[#1E0FA8] shrink-0" />
+                <span className="text-xs font-semibold text-slate-800">
+                  High-Speed Circulation & Instant Barcode Shelf Return
+                </span>
+              </div>
+              <div className="flex items-center gap-3 p-3 rounded-2xl bg-white border border-slate-200/80 shadow-xs">
+                <span className="w-2 h-2 rounded-full bg-[#4F35E8] shrink-0" />
+                <span className="text-xs font-semibold text-slate-800">
+                  CR80 PVC Member ID Card Production & Batch Registration
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Photorealistic 3D Connected Ecosystem Module Graphic */}
+          <div className="lg:col-span-7">
+            <div className="relative rounded-3xl overflow-hidden border border-slate-200/90 shadow-2xl bg-white p-2 sm:p-3 group">
+              <div className="relative rounded-2xl overflow-hidden border border-slate-100 shadow-inner">
+                <img
+                  src={ecosystemImage}
+                  alt="Interconnected Smart Library Operating System Modules"
+                  className="w-full h-auto max-h-[440px] object-cover object-center group-hover:scale-[1.02] transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-75" />
+
+                <div className="absolute bottom-3 left-3 right-3 flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-2xl bg-white/95 border border-slate-200/90 backdrop-blur-md text-left shadow-lg">
+                  <div>
+                    <span className="text-xs font-bold text-slate-900 block">
+                      Unified Smart Operations Architecture (ඒකාබද්ධ ස්මාර්ට් පද්ධති ව්‍යුහය)
+                    </span>
+                    <span className="text-[11px] text-slate-600">
+                      Entrance Kiosk • Circulation Desk • Member PVC Cards • Timetable Grid • Executive Analytics
+                    </span>
+                  </div>
+                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center gap-1.5 shrink-0">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    Active Sync
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
