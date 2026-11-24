@@ -3,6 +3,15 @@
 @tailwind utilities;
 
 @layer base {
+  /* 
+   * THEME 1: Modern Digital Library (Light - Default)
+   * Primary: Deep Indigo #4338CA (243 61% 52%)
+   * Secondary: Teal #0F766E (175 77% 26%)
+   * Background: Soft slate #F8FAFC (210 40% 98%)
+   * Surface/Card: Pure White #FFFFFF (0 0% 100%)
+   * Text: Dark slate #0F172A (222 47% 11%)
+   * Text-2 (Muted): Slate #475569 (215 16% 35%)
+   */
   :root {
     --background: 210 40% 98%;
     --foreground: 222 47% 11%;
@@ -10,68 +19,215 @@
     --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
-    --primary: 215 57% 19%; /* Classic Navy #142B4A */
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222 47% 11.2%;
+    --primary: 243 61% 52%; /* Deep Indigo #4338CA */
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 244 55% 42%; /* #3730A3 */
+    --primary-soft: 240 60% 96%;
+    --primary-soft-foreground: 243 61% 42%;
+    
+    --secondary: 175 77% 26%; /* Teal #0F766E */
+    --secondary-foreground: 0 0% 100%;
+    --secondary-soft: 173 58% 95%;
+    --secondary-soft-foreground: 175 77% 23%;
+
     --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 217 91% 60%; /* Vibrant Blue #2563EB */
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 215 57% 19%;
-    --radius: 0.75rem;
+    --muted-foreground: 215 16% 38%;
+    --accent: 240 60% 96%;
+    --accent-foreground: 243 61% 42%;
+
+    --destructive: 0 72% 51%; /* #DC2626 */
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214.3 31.8% 90%;
+    --input: 214.3 31.8% 88%;
+    --ring: 243 61% 52%;
+    --radius: 0.75rem; /* 12px for cards, 10px md for buttons */
+
+    /* Semantic tokens */
+    --success: 142 71% 29%; /* #15803D */
+    --success-foreground: 0 0% 100%;
+    --success-soft: 138 76% 96%;
+    --success-soft-foreground: 142 76% 22%;
+
+    --warning: 32 95% 37%; /* #B45309 */
+    --warning-foreground: 0 0% 100%;
+    --warning-soft: 48 96% 95%;
+    --warning-soft-foreground: 32 95% 28%;
+
+    --danger: 0 74% 42%; /* #B91C1C */
+    --danger-foreground: 0 0% 100%;
+    --danger-soft: 0 86% 96%;
+    --danger-soft-foreground: 0 74% 36%;
+
+    --info: 217 91% 45%; /* #1D4ED8 */
+    --info-foreground: 0 0% 100%;
+    --info-soft: 214 95% 96%;
+    --info-soft-foreground: 217 91% 35%;
   }
 
+  /* 
+   * THEME 2: Dark
+   * Refined slate/indigo surface styling with AA contrast
+   */
   .dark {
     --background: 222 47% 7%;
     --foreground: 210 40% 98%;
-    --card: 222 47% 11%;
+    --card: 222 47% 10%;
     --card-foreground: 210 40% 98%;
-    --popover: 222 47% 11%;
+    --popover: 222 47% 10%;
     --popover-foreground: 210 40% 98%;
-    --primary: 217 91% 60%;
-    --primary-foreground: 222 47% 11%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217 91% 60%;
+    --primary: 239 84% 67%; /* Lighter indigo for AA dark contrast */
+    --primary-foreground: 222 47% 7%;
+    --primary-hover: 239 84% 73%;
+    --primary-soft: 243 50% 16%;
+    --primary-soft-foreground: 239 84% 82%;
+
+    --secondary: 172 66% 50%;
+    --secondary-foreground: 222 47% 7%;
+    --secondary-soft: 175 60% 14%;
+    --secondary-soft-foreground: 172 66% 80%;
+
+    --muted: 217.2 32.6% 16%;
+    --muted-foreground: 215 20% 70%;
+    --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 217.2 32.6% 18%;
+    --input: 217.2 32.6% 22%;
+    --ring: 239 84% 67%;
+
+    --success: 142 69% 58%;
+    --success-foreground: 222 47% 7%;
+    --success-soft: 144 61% 14%;
+    --success-soft-foreground: 142 69% 82%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 222 47% 7%;
+    --warning-soft: 35 60% 14%;
+    --warning-soft-foreground: 38 92% 78%;
+
+    --danger: 0 84% 60%;
+    --danger-foreground: 0 0% 100%;
+    --danger-soft: 0 60% 14%;
+    --danger-soft-foreground: 0 84% 82%;
+
+    --info: 213 94% 68%;
+    --info-foreground: 222 47% 7%;
+    --info-soft: 215 60% 15%;
+    --info-soft-foreground: 213 94% 85%;
   }
 
-  /* High Contrast Theme */
+  /* 
+   * THEME 3: High Contrast
+   * Pure black and white with thick visible boundaries
+   */
   .theme-high-contrast {
     --background: 0 0% 100%;
     --foreground: 0 0% 0%;
     --card: 0 0% 100%;
     --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
     --primary: 0 0% 0%;
     --primary-foreground: 0 0% 100%;
+    --primary-hover: 0 0% 15%;
+    --primary-soft: 0 0% 92%;
+    --primary-soft-foreground: 0 0% 0%;
+
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-soft: 0 0% 90%;
+    --secondary-soft-foreground: 0 0% 0%;
+
+    --muted: 0 0% 93%;
+    --muted-foreground: 0 0% 20%;
+    --accent: 0 0% 90%;
+    --accent-foreground: 0 0% 0%;
+
+    --destructive: 0 100% 35%;
+    --destructive-foreground: 0 0% 100%;
+
     --border: 0 0% 0%;
     --input: 0 0% 0%;
     --ring: 0 0% 0%;
+
+    --success: 140 100% 20%;
+    --success-foreground: 0 0% 100%;
+    --success-soft: 0 0% 90%;
+    --success-soft-foreground: 0 0% 0%;
+
+    --warning: 35 100% 30%;
+    --warning-foreground: 0 0% 100%;
+    --warning-soft: 0 0% 90%;
+    --warning-soft-foreground: 0 0% 0%;
+
+    --danger: 0 100% 35%;
+    --danger-foreground: 0 0% 100%;
+    --danger-soft: 0 0% 90%;
+    --danger-soft-foreground: 0 0% 0%;
+
+    --info: 220 100% 30%;
+    --info-foreground: 0 0% 100%;
+    --info-soft: 0 0% 90%;
+    --info-soft-foreground: 0 0% 0%;
   }
 
-  /* Warm Paper / Sepia Theme */
+  /* 
+   * THEME 4: Warm Paper / Sepia
+   * Cream paper backgrounds with ink tones and refined indigo-teal accents
+   */
   .theme-warm-paper {
     --background: 38 42% 94%;
     --foreground: 24 24% 18%;
     --card: 40 45% 97%;
     --card-foreground: 24 24% 18%;
-    --primary: 24 45% 26%;
+    --popover: 40 45% 97%;
+    --popover-foreground: 24 24% 18%;
+    --primary: 243 55% 40%;
     --primary-foreground: 40 45% 97%;
+    --primary-hover: 243 55% 32%;
+    --primary-soft: 38 35% 88%;
+    --primary-soft-foreground: 243 55% 30%;
+
+    --secondary: 175 65% 25%;
+    --secondary-foreground: 40 45% 97%;
+    --secondary-soft: 175 35% 88%;
+    --secondary-soft-foreground: 175 65% 20%;
+
+    --muted: 36 30% 89%;
+    --muted-foreground: 25 15% 38%;
+    --accent: 38 35% 88%;
+    --accent-foreground: 24 24% 18%;
+
+    --destructive: 0 65% 42%;
+    --destructive-foreground: 40 45% 97%;
+
     --border: 35 25% 82%;
-    --input: 35 25% 82%;
-    --ring: 24 45% 26%;
+    --input: 35 25% 78%;
+    --ring: 243 55% 40%;
+
+    --success: 142 60% 28%;
+    --success-foreground: 40 45% 97%;
+    --success-soft: 140 35% 88%;
+    --success-soft-foreground: 142 60% 20%;
+
+    --warning: 32 80% 35%;
+    --warning-foreground: 40 45% 97%;
+    --warning-soft: 35 45% 88%;
+    --warning-soft-foreground: 32 80% 25%;
+
+    --danger: 0 65% 42%;
+    --danger-foreground: 40 45% 97%;
+    --danger-soft: 0 45% 90%;
+    --danger-soft-foreground: 0 65% 32%;
+
+    --info: 217 75% 38%;
+    --info-foreground: 40 45% 97%;
+    --info-soft: 215 40% 90%;
+    --info-soft-foreground: 217 75% 28%;
   }
 }
 
@@ -83,4 +239,49 @@
     @apply bg-background text-foreground font-sans;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+  
+  /* Sinhala & Tamil script font rules & line heights */
+  [lang="si"], .font-sinhala {
+    font-family: 'Noto Sans Sinhala', sans-serif !important;
+    line-height: 1.65;
+    letter-spacing: normal !important;
+  }
+
+  [lang="ta"], .font-tamil {
+    font-family: 'Noto Sans Tamil', sans-serif !important;
+    line-height: 1.65;
+    letter-spacing: normal !important;
+  }
+
+  /* Display and Heading typography */
+  h1, h2, h3, h4, .font-heading {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Reduced Motion Guard */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Page entrance keyframes */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeInScale 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
