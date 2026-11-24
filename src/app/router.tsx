@@ -6,6 +6,7 @@ import { MemberLayout } from '@/components/layouts/MemberLayout';
 import { StaffLayout } from '@/components/layouts/StaffLayout';
 
 import { HomePage } from '@/features/opac/HomePage';
+import { EnivacLandingPage } from '@/features/landing/EnivacLandingPage';
 import { AuthPage } from '@/features/auth/AuthPage';
 import { MemberDashboardPage } from '@/features/members/MemberDashboardPage';
 import { StaffDashboardPage } from '@/features/dashboard/StaffDashboardPage';
@@ -32,9 +33,14 @@ import { ErrorBoundaryPage } from '@/components/common/ErrorBoundaryPage';
 import { NotFoundPage } from '@/components/common/NotFoundPage';
 
 const router = createBrowserRouter([
-  // 1. Public OPAC Surface
+  // 1. Landing & Public OPAC Surface
   {
     path: '/',
+    element: <EnivacLandingPage />,
+    errorElement: <ErrorBoundaryPage />,
+  },
+  {
+    path: '/catalog',
     element: <PublicLayout />,
     errorElement: <ErrorBoundaryPage />,
     children: [
