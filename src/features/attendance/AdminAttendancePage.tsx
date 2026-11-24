@@ -589,17 +589,17 @@ export const AdminAttendancePage: React.FC = () => {
         </div>
       </div>
 
-      {/* Historical Session Archive & Search */}
+      {/* Daily Library Attendance Log & Patron Archive */}
       <Card className="border-2 border-[#C69A35]/30">
         <CardContent className="p-6 space-y-4">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-4 border-b">
             <div>
               <h3 className="font-bold text-base flex items-center gap-2">
-                <History className="w-4 h-4 text-primary" />
-                <span>Historical Session Attendance Archive</span>
+                <History className="w-4 h-4 text-emerald-600" />
+                <span>Today's Library Attendance & Gate Activity Log</span>
               </h3>
               <p className="text-xs text-muted-foreground mt-0.5">
-                Browse and filter past daily attendance records
+                Browse and filter members who checked in to the library premises today and past dates
               </p>
             </div>
             <div className="flex gap-2 w-full sm:w-auto">
@@ -607,10 +607,10 @@ export const AdminAttendancePage: React.FC = () => {
                 type="date"
                 value={historySelectedDate}
                 onChange={(e) => setHistorySelectedDate(e.target.value)}
-                className="w-auto text-xs"
+                className="w-auto text-xs font-mono"
               />
               <div className="relative">
-                <Search className="w-4 h-4 absolute left-3 top-3 text-muted-foreground" />
+                <Search className="w-4 h-4 absolute left-3 top-2.5 text-muted-foreground" />
                 <Input
                   placeholder="Search by student name/ID..."
                   value={historySearchQuery}
@@ -625,44 +625,50 @@ export const AdminAttendancePage: React.FC = () => {
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-muted/50 border-b text-xs text-left">
+                  <th className="p-2.5">Student ID</th>
+                  <th className="p-2.5">Member Name</th>
+                  <th className="p-2.5">Batch / Purpose</th>
                   <th className="p-2.5">Date</th>
-                  <th className="p-2.5">Student</th>
-                  <th className="p-2.5">Batch</th>
+                  <th className="p-2.5">Arrival Time</th>
                   <th className="p-2.5">Status</th>
-                  <th className="p-2.5">Marked Time</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredHistory.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="p-6 text-center text-muted-foreground text-xs">
-                      No attendance records found for this date.
+                    <td colSpan={6} className="p-6 text-center text-muted-foreground text-xs">
+                      No library attendance records found for {historySelectedDate || 'today'}.
                     </td>
                   </tr>
                 ) : (
                   filteredHistory.map((rec) => (
                     <tr key={rec.id} className="border-b hover:bg-muted/20">
-                      <td className="p-2.5 font-mono text-xs">{rec.sessionDate}</td>
+                      <td className="p-2.5 font-mono font-bold text-xs text-[#064B2A]">
+                        {getDisplayStudentId(rec.studentId)}
+                      </td>
                       <td className="p-2.5 font-medium">{rec.studentName}</td>
                       <td className="p-2.5 text-xs text-muted-foreground">{rec.batchName}</td>
+                      <td className="p-2.5 font-mono text-xs">{rec.sessionDate}</td>
+                      <td className="p-2.5 text-xs font-mono font-semibold text-muted-foreground">
+                        {new Date(rec.markedAt).toLocaleTimeString([], {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          second: '2-digit',
+                          hour12: true,
+                        })}
+                      </td>
                       <td className="p-2.5">
                         <Badge
                           className={
                             rec.status === 'present'
-                              ? 'bg-emerald-600'
+                              ? 'bg-emerald-600 text-white font-bold text-[11px]'
                               : rec.status === 'late'
-                              ? 'bg-amber-600'
-                              : 'bg-rose-600'
+                              ? 'bg-amber-600 text-white font-bold text-[11px]'
+                              : 'bg-rose-600 text-white font-bold text-[11px]'
                           }
                         >
                           {rec.status.toUpperCase()}
                         </Badge>
-                      </td>
-                      <td className="p-2.5 text-xs font-mono text-muted-foreground">
-                        {new Date(rec.markedAt).toLocaleTimeString([], {
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        })}
                       </td>
                     </tr>
                   ))
