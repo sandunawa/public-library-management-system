@@ -6,6 +6,8 @@ import {
   Filter,
   BookOpen,
   ChevronRight,
+  ChevronDown,
+  ChevronUp,
   X,
   BookmarkCheck,
   Barcode,
@@ -31,6 +33,7 @@ export const HomePage: React.FC = () => {
   const [selectedLanguage, setSelectedLanguage] = useState<string>('ALL');
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
   const [loading, setLoading] = useState(true);
+  const [showHeroDiscovery, setShowHeroDiscovery] = useState(false);
   const [activeBookModal, setActiveBookModal] = useState<Book | null>(null);
   const [activeBookCopies, setActiveBookCopies] = useState<BookCopy[]>([]);
 
@@ -78,53 +81,88 @@ export const HomePage: React.FC = () => {
   });
 
   return (
-    <div className="space-y-8 sm:space-y-12 pb-16">
-      {/* Hero Discovery Banner with prominent illustration */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-primary-soft/60 via-background to-background py-10 md:py-16 px-4 border-b border-border">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-soft text-primary text-xs font-semibold">
-              <Sparkles className="w-3.5 h-3.5" />
+    <div className="space-y-6 sm:space-y-8 pb-16">
+      {/* Quick Search & Discovery Toggle Bar */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-card p-3 sm:p-4 rounded-2xl border border-border shadow-subtle">
+          <div className="relative flex-1 w-full max-w-2xl">
+            <Search className="w-5 h-5 absolute left-3.5 top-3.5 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder={t('search.placeholder')}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-11 pr-4 py-2.5 bg-muted/40 hover:bg-muted/60 focus:bg-background rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 border border-transparent focus:border-primary transition-all placeholder:text-muted-foreground"
+              aria-label="Search catalog query"
+            />
+          </div>
+
+          <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowHeroDiscovery((prev) => !prev)}
+              className="gap-2 rounded-xl text-xs font-medium border-border hover:bg-muted/60"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-primary" />
+              <span>{showHeroDiscovery ? 'Hide Discovery Layer' : 'National Discovery & Search'}</span>
+              {showHeroDiscovery ? (
+                <ChevronUp className="w-3.5 h-3.5 text-muted-foreground" />
+              ) : (
+                <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />
+              )}
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Collapsible Hero Discovery Banner with photo background */}
+      {showHeroDiscovery && (
+        <section className="relative overflow-hidden mx-4 sm:mx-6 max-w-7xl lg:mx-auto rounded-3xl border border-border shadow-elevated bg-slate-900 text-white animate-fade-in">
+          {/* Background Image Layer with darkening overlay */}
+          <div className="absolute inset-0 z-0">
+            <img
+              src="/images/opac-hero.webp"
+              alt="Library collection background"
+              className="w-full h-full object-cover opacity-30 object-center"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-900/80 to-slate-900/50" />
+          </div>
+
+          {/* Foreground Hero Content */}
+          <div className="relative z-10 p-6 sm:p-10 md:p-12 space-y-6 max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/30 border border-primary/40 text-primary-foreground text-xs font-semibold backdrop-blur-sm">
+              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
               <span>National Catalog & Digital Discovery Layer</span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground font-heading leading-tight">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-white font-heading leading-tight">
               Explore the National Public Library Network
             </h1>
-            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-2xl">
+            <p className="text-sm sm:text-base text-slate-200 leading-relaxed max-w-2xl">
               Real-time search across print books, academic manuscripts, and digital lending licenses across all island-wide branches.
             </p>
 
-            {/* Search Box */}
-            <div className="flex flex-col sm:flex-row gap-2 bg-card p-2 rounded-2xl shadow-elevated border border-border max-w-xl">
+            {/* Extended Search Box inside Hero */}
+            <div className="flex flex-col sm:flex-row gap-2 bg-white/10 backdrop-blur-md p-2 rounded-2xl border border-white/20 max-w-xl">
               <div className="relative flex-1">
-                <Search className="w-5 h-5 absolute left-3.5 top-3.5 text-muted-foreground" />
+                <Search className="w-5 h-5 absolute left-3.5 top-3.5 text-slate-300" />
                 <input
                   type="text"
                   placeholder={t('search.placeholder')}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-11 pr-4 py-3 bg-transparent rounded-xl text-sm focus:outline-none placeholder:text-muted-foreground"
-                  aria-label="Search catalog query"
+                  className="w-full pl-11 pr-4 py-3 bg-transparent rounded-xl text-sm focus:outline-none text-white placeholder:text-slate-300"
+                  aria-label="Search catalog query inside discovery banner"
                 />
               </div>
-              <Button size="lg" className="rounded-xl font-semibold">
+              <Button size="lg" className="rounded-xl font-semibold bg-primary hover:bg-primary/90 text-white">
                 {t('search.searchButton')}
               </Button>
             </div>
           </div>
-
-          <div className="hidden lg:block lg:col-span-5">
-            <div className="relative rounded-2xl overflow-hidden border border-border shadow-elevated bg-card">
-              <img
-                src="/images/opac-hero.webp"
-                alt="National Public Library catalog collection"
-                className="w-full h-72 object-cover"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Main Catalog View with Faceted Filter Sidebar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
