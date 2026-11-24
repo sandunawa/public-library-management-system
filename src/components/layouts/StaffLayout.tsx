@@ -101,9 +101,18 @@ export const StaffLayout: React.FC = () => {
           <NavLink to="/kiosk" target="_blank" className={navLinkClass}>
             <QrCode className="w-4 h-4 shrink-0 text-amber-500" />
             <div className="flex flex-col min-w-0">
-              <span className="truncate">Smart Entrance Kiosk</span>
+              <span className="truncate">Smart Gate Kiosk Display</span>
               <span className="text-xs text-muted-foreground font-normal leading-tight font-sinhala truncate">
-                ස්වයංක්‍රීය ඇතුල්වීම
+                ස්වයංක්‍රීය ඇතුල්වීමේ තිරය
+              </span>
+            </div>
+          </NavLink>
+          <NavLink to="/staff/attendance" className={navLinkClass}>
+            <Users className="w-4 h-4 shrink-0 text-emerald-500" />
+            <div className="flex flex-col min-w-0">
+              <span className="truncate">Gate Attendance Console</span>
+              <span className="text-xs text-muted-foreground font-normal leading-tight font-sinhala truncate">
+                පැමිණීමේ පාලන පුවරුව
               </span>
             </div>
           </NavLink>

@@ -25,6 +25,8 @@ import { ReservationsPage } from '@/features/circulation/ReservationsPage';
 import { SuspendedMembersPage } from '@/features/members/SuspendedMembersPage';
 import { PolicySettingsPage } from '@/features/settings/PolicySettingsPage';
 import { KioskPage } from '@/features/kiosk/KioskPage';
+import { StudentGateKioskPage } from '@/features/kiosk/StudentGateKioskPage';
+import { AdminAttendancePage } from '@/features/attendance/AdminAttendancePage';
 
 import { ErrorBoundaryPage } from '@/components/common/ErrorBoundaryPage';
 import { NotFoundPage } from '@/components/common/NotFoundPage';
@@ -42,6 +44,16 @@ const router = createBrowserRouter([
   // Kiosk Fullscreen Route
   {
     path: '/kiosk',
+    element: <StudentGateKioskPage />,
+    errorElement: <ErrorBoundaryPage />,
+  },
+  {
+    path: '/kiosk/gate-display',
+    element: <StudentGateKioskPage />,
+    errorElement: <ErrorBoundaryPage />,
+  },
+  {
+    path: '/kiosk/simple',
     element: <KioskPage />,
     errorElement: <ErrorBoundaryPage />,
   },
@@ -84,6 +96,7 @@ const router = createBrowserRouter([
       { path: 'members', element: <StaffMembersPage /> },
       { path: 'bulk-registration', element: <BulkRegistrationPage /> },
       { path: 'requests', element: <StaffMembersPage /> },
+      { path: 'attendance', element: <AdminAttendancePage /> },
       { path: 'timetable', element: <TimetablePage /> },
       { path: 'inventory', element: <InventoryStocktakePage /> },
       { path: 'missing-books', element: <MissingBooksPage /> },
