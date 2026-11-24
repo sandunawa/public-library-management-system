@@ -679,54 +679,60 @@ export const AdminAttendancePage: React.FC = () => {
             </div>
 
             {/* Time Range Filters & Search */}
-            <div className="flex flex-wrap items-center gap-2 w-full lg:w-auto">
-              <div className="flex items-center bg-muted p-1 rounded-xl border text-xs">
+            <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
+              {/* Modern Segmented Control Pills */}
+              <div className="inline-flex items-center p-1 rounded-xl bg-background/80 backdrop-blur border border-border shadow-sm">
                 <button
                   type="button"
                   onClick={() => setHistoryTimeRange('today')}
-                  className={`px-3 py-1.5 rounded-lg font-bold transition-all ${
+                  className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold tracking-tight transition-all duration-200 ${
                     historyTimeRange === 'today'
-                      ? 'bg-[#064B2A] text-white shadow-sm'
-                      : 'text-muted-foreground hover:text-foreground'
+                      ? 'bg-[#064B2A] text-white shadow-sm ring-1 ring-[#064B2A]/20 font-bold'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted/60'
                   }`}
                 >
-                  Today Only (අද දින)
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>Today Only</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setHistoryTimeRange('1m')}
-                  className={`px-3 py-1.5 rounded-lg font-bold transition-all ${
+                  className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold tracking-tight transition-all duration-200 ${
                     historyTimeRange === '1m'
-                      ? 'bg-[#064B2A] text-white shadow-sm'
-                      : 'text-muted-foreground hover:text-foreground'
+                      ? 'bg-[#064B2A] text-white shadow-sm ring-1 ring-[#064B2A]/20 font-bold'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted/60'
                   }`}
                 >
-                  Past 1 Month (මාසයකට පෙර)
+                  <Calendar className="w-3.5 h-3.5" />
+                  <span>Past 30 Days</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setHistoryTimeRange('1y')}
-                  className={`px-3 py-1.5 rounded-lg font-bold transition-all ${
+                  className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold tracking-tight transition-all duration-200 ${
                     historyTimeRange === '1y'
-                      ? 'bg-[#C69A35] text-black shadow-sm'
-                      : 'text-muted-foreground hover:text-foreground'
+                      ? 'bg-gradient-to-r from-[#C69A35] to-[#B58928] text-black shadow-sm ring-1 ring-[#C69A35]/30 font-bold'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted/60'
                   }`}
                 >
-                  More (වසර 1 ක වාර්තා)
+                  <Layers className="w-3.5 h-3.5" />
+                  <span>1-Year Archive</span>
                 </button>
               </div>
 
               {historyTimeRange === 'today' && (
-                <Input
-                  type="date"
-                  value={historySelectedDate}
-                  onChange={(e) => setHistorySelectedDate(e.target.value)}
-                  className="w-auto text-xs font-mono"
-                />
+                <div className="relative">
+                  <Input
+                    type="date"
+                    value={historySelectedDate}
+                    onChange={(e) => setHistorySelectedDate(e.target.value)}
+                    className="w-auto text-xs font-mono bg-background shadow-sm border-border h-8"
+                  />
+                </div>
               )}
 
               <div className="relative flex-1 sm:w-64">
-                <Search className="w-4 h-4 absolute left-3 top-2.5 text-muted-foreground" />
+                <Search className="w-4 h-4 absolute left-3 top-2 text-muted-foreground" />
                 <Input
                   placeholder="Scan/Type Student ID or Name..."
                   value={historySearchQuery}
@@ -737,7 +743,7 @@ export const AdminAttendancePage: React.FC = () => {
                       openPatronDrilldown(historySearchQuery.trim());
                     }
                   }}
-                  className="pl-9 text-xs"
+                  className="pl-9 text-xs bg-background shadow-sm border-border h-8"
                 />
               </div>
             </div>
