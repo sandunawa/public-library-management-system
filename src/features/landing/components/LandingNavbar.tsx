@@ -59,24 +59,24 @@ export const LandingNavbar: React.FC<LandingNavbarProps> = ({
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-[#0B0630]/85 backdrop-blur-xl border-b border-[#4F35E8]/20 shadow-2xl shadow-[#0B0630]/50 py-3'
-          : 'bg-transparent py-5'
+          ? 'bg-white/90 backdrop-blur-xl border-b border-slate-200/80 shadow-md shadow-slate-900/5 py-3'
+          : 'bg-white/75 backdrop-blur-md border-b border-slate-100 py-4'
       }`}
     >
       <div className="w-full px-4 sm:px-6 lg:px-10 flex items-center justify-between">
         {/* Brand Logo & Wordmark */}
         <a href="#" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#1E0FA8] to-[#4F35E8] p-[2px] shadow-lg shadow-[#4F35E8]/30 group-hover:scale-105 transition-transform">
-            <div className="w-full h-full bg-[#0B0630] rounded-[10px] flex items-center justify-center text-[#A99BFF]">
-              <BookOpen className="w-5 h-5 text-[#A99BFF]" />
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#1E0FA8] to-[#4F35E8] p-[2px] shadow-md shadow-[#4F35E8]/20 group-hover:scale-105 transition-transform">
+            <div className="w-full h-full bg-[#1E0FA8] rounded-[10px] flex items-center justify-center text-white">
+              <BookOpen className="w-5 h-5 text-white" />
             </div>
           </div>
-          <div className="flex flex-col">
-            <span className="font-heading font-extrabold text-base tracking-tight text-[#F5F4FF] flex items-center gap-1.5">
+          <div className="flex flex-col text-left">
+            <span className="font-heading font-extrabold text-base tracking-tight text-slate-900 flex items-center gap-1.5">
               <span>{brandConfig.shortName}</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#16A34A] animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             </span>
-            <span className="text-[10px] text-[#A99BFF] font-medium tracking-wider uppercase">
+            <span className="text-[10px] text-slate-500 font-medium tracking-wider uppercase">
               {brandConfig.companyName}
             </span>
           </div>
@@ -88,18 +88,18 @@ export const LandingNavbar: React.FC<LandingNavbarProps> = ({
             <a
               key={link.href}
               href={link.href}
-              className="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-[#F5F4FF]/85 bg-white/[0.04] hover:bg-[#4F35E8]/25 border border-white/[0.08] hover:border-[#A99BFF]/50 hover:text-white transition-all duration-200 shadow-xs hover:shadow-md hover:scale-[1.03] active:scale-[0.98]"
+              className="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-slate-700 bg-slate-100/80 hover:bg-violet-50 border border-slate-200 hover:border-[#4F35E8]/40 hover:text-[#1E0FA8] transition-all duration-200 shadow-xs hover:shadow-sm hover:scale-[1.03] active:scale-[0.98]"
             >
               {link.label}
             </a>
           ))}
         </nav>
 
-        {/* Right Actions: Clock, Language Switcher, Demo, Login */}
+        {/* Right Actions: Clock, Language Switcher, Registration, Login */}
         <div className="hidden sm:flex items-center gap-3">
           {/* Live Date/Time Badge */}
-          <div className="hidden xl:flex items-center gap-2 font-mono text-[11px] text-[#A99BFF] bg-[#1E0FA8]/20 border border-[#4F35E8]/30 px-3 py-1.5 rounded-full">
-            <Clock className="w-3.5 h-3.5 text-[#A99BFF]" />
+          <div className="hidden xl:flex items-center gap-2 font-mono text-[11px] text-slate-700 bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-full">
+            <Clock className="w-3.5 h-3.5 text-[#4F35E8]" />
             <span>
               {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
             </span>
@@ -108,10 +108,10 @@ export const LandingNavbar: React.FC<LandingNavbarProps> = ({
           {/* Bilingual Toggle */}
           <button
             onClick={() => setLang(lang === 'en' ? 'si' : 'en')}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-[#F5F4FF] bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition-colors"
             title="Switch Language (සිංහල / English)"
           >
-            <Globe className="w-3.5 h-3.5 text-[#A99BFF]" />
+            <Globe className="w-3.5 h-3.5 text-[#4F35E8]" />
             <span>{lang === 'en' ? 'සිංහල' : 'English'}</span>
           </button>
 
@@ -119,7 +119,7 @@ export const LandingNavbar: React.FC<LandingNavbarProps> = ({
           <button
             type="button"
             onClick={onOpenRegister}
-            className="px-4 py-1.5 rounded-xl text-xs font-bold text-[#F5F4FF] border border-[#4F35E8]/60 bg-[#1E0FA8]/20 hover:bg-[#4F35E8]/30 hover:border-[#A99BFF] transition-all flex items-center gap-1.5 shadow-sm"
+            className="px-4 py-1.5 rounded-xl text-xs font-bold text-[#1E0FA8] border border-[#4F35E8]/40 bg-violet-50/70 hover:bg-violet-100/80 hover:border-[#4F35E8] transition-all flex items-center gap-1.5 shadow-xs"
           >
             <span>{lang === 'en' ? 'Registration' : 'ලියාපදිංචිය'}</span>
           </button>
@@ -128,7 +128,7 @@ export const LandingNavbar: React.FC<LandingNavbarProps> = ({
           <button
             type="button"
             onClick={onOpenLogin}
-            className="px-5 py-1.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-[#1E0FA8] via-[#4F35E8] to-[#1E0FA8] hover:shadow-lg hover:shadow-[#4F35E8]/40 hover:scale-[1.02] transition-all flex items-center gap-1.5"
+            className="px-5 py-1.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-[#1E0FA8] via-[#4F35E8] to-[#1E0FA8] hover:shadow-lg hover:shadow-[#4F35E8]/30 hover:scale-[1.02] transition-all flex items-center gap-1.5"
           >
             <span>{lang === 'en' ? 'Login' : 'පිවිසෙන්න'}</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -139,13 +139,13 @@ export const LandingNavbar: React.FC<LandingNavbarProps> = ({
         <div className="flex sm:hidden items-center gap-2">
           <button
             onClick={() => setLang(lang === 'en' ? 'si' : 'en')}
-            className="p-1.5 rounded-lg text-xs font-bold text-[#F5F4FF] bg-white/5 border border-white/10"
+            className="p-1.5 rounded-lg text-xs font-bold text-slate-800 bg-slate-100 border border-slate-200"
           >
             {lang === 'en' ? 'සිංහල' : 'EN'}
           </button>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-xl text-white hover:bg-white/10"
+            className="p-2 rounded-xl text-slate-800 hover:bg-slate-100"
             aria-label="Toggle Navigation"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -160,7 +160,7 @@ export const LandingNavbar: React.FC<LandingNavbarProps> = ({
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-[#0B0630]/95 backdrop-blur-2xl border-b border-[#4F35E8]/30 px-6 py-6 space-y-4"
+            className="lg:hidden bg-white/98 backdrop-blur-2xl border-b border-slate-200 px-6 py-6 space-y-4 shadow-xl"
           >
             <div className="flex flex-col space-y-3">
               {navLinks.map((link) => (
@@ -168,13 +168,13 @@ export const LandingNavbar: React.FC<LandingNavbarProps> = ({
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-sm font-semibold text-[#F5F4FF] hover:text-[#A99BFF]"
+                  className="text-sm font-semibold text-slate-800 hover:text-[#4F35E8]"
                 >
                   {link.label}
                 </a>
               ))}
             </div>
-            <div className="pt-4 border-t border-white/10 flex flex-col gap-2.5">
+            <div className="pt-4 border-t border-slate-200 flex flex-col gap-2.5">
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
@@ -189,7 +189,7 @@ export const LandingNavbar: React.FC<LandingNavbarProps> = ({
                   setMobileMenuOpen(false);
                   onOpenRegister();
                 }}
-                className="w-full py-2.5 rounded-xl text-xs font-bold text-[#F5F4FF] border border-[#4F35E8]/60 bg-[#1E0FA8]/20 text-center"
+                className="w-full py-2.5 rounded-xl text-xs font-bold text-[#1E0FA8] border border-[#4F35E8]/40 bg-violet-50 text-center"
               >
                 {lang === 'en' ? 'Registration' : 'ලියාපදිංචි වන්න'}
               </button>

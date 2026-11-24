@@ -26,22 +26,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ lang, onOpenLogin }) =
   const t = lang === 'en' ? landingEn.hero : landingSi.hero;
 
   return (
-    <section className="relative min-h-[92vh] pt-32 pb-20 flex flex-col justify-center overflow-hidden">
-      {/* MASTER CINEMATIC HERO BACKGROUND IMAGE */}
-      <div className="absolute inset-0 -z-20 overflow-hidden">
-        <img
-          src="/images/enivac-hero-mesh.jpg"
-          alt="Enivac Smart Library 3D Mesh Grid"
-          className="w-full h-full object-cover object-center filter brightness-[0.6] contrast-[1.15]"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0B0630]/90 via-[#0B0630]/70 to-[#0B0630]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#0B0630_100%)] opacity-80" />
-      </div>
-
-      {/* Background Radial Glow & Concentric Rings */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-gradient-to-tr from-[#1E0FA8]/30 via-[#4F35E8]/20 to-[#A99BFF]/10 rounded-full blur-[140px] pointer-events-none -z-10" />
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] border border-[#4F35E8]/10 rounded-full pointer-events-none -z-10" />
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1400px] h-[1400px] border border-[#4F35E8]/5 rounded-full pointer-events-none -z-10" />
+    <section className="relative min-h-[92vh] pt-32 pb-20 flex flex-col justify-center overflow-hidden bg-gradient-to-b from-[#F5F4FF]/50 via-white to-white">
+      {/* Background Radial Glow & Concentric Rings (Pastel Glow) */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-gradient-to-tr from-[#1E0FA8]/10 via-[#4F35E8]/10 to-violet-100/40 rounded-full blur-[140px] pointer-events-none -z-10" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] border border-slate-200/50 rounded-full pointer-events-none -z-10" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1400px] h-[1400px] border border-slate-200/30 rounded-full pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -53,23 +42,23 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ lang, onOpenLogin }) =
             className="lg:col-span-7 space-y-6 text-left"
           >
             {/* Eyebrow Pill */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1E0FA8]/30 border border-[#4F35E8]/50 shadow-inner">
-              <Sparkles className="w-4 h-4 text-[#A99BFF]" />
-              <span className="text-xs font-bold text-[#F5F4FF] tracking-wide uppercase">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-violet-50 border border-violet-200/80 shadow-xs">
+              <Sparkles className="w-4 h-4 text-[#4F35E8]" />
+              <span className="text-xs font-bold text-[#1E0FA8] tracking-wide uppercase">
                 {t.eyebrow}
               </span>
             </div>
 
             {/* Giant Headline */}
-            <h1 className="text-4xl sm:text-6xl xl:text-7xl font-extrabold tracking-tight text-[#F5F4FF] font-heading leading-[1.1]">
+            <h1 className="text-4xl sm:text-6xl xl:text-7xl font-extrabold tracking-tight text-slate-900 font-heading leading-[1.1]">
               {t.headlineMain}{' '}
-              <span className="bg-gradient-to-r from-[#A99BFF] via-[#F5F4FF] to-[#A99BFF] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#1E0FA8] via-[#4F35E8] to-[#1E0FA8] bg-clip-text text-transparent">
                 {t.headlineAccent}
               </span>
             </h1>
 
             {/* Subheadline */}
-            <p className="text-base sm:text-lg text-[#F5F4FF]/75 max-w-2xl font-normal leading-relaxed">
+            <p className="text-base sm:text-lg text-slate-600 max-w-2xl font-normal leading-relaxed">
               {t.subheadline}
             </p>
 
@@ -77,7 +66,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ lang, onOpenLogin }) =
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <button
                 onClick={onOpenLogin}
-                className="px-7 py-3.5 rounded-2xl text-sm font-bold text-white bg-gradient-to-r from-[#1E0FA8] via-[#4F35E8] to-[#1E0FA8] hover:shadow-xl hover:shadow-[#4F35E8]/50 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2 group"
+                className="px-7 py-3.5 rounded-2xl text-sm font-bold text-white bg-gradient-to-r from-[#1E0FA8] via-[#4F35E8] to-[#1E0FA8] hover:shadow-xl hover:shadow-[#4F35E8]/30 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2 group"
               >
                 <span>{t.primaryCta}</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -85,7 +74,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ lang, onOpenLogin }) =
 
               <a
                 href="#contact"
-                className="px-7 py-3.5 rounded-2xl text-sm font-bold text-[#F5F4FF] bg-white/5 border border-[#4F35E8]/50 hover:bg-white/10 hover:border-[#A99BFF] transition-all"
+                className="px-7 py-3.5 rounded-2xl text-sm font-bold text-slate-800 bg-white border border-slate-300 hover:bg-slate-50 hover:border-[#4F35E8] shadow-xs transition-all"
               >
                 {t.secondaryCta}
               </a>
@@ -171,48 +160,48 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ lang, onOpenLogin }) =
 
         {/* Live Operational Ticker & Info Glass Cards */}
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md flex items-center gap-3 text-left">
-            <div className="w-10 h-10 rounded-xl bg-[#16A34A]/20 border border-[#16A34A]/40 flex items-center justify-center text-[#16A34A] shrink-0">
+          <div className="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-sm flex items-center gap-3 text-left">
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700 shrink-0">
               <Users className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-xs text-[#A99BFF] font-semibold block">{t.liveOccupancy}</span>
-              <span className="text-xs text-[#F5F4FF]/70">Automated gate counter active</span>
+              <span className="text-xs text-slate-900 font-bold block">{t.liveOccupancy}</span>
+              <span className="text-xs text-slate-500">Automated gate counter active</span>
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md flex items-center gap-3 text-left">
-            <div className="w-10 h-10 rounded-xl bg-[#4F35E8]/20 border border-[#4F35E8]/40 flex items-center justify-center text-[#A99BFF] shrink-0">
+          <div className="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-sm flex items-center gap-3 text-left">
+            <div className="w-10 h-10 rounded-xl bg-violet-50 border border-violet-200 flex items-center justify-center text-[#4F35E8] shrink-0">
               <Clock className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-xs text-[#F5F4FF] font-semibold block">{t.libraryHours}</span>
-              <span className="text-xs text-[#A99BFF]">Open to patrons and scholars</span>
+              <span className="text-xs text-slate-900 font-bold block">{t.libraryHours}</span>
+              <span className="text-xs text-slate-500">Open to patrons and scholars</span>
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md flex items-center gap-3 text-left">
-            <div className="w-10 h-10 rounded-xl bg-[#C69A35]/20 border border-[#C69A35]/40 flex items-center justify-center text-[#C69A35] shrink-0">
+          <div className="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-sm flex items-center gap-3 text-left">
+            <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-700 shrink-0">
               <Radio className="w-5 h-5 animate-pulse" />
             </div>
             <div>
-              <span className="text-xs text-[#F5F4FF] font-semibold block">{t.nowInLibrary}</span>
-              <span className="text-xs text-[#A99BFF]">Timetable scheduler synchronized</span>
+              <span className="text-xs text-slate-900 font-bold block">{t.nowInLibrary}</span>
+              <span className="text-xs text-slate-500">Timetable scheduler synchronized</span>
             </div>
           </div>
         </div>
 
         {/* Trust Chips Strip */}
-        <div className="mt-12 pt-8 border-t border-white/10 flex flex-wrap items-center justify-between gap-4 text-xs text-[#A99BFF]">
-          <span className="font-semibold uppercase tracking-wider">{t.trustHeading}</span>
-          <div className="flex flex-wrap items-center gap-3 font-bold text-[#F5F4FF]">
-            <span className="px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10">
+        <div className="mt-12 pt-8 border-t border-slate-200 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500">
+          <span className="font-semibold uppercase tracking-wider text-slate-600">{t.trustHeading}</span>
+          <div className="flex flex-wrap items-center gap-3 font-bold text-slate-800">
+            <span className="px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200">
               🎓 {t.schools}
             </span>
-            <span className="px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10">
+            <span className="px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200">
               🏛️ {t.universities}
             </span>
-            <span className="px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10">
+            <span className="px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200">
               🏢 {t.corporate}
             </span>
           </div>
