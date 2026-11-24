@@ -79,42 +79,49 @@ export const HomePage: React.FC = () => {
 
   return (
     <div className="space-y-8 sm:space-y-12 pb-16">
-      {/* Hero Discovery Banner */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-primary-soft/50 via-background to-background py-12 md:py-20 px-4 border-b border-border">
-        <img
-          src="/images/opac-hero.webp"
-          alt=""
-          className="absolute right-0 top-0 bottom-0 w-1/2 object-cover opacity-15 pointer-events-none hidden md:block"
-        />
-        <div className="max-w-4xl mx-auto space-y-6 text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-soft text-primary text-xs font-semibold">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>National Catalog & Digital Discovery Layer</span>
+      {/* Hero Discovery Banner with prominent illustration */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-primary-soft/60 via-background to-background py-10 md:py-16 px-4 border-b border-border">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-soft text-primary text-xs font-semibold">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>National Catalog & Digital Discovery Layer</span>
+            </div>
+
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground font-heading leading-tight">
+              Explore the National Public Library Network
+            </h1>
+            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-2xl">
+              Real-time search across print books, academic manuscripts, and digital lending licenses across all island-wide branches.
+            </p>
+
+            {/* Search Box */}
+            <div className="flex flex-col sm:flex-row gap-2 bg-card p-2 rounded-2xl shadow-elevated border border-border max-w-xl">
+              <div className="relative flex-1">
+                <Search className="w-5 h-5 absolute left-3.5 top-3.5 text-muted-foreground" />
+                <input
+                  type="text"
+                  placeholder={t('search.placeholder')}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-11 pr-4 py-3 bg-transparent rounded-xl text-sm focus:outline-none placeholder:text-muted-foreground"
+                  aria-label="Search catalog query"
+                />
+              </div>
+              <Button size="lg" className="rounded-xl font-semibold">
+                {t('search.searchButton')}
+              </Button>
+            </div>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground font-heading">
-            Explore the National Public Library Network
-          </h1>
-          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Real-time search across print books, academic manuscripts, and digital lending licenses.
-          </p>
-
-          {/* Search Box */}
-          <div className="max-w-2xl mx-auto flex flex-col sm:flex-row gap-2 bg-card p-2 rounded-2xl shadow-elevated border border-border">
-            <div className="relative flex-1">
-              <Search className="w-5 h-5 absolute left-3.5 top-3.5 text-muted-foreground" />
-              <input
-                type="text"
-                placeholder={t('search.placeholder')}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-11 pr-4 py-3 bg-transparent rounded-xl text-sm focus:outline-none placeholder:text-muted-foreground"
-                aria-label="Search catalog query"
+          <div className="hidden lg:block lg:col-span-5">
+            <div className="relative rounded-2xl overflow-hidden border border-border shadow-elevated bg-card">
+              <img
+                src="/images/opac-hero.webp"
+                alt="National Public Library catalog collection"
+                className="w-full h-72 object-cover"
               />
             </div>
-            <Button size="lg" className="rounded-xl font-semibold">
-              {t('search.searchButton')}
-            </Button>
           </div>
         </div>
       </section>
@@ -209,7 +216,7 @@ export const HomePage: React.FC = () => {
             <EmptyState
               title="No Results Found"
               description="Try loosening your filters or searching for alternate titles, authors, or subjects."
-              icon={BookOpen}
+              imageSrc="/images/empty-no-results.webp"
             />
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">

@@ -153,8 +153,14 @@ export const MemberDashboardPage: React.FC = () => {
           {loading ? (
             <div className="p-8 text-center text-xs text-muted-foreground">Loading active loans...</div>
           ) : loans.length === 0 ? (
-            <div className="p-8 text-center text-xs text-muted-foreground border-2 border-dashed rounded-xl">
-              You currently have no borrowed items. Visit our catalog to discover books!
+            <div className="p-8 text-center border-2 border-dashed rounded-xl bg-card/40 flex flex-col items-center justify-center">
+              <img
+                src="/images/empty-no-loans.webp"
+                alt="No active loans"
+                className="w-48 h-36 object-contain mb-3 rounded-lg shadow-subtle border border-border/50"
+              />
+              <p className="text-sm font-semibold text-foreground">You currently have no borrowed items.</p>
+              <p className="text-xs text-muted-foreground mt-1">Visit our catalog to discover and borrow books!</p>
             </div>
           ) : (
             <div className="divide-y text-xs">

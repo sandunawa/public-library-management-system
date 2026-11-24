@@ -232,10 +232,22 @@ export const OverdueFinesPage: React.FC = () => {
               <tbody className="divide-y divide-border">
                 {filteredRecords.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="p-8 text-center text-muted-foreground text-xs">
-                      {searchTerm
-                        ? 'No overdue records match the scanned barcode / query.'
-                        : 'No overdue books found! All library loans are currently up to date.'}
+                    <td colSpan={7} className="p-8 text-center text-muted-foreground">
+                      <div className="flex flex-col items-center justify-center space-y-2">
+                        <img
+                          src="/images/empty-all-clear.webp"
+                          alt="All clear"
+                          className="w-40 h-28 object-contain rounded-lg mb-1"
+                        />
+                        <div className="text-sm font-semibold text-foreground">
+                          {searchTerm ? 'No overdue records match search' : 'All Clear — No Overdue Fines!'}
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          {searchTerm
+                            ? 'No overdue records match the scanned barcode / query.'
+                            : 'All library loans are currently in good standing.'}
+                        </div>
+                      </div>
                     </td>
                   </tr>
                 ) : (

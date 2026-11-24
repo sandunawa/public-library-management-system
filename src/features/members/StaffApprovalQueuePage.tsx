@@ -138,9 +138,13 @@ export const StaffApprovalQueuePage: React.FC = () => {
       {loading ? (
         <div className="p-12 text-center text-sm text-muted-foreground">Loading approval queue...</div>
       ) : filteredMembers.length === 0 ? (
-        <Card className="p-12 text-center">
-          <CardContent className="space-y-3">
-            <UserCheck className="w-12 h-12 text-success mx-auto" />
+        <Card className="p-10 text-center">
+          <CardContent className="space-y-3 flex flex-col items-center justify-center">
+            <img
+              src="/images/empty-no-data.webp"
+              alt="No pending requests"
+              className="w-44 h-32 object-contain mb-2 rounded-lg shadow-subtle border border-border/50"
+            />
             <h3 className="font-heading font-bold text-lg">No Applications Pending</h3>
             <p className="text-xs text-muted-foreground max-w-sm mx-auto">
               All member registrations have been verified and processed.
