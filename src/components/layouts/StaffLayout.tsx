@@ -205,7 +205,7 @@ export const StaffLayout: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground">
+    <div className="h-screen flex flex-col bg-background text-foreground overflow-hidden">
       {/* Skip to main content link for screen readers */}
       <a
         href="#main-content"
@@ -214,8 +214,8 @@ export const StaffLayout: React.FC = () => {
         Skip to main content
       </a>
 
-      {/* Top Header (64px) */}
-      <header className="border-b border-border bg-card/95 backdrop-blur-sm px-4 lg:px-6 h-16 flex items-center justify-between sticky top-0 z-30 shadow-subtle">
+      {/* Top Header (64px) - Fixed top, does not scroll with either column */}
+      <header className="border-b border-border bg-card/95 backdrop-blur-sm px-4 lg:px-6 h-16 flex items-center justify-between shrink-0 z-30 shadow-subtle">
         <div className="flex items-center gap-3">
           {/* Mobile Drawer Trigger */}
           <button
@@ -266,11 +266,11 @@ export const StaffLayout: React.FC = () => {
         </div>
       </header>
 
-      <div className="flex-1 flex overflow-hidden">
-        {/* Desktop Left Staff Navigation Sidebar */}
+      <div className="flex-1 flex overflow-hidden min-h-0">
+        {/* Desktop Left Staff Navigation Sidebar - Scrolls independently */}
         <aside
           className={cn(
-            'hidden lg:block border-r border-border bg-card/60 p-4 transition-all duration-200 overflow-y-auto shrink-0 relative',
+            'hidden lg:block border-r border-border bg-card/60 p-4 transition-all duration-200 overflow-y-auto shrink-0 relative h-full',
             isCollapsed ? 'w-20' : 'w-[264px]'
           )}
           aria-label="Staff navigation"
@@ -362,11 +362,11 @@ export const StaffLayout: React.FC = () => {
           </div>
         )}
 
-        {/* Staff Main View with consistent max-width and responsive padding */}
+        {/* Staff Main View - Scrolls independently without moving the sidebar */}
         <main
           id="main-content"
           tabIndex={-1}
-          className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto w-full animate-fade-in outline-none"
+          className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto w-full h-full animate-fade-in outline-none"
         >
           <Outlet />
         </main>
