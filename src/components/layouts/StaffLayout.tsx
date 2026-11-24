@@ -28,10 +28,12 @@ import { TelegramBackupService } from '@/services/circulation/TelegramBackupServ
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/contexts/AuthContext';
 
 export const StaffLayout: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { signOut } = useAuth();
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(() => {
     return localStorage.getItem('libraryos-sidebar-collapsed') === 'true';
@@ -260,7 +262,10 @@ export const StaffLayout: React.FC = () => {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => navigate('/login')}
+            onClick={async () => {
+              await signOut();
+              navigate('/');
+            }}
             className="text-muted-foreground hover:text-danger gap-1.5 px-2.5"
             aria-label="Sign Out"
           >

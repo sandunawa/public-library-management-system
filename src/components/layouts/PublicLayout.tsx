@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { BookOpen, Search, User, LogOut } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -8,6 +8,7 @@ import { ThemeSwitcher } from '../common/ThemeSwitcher';
 import { Button } from '@/components/ui/button';
 
 export const PublicLayout: React.FC = () => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const { user, profile, signOut } = useAuth();
 
@@ -68,7 +69,10 @@ export const PublicLayout: React.FC = () => {
                 <Button
                   variant="ghost"
                   size="icon-sm"
-                  onClick={signOut}
+                  onClick={async () => {
+                    await signOut();
+                    navigate('/');
+                  }}
                   title="Sign Out"
                   aria-label="Sign Out"
                   className="text-muted-foreground hover:text-danger"
