@@ -81,48 +81,51 @@ export const HomePage: React.FC = () => {
 
   return (
     <div className="space-y-8 sm:space-y-12 pb-16">
-      {/* Full-width Hero Discovery Banner with dark illustration background */}
-      <section className="relative overflow-hidden w-full bg-slate-950 text-white border-b border-border">
-        {/* Full-width Background Image Layer */}
+      {/* Full-width Hero Discovery Banner with clear background photo */}
+      <section className="relative overflow-hidden w-full text-white border-b border-border min-h-[380px] sm:min-h-[440px] flex items-center">
+        {/* Full-width Background Image Layer - completely clear, no dark/blue tint */}
         <div className="absolute inset-0 z-0">
           <img
             src="/images/opac-hero.webp"
             alt="Library collection background"
-            className="w-full h-full object-cover opacity-25 object-center scale-105"
+            className="w-full h-full object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/85 to-slate-900/60" />
+          {/* Subtle bottom-to-top soft gradient only at the very bottom edge to smoothly meet the white page */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
         </div>
 
-        {/* Foreground Hero Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20 md:py-24 space-y-6">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/30 border border-primary/40 text-primary-foreground text-xs font-semibold backdrop-blur-sm shadow-subtle">
-            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-            <span>National Catalog & Digital Discovery Layer</span>
-          </div>
-
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white font-heading leading-tight max-w-3xl">
-            Explore the National Public Library Network
-          </h1>
-          <p className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl">
-            Real-time search across print books, academic manuscripts, and digital lending licenses across all island-wide branches.
-          </p>
-
-          {/* Prominent Search Box inside Hero */}
-          <div className="flex flex-col sm:flex-row gap-2 bg-white/10 backdrop-blur-md p-2.5 rounded-2xl border border-white/20 max-w-2xl shadow-elevated">
-            <div className="relative flex-1">
-              <Search className="w-5 h-5 absolute left-3.5 top-3.5 text-slate-300" />
-              <input
-                type="text"
-                placeholder={t('search.placeholder')}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-11 pr-4 py-3 bg-transparent rounded-xl text-sm focus:outline-none text-white placeholder:text-slate-300"
-                aria-label="Search catalog query"
-              />
+        {/* Foreground Hero Content with crisp card backing for 100% legibility */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 w-full">
+          <div className="max-w-2xl bg-slate-950/80 backdrop-blur-md p-6 sm:p-8 rounded-3xl border border-white/20 shadow-2xl space-y-5">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/40 border border-primary/50 text-white text-xs font-semibold">
+              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+              <span>National Catalog & Digital Discovery Layer</span>
             </div>
-            <Button size="lg" className="rounded-xl font-semibold bg-primary hover:bg-primary/90 text-white px-6">
-              {t('search.searchButton')}
-            </Button>
+
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-white font-heading leading-tight">
+              Explore the National Public Library Network
+            </h1>
+            <p className="text-sm sm:text-base text-slate-200 leading-relaxed">
+              Real-time search across print books, academic manuscripts, and digital lending licenses across all island-wide branches.
+            </p>
+
+            {/* Prominent Search Box inside Hero */}
+            <div className="flex flex-col sm:flex-row gap-2 bg-white/10 backdrop-blur-md p-2 rounded-2xl border border-white/20">
+              <div className="relative flex-1">
+                <Search className="w-5 h-5 absolute left-3.5 top-3.5 text-slate-300" />
+                <input
+                  type="text"
+                  placeholder={t('search.placeholder')}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-11 pr-4 py-2.5 bg-transparent rounded-xl text-sm focus:outline-none text-white placeholder:text-slate-300"
+                  aria-label="Search catalog query"
+                />
+              </div>
+              <Button size="lg" className="rounded-xl font-semibold bg-primary hover:bg-primary/90 text-white px-6">
+                {t('search.searchButton')}
+              </Button>
+            </div>
           </div>
         </div>
       </section>
