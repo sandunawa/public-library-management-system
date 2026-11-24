@@ -11,8 +11,8 @@
 | Wave / Phase | Description | Status |
 | :--- | :--- | :--- |
 | **Phase 0** | Baseline audits, build verification, `DESIGN_SYSTEM.md`, `PROPOSAL_PARITY_PLAN.md` | **COMPLETED** |
-| **Wave A** | UI gaps, role navigation, shared data models, shared services (`SoundService`, `PrintService`, etc.) | **PENDING APPROVAL** |
-| **Wave B** | Circulation desk renewal/thermal receipts, fine waivers, queue reservations | Pending |
+| **Wave A** | UI gaps, role navigation, shared data models, shared services (`SoundService`, `PrintService`, `PhotoStore`, `SnapshotService`, `AuditLogService`, `useScanInput`) | **COMPLETED** |
+| **Wave B** | Circulation desk renewal/thermal receipts, fine waivers, queue reservations | **IN PROGRESS** |
 | **Wave C** | Smart Entrance Kiosk (`/kiosk`), attendance logging, live occupancy | Pending |
 | **Wave D** | Member webcam capture, CR80 / A4 card printing, bulk class registration wizard | Pending |
 | **Wave E** | Timetable scheduler, catalog barcode sheets, executive dashboard, white-label settings | Pending |

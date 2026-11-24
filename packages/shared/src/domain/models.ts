@@ -95,6 +95,13 @@ export interface MemberProfile {
   unpaidFinesTotal: number;
   guardianName?: string;
   guardianPhone?: string;
+  photoKey?: string;
+  admissionNo?: string;
+  grade?: string;
+  section?: string;
+  department?: string;
+  gender?: 'MALE' | 'FEMALE' | 'OTHER';
+  medium?: 'SINHALA' | 'TAMIL' | 'ENGLISH';
   approvedBy?: string;
   approvedAt?: number;
   expiryDate: number;
@@ -190,3 +197,42 @@ export interface AuditLog {
   details?: Record<string, any>;
   ipAddress?: string;
 }
+
+export interface AttendanceEntry {
+  id: string;
+  memberId: string;
+  admissionNo?: string;
+  memberName: string;
+  grade?: string;
+  section?: string;
+  direction: 'IN' | 'OUT';
+  timestamp: number;
+  method: 'SCAN' | 'MANUAL';
+  synced?: boolean;
+}
+
+export interface TimetableSlot {
+  id: string;
+  dayOfWeek: 1 | 2 | 3 | 4 | 5; // Monday to Friday
+  periodIndex: number; // 0 to 7 (8 periods)
+  startTime: string; // e.g. "07:50"
+  endTime: string; // e.g. "08:30"
+  gradeSection?: string; // e.g. "10-A"
+  teacherName?: string;
+  purpose?: string;
+  reservedAt?: number;
+  reservedByStaffId?: string;
+}
+
+export interface LibrarySettings {
+  instituteName: string;
+  instituteAddress: string;
+  contactNumber: string;
+  email: string;
+  currency: string;
+  finePerDay: number;
+  gracePeriodDays: number;
+  themeAccentColor: string;
+  logoUrl?: string;
+}
+
