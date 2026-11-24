@@ -548,23 +548,23 @@ export const StudentGateKioskPage: React.FC = () => {
       {/* Main Center Content */}
       <main className="relative z-20 flex-1 flex items-center justify-center p-6 sm:p-12">
         {paymentSuccessPopup ? (
-          <div className="w-full max-w-2xl bg-gradient-to-b from-[#064B2A]/95 to-[#002213]/95 border-4 border-[#C69A35] rounded-3xl p-8 sm:p-12 shadow-2xl shadow-black/80 backdrop-blur-2xl animate-in zoom-in-95 duration-300 flex flex-col items-center text-center">
-            <div className="w-24 h-24 rounded-full bg-[#C69A35]/20 border-4 border-[#C69A35] text-[#C69A35] flex items-center justify-center mb-6 shadow-xl animate-bounce">
+          <div className="w-full max-w-2xl bg-white/95 border-2 border-emerald-500 rounded-3xl p-8 sm:p-12 shadow-2xl backdrop-blur-2xl animate-in zoom-in-95 duration-300 flex flex-col items-center text-center">
+            <div className="w-24 h-24 rounded-full bg-emerald-50 border-4 border-emerald-500 text-emerald-600 flex items-center justify-center mb-6 shadow-xl animate-bounce">
               <Check className="w-14 h-14 stroke-[3]" />
             </div>
 
-            <span className="px-5 py-1.5 rounded-full bg-[#064B2A] text-[#FFF5DF] text-xs font-black uppercase tracking-widest mb-3 border border-[#C69A35]/60">
-              ගෙවීම තහවුරු විය (PAYMENT VERIFIED)
+            <span className="px-5 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-black uppercase tracking-widest mb-3 border border-emerald-200">
+              Payment Verified
             </span>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight mb-3">
-              ස්තූතියි! ඔබගේ ගෙවීම ලැබිණි!
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight mb-3 font-heading">
+              Payment Confirmed!
             </h2>
-            <p className="text-lg text-[#FFF5DF] font-bold mb-4">
-              {paymentSuccessPopup.studentName} - ගෙවීම් ශේෂය සාර්ථකව පියවා අවසන්.
+            <p className="text-lg text-slate-700 font-bold mb-4">
+              {paymentSuccessPopup.studentName} — Account balance successfully cleared.
             </p>
-            <div className="text-sm text-[#C69A35] font-bold">
-              ✨ දේශන ශාලාවට / පුස්තකාලයට සාදරයෙන් පිළිගනිමු! සාර්ථක අධ්‍යයන දවසක් වේවා!
+            <div className="text-sm text-[#1E0FA8] font-bold">
+              ✨ Welcome to the library! Enjoy your study and research session.
             </div>
           </div>
         ) : activeScan ? (
@@ -692,16 +692,29 @@ export const StudentGateKioskPage: React.FC = () => {
           </div>
         ) : (
           /* DEFAULT IDLE STATE: Clean White Frosted Glass Card with Animated Barcode Scanning Laser */
-          <div className="max-w-md w-full text-center flex flex-col items-center backdrop-blur-2xl bg-white/90 p-8 sm:p-10 rounded-3xl border border-indigo-200/80 shadow-2xl shadow-indigo-950/10">
+          <div className="max-w-md w-full text-center flex flex-col items-center backdrop-blur-2xl bg-white/95 p-8 sm:p-10 rounded-3xl border border-indigo-200/80 shadow-2xl shadow-indigo-950/15">
             {/* Animated Barcode Scanner Terminal */}
             <div className="relative mb-6">
-              <div className="w-36 h-36 rounded-3xl bg-violet-50/80 border-2 border-[#1E0FA8]/40 flex flex-col items-center justify-center shadow-inner relative overflow-hidden group">
-                <ScanLine className="w-16 h-16 text-[#1E0FA8]" />
-                {/* Horizontal Scanning Laser Bar Animation */}
-                <div className="absolute inset-x-2 h-0.5 bg-gradient-to-r from-transparent via-[#4F35E8] to-transparent animate-pulse shadow-[0_0_12px_#4F35E8]" />
+              <div className="w-40 h-40 rounded-3xl bg-gradient-to-b from-indigo-50/90 to-blue-50/70 border-2 border-[#1E0FA8]/40 flex flex-col items-center justify-center shadow-lg relative overflow-hidden group">
+                {/* Barcode graphic lines */}
+                <div className="flex items-center gap-1.5 opacity-40 mb-1">
+                  <div className="w-1 h-12 bg-slate-800 rounded-full" />
+                  <div className="w-2 h-12 bg-slate-800 rounded-full" />
+                  <div className="w-0.5 h-12 bg-slate-800 rounded-full" />
+                  <div className="w-1.5 h-12 bg-slate-800 rounded-full" />
+                  <div className="w-3 h-12 bg-slate-800 rounded-full" />
+                  <div className="w-1 h-12 bg-slate-800 rounded-full" />
+                  <div className="w-2 h-12 bg-slate-800 rounded-full" />
+                  <div className="w-0.5 h-12 bg-slate-800 rounded-full" />
+                  <div className="w-1.5 h-12 bg-slate-800 rounded-full" />
+                </div>
+                <ScanLine className="w-14 h-14 text-[#1E0FA8] absolute" />
+
+                {/* Animated Vertical Sweeping Laser Beam */}
+                <div className="absolute inset-x-2 h-1 bg-gradient-to-r from-transparent via-[#4F35E8] to-transparent animate-laser-sweep shadow-[0_0_16px_#4F35E8,0_0_30px_#1E0FA8] pointer-events-none rounded-full" />
               </div>
               <div className="absolute -bottom-3 inset-x-0 flex justify-center">
-                <span className="px-4 py-1.5 rounded-full bg-[#1E0FA8] text-white text-xs font-black uppercase tracking-wider shadow-md flex items-center gap-1.5">
+                <span className="px-4 py-1.5 rounded-full bg-[#1E0FA8] text-white text-xs font-black uppercase tracking-wider shadow-lg flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
                   Ready to Scan
                 </span>

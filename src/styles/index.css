@@ -362,6 +362,25 @@
   animation: scannerCardShimmer 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
+@keyframes laserSweep {
+  0% {
+    top: 5%;
+    opacity: 0.3;
+  }
+  50% {
+    top: 85%;
+    opacity: 1;
+  }
+  100% {
+    top: 5%;
+    opacity: 0.3;
+  }
+}
+
+.animate-laser-sweep {
+  animation: laserSweep 2s ease-in-out infinite;
+}
+
 .animate-success-pulse {
   animation: successRadialPulse 700ms ease-out forwards;
 }

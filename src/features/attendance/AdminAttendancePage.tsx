@@ -392,21 +392,23 @@ export const AdminAttendancePage: React.FC = () => {
   });
 
   return (
-    <div className="space-y-6 font-sinhala">
+    <div className="space-y-6">
       {/* Header Bar */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 rounded-2xl bg-gradient-to-r from-[#064B2A]/90 via-[#003D22]/90 to-[#002213] text-white shadow-xl border border-[#C69A35]/40">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-3xl bg-white/80 backdrop-blur-md text-slate-900 shadow-sm border border-slate-200/80">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-black/40 border-2 border-[#C69A35] flex items-center justify-center text-[#C69A35] shadow-lg">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#1E0FA8] to-[#4F35E8] flex items-center justify-center text-white shadow-md">
             <UserCheck className="w-8 h-8" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xl font-bold tracking-tight">Smart Attendance & Gate Operations</span>
-              <Badge className="bg-[#C69A35] text-black font-bold uppercase text-[11px]">
+              <span className="text-xl font-extrabold tracking-tight text-slate-900 font-heading">
+                Smart Attendance & Gate Operations
+              </span>
+              <Badge className="bg-blue-50 text-[#1E0FA8] border border-blue-200 font-bold uppercase text-[11px]">
                 Live Terminal
               </Badge>
             </div>
-            <p className="text-xs text-[#FFF5DF]/80 mt-0.5">
+            <p className="text-xs text-slate-500 mt-0.5">
               Dual-screen hardware scanner reception console & historical attendance records
             </p>
           </div>
@@ -415,7 +417,7 @@ export const AdminAttendancePage: React.FC = () => {
         <div className="flex items-center gap-3">
           <Button
             onClick={openStudentKioskWindow}
-            className="bg-[#C69A35] hover:bg-[#b0872c] text-black font-bold shadow-lg flex items-center gap-2"
+            className="bg-gradient-to-r from-[#1E0FA8] to-[#4F35E8] hover:opacity-95 text-white font-bold shadow-md flex items-center gap-2 rounded-xl"
           >
             <Monitor className="w-4 h-4" />
             <span>Open Student Gate Kiosk (2nd Screen)</span>
@@ -428,15 +430,15 @@ export const AdminAttendancePage: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left 2 Cols: Session Setup & Hardware Scan */}
         <div className="lg:col-span-2 space-y-6">
-          <Card className="border-2 border-[#C69A35]/40 shadow-md">
+          <Card className="border border-slate-200/80 shadow-sm rounded-3xl bg-white">
             <CardContent className="p-6 space-y-4">
               <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b">
                 <div>
-                  <h3 className="font-bold text-base flex items-center gap-2">
-                    <Radio className="w-4 h-4 text-emerald-600 animate-pulse" />
+                  <h3 className="font-bold text-base flex items-center gap-2 text-slate-900 font-heading">
+                    <Radio className="w-4 h-4 text-[#1E0FA8] animate-pulse" />
                     <span>Live Gate Scanner Terminal</span>
                   </h3>
-                  <p className="text-xs text-muted-foreground mt-0.5">
+                  <p className="text-xs text-slate-500 mt-0.5">
                     Fast automated attendance verification for patrons entering the library premises
                   </p>
                 </div>

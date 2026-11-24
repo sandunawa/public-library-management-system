@@ -82,10 +82,10 @@ export const StaffLayout: React.FC = () => {
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     cn(
-      'group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors relative min-h-[40px]',
+      'group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all relative min-h-[40px]',
       isActive
-        ? 'bg-primary-soft text-primary font-semibold shadow-subtle before:absolute before:left-0 before:top-2 before:bottom-2 before:w-[3px] before:bg-primary before:rounded-full'
-        : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+        ? 'bg-gradient-to-r from-[#1E0FA8] to-[#4F35E8] text-white font-bold shadow-md'
+        : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
     );
 
   const navigationContent = (
@@ -211,22 +211,25 @@ export const StaffLayout: React.FC = () => {
   );
 
   return (
-    <div className="h-screen flex flex-col bg-background text-foreground overflow-hidden">
+    <div className="h-screen flex flex-col bg-[#FBFBFE] text-slate-900 overflow-hidden relative">
+      {/* Background ambient lighting matching Landing Page */}
+      <div className="fixed inset-0 pointer-events-none opacity-[0.03] bg-[radial-gradient(#1E0FA8_1px,transparent_1px)] [background-size:24px_24px] -z-10" />
+
       {/* Skip to main content link for screen readers */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 z-50 px-4 py-2 bg-primary text-primary-foreground font-medium rounded-md shadow-elevated outline-none ring-2 ring-ring"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 z-50 px-4 py-2 bg-[#1E0FA8] text-white font-medium rounded-md shadow-elevated outline-none"
       >
         Skip to main content
       </a>
 
-      {/* Top Header (64px) - Fixed top, does not scroll with either column */}
-      <header className="border-b border-border bg-card/95 backdrop-blur-sm px-4 lg:px-6 h-16 flex items-center justify-between shrink-0 z-30 shadow-subtle">
+      {/* Top Header (64px) - Clean white with royal blue accents */}
+      <header className="border-b border-slate-200/80 bg-white/95 backdrop-blur-md px-4 lg:px-6 h-16 flex items-center justify-between shrink-0 z-30 shadow-xs">
         <div className="flex items-center gap-3">
           {/* Mobile Drawer Trigger */}
           <button
             onClick={() => setMobileDrawerOpen(true)}
-            className="lg:hidden p-2 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+            className="lg:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus:outline-none"
             aria-label="Open staff navigation drawer"
             aria-expanded={mobileDrawerOpen}
           >
@@ -234,25 +237,25 @@ export const StaffLayout: React.FC = () => {
           </button>
 
           <NavLink to="/staff" className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold shadow-sm">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#1E0FA8] to-[#4F35E8] text-white flex items-center justify-center font-bold shadow-md">
               <BookOpen className="w-5 h-5" />
             </div>
             <div className="flex flex-col">
-              <span className="font-heading font-bold text-lg leading-tight text-primary">
+              <span className="font-heading font-extrabold text-lg leading-tight text-[#1E0FA8]">
                 LibraryOS
               </span>
-              <span className="text-[11px] text-muted-foreground hidden sm:inline">
+              <span className="text-[11px] text-slate-500 font-medium hidden sm:inline">
                 National LSP
               </span>
             </div>
           </NavLink>
 
-          <Badge variant="warning" size="sm" className="hidden sm:inline-flex ml-1">
+          <Badge variant="warning" size="sm" className="hidden sm:inline-flex ml-1 bg-amber-50 text-amber-700 border-amber-200 font-bold">
             Staff Workspace
           </Badge>
 
-          <span className="hidden md:inline-flex text-xs text-muted-foreground border-l border-border pl-3">
-            Branch: <strong className="text-foreground ml-1 font-semibold">Colombo Central (HQ)</strong>
+          <span className="hidden md:inline-flex text-xs text-slate-500 border-l border-slate-200 pl-3">
+            Branch: <strong className="text-slate-900 ml-1 font-semibold">Colombo Central (HQ)</strong>
           </span>
         </div>
 
@@ -266,7 +269,7 @@ export const StaffLayout: React.FC = () => {
               await signOut();
               navigate('/');
             }}
-            className="text-muted-foreground hover:text-danger gap-1.5 px-2.5"
+            className="text-slate-600 hover:text-rose-600 hover:bg-rose-50 gap-1.5 px-3 rounded-xl font-bold"
             aria-label="Sign Out"
           >
             <LogOut className="w-4 h-4" />
@@ -279,7 +282,7 @@ export const StaffLayout: React.FC = () => {
         {/* Desktop Left Staff Navigation Sidebar - Scrolls independently */}
         <aside
           className={cn(
-            'hidden lg:block border-r border-border bg-card/60 p-4 transition-all duration-200 overflow-y-auto shrink-0 relative h-full',
+            'hidden lg:block border-r border-slate-200/80 bg-white/80 backdrop-blur-md p-4 transition-all duration-200 overflow-y-auto shrink-0 relative h-full shadow-xs',
             isCollapsed ? 'w-20' : 'w-[264px]'
           )}
           aria-label="Staff navigation"

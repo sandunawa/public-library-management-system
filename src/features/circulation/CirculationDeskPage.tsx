@@ -385,22 +385,20 @@ export const CirculationDeskPage: React.FC = () => {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="space-y-6 w-full"
-      style={{
-        color: '#242335',
-      }}
+      className="space-y-6 w-full max-w-[90rem] mx-auto"
     >
       {/* 1. Header with Eyebrow and Segmented Mode Selector */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-2 border-b border-[#E6E3EE]">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-slate-200/80 bg-white/70 backdrop-blur-md p-6 rounded-3xl border shadow-sm">
         <div>
-          <span className="text-[11px] font-bold tracking-widest text-[#7654D7] uppercase block mb-1">
-            DAILY OPERATIONS
-          </span>
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-[#242335] font-heading">
-            Circulation desk.
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-[#1E0FA8] text-xs font-bold uppercase tracking-wider mb-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#1E0FA8] animate-ping" />
+            LIVE CIRCULATION DESK
+          </div>
+          <h1 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900 font-heading">
+            Circulation Terminal
           </h1>
-          <p className="text-sm md:text-base text-muted-foreground mt-1">
-            A smoother chapter for every checkout.
+          <p className="text-sm md:text-base text-slate-600 mt-1">
+            High-speed book checkout, return check-in, and member verification.
           </p>
         </div>
 
@@ -408,92 +406,92 @@ export const CirculationDeskPage: React.FC = () => {
         <div
           role="tablist"
           aria-label="Circulation terminal mode"
-          className="inline-flex bg-[#F1F0F7] p-1.5 rounded-2xl border border-[#E6E3EE] self-start md:self-auto"
+          className="inline-flex bg-slate-100 p-1.5 rounded-2xl border border-slate-200/80 self-start md:self-auto shadow-inner"
         >
           <button
             type="button"
             role="tab"
             aria-selected={activeTab === 'ISSUE'}
             onClick={() => setActiveTab('ISSUE')}
-            className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all min-h-[44px] flex items-center gap-2 ${
+            className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all min-h-[44px] flex items-center gap-2 ${
               activeTab === 'ISSUE'
-                ? 'bg-white text-[#7654D7] shadow-sm font-bold'
-                : 'text-muted-foreground hover:text-[#242335]'
+                ? 'bg-gradient-to-r from-[#1E0FA8] to-[#4F35E8] text-white shadow-md'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <ShoppingBag className="w-4 h-4" />
-            Check out
+            Check Out (Issue)
           </button>
           <button
             type="button"
             role="tab"
             aria-selected={activeTab === 'RETURN'}
             onClick={() => setActiveTab('RETURN')}
-            className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all min-h-[44px] flex items-center gap-2 ${
+            className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all min-h-[44px] flex items-center gap-2 ${
               activeTab === 'RETURN'
-                ? 'bg-white text-[#7654D7] shadow-sm font-bold'
-                : 'text-muted-foreground hover:text-[#242335]'
+                ? 'bg-gradient-to-r from-[#1E0FA8] to-[#4F35E8] text-white shadow-md'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <RotateCcw className="w-4 h-4" />
-            Check in
+            Check In (Return)
           </button>
         </div>
       </div>
 
-      {/* 2. Three Summary Cards with solid black border & blinking hover effect */}
+      {/* 2. Three Summary Cards styled in clean white & royal blue */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {/* Issued this session */}
-        <div className="bg-white rounded-2xl p-5 border-2 border-[#7654D7] shadow-sm flex items-center justify-between hover-border-blink transition-all duration-200 cursor-pointer">
+        <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-center justify-between hover:border-[#1E0FA8] hover:shadow-md transition-all duration-200 cursor-pointer group">
           <div className="space-y-1">
-            <span className="text-xs font-semibold text-muted-foreground block">
+            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
               Issued this session
             </span>
-            <span className="text-3xl font-extrabold text-[#242335] font-mono">
+            <span className="text-3xl font-extrabold text-slate-900 font-mono">
               {sessionStats.issuedCount}
             </span>
-            <span className="text-xs text-muted-foreground block">
+            <span className="text-xs text-slate-500 block">
               Books loaned to patrons
             </span>
           </div>
-          <div className="w-12 h-12 rounded-xl bg-[#F4F1FD] text-[#7654D7] flex items-center justify-center shrink-0">
-            <BookMarked className="w-6 h-6" />
+          <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-[#1E0FA8] group-hover:scale-105 transition-transform flex items-center justify-center shrink-0 border border-indigo-100 shadow-xs">
+            <BookMarked className="w-6 h-6 text-[#1E0FA8]" />
           </div>
         </div>
 
         {/* Returned this session */}
-        <div className="bg-white rounded-2xl p-5 border-2 border-[#7654D7] shadow-sm flex items-center justify-between hover-border-blink transition-all duration-200 cursor-pointer">
+        <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-center justify-between hover:border-emerald-500 hover:shadow-md transition-all duration-200 cursor-pointer group">
           <div className="space-y-1">
-            <span className="text-xs font-semibold text-muted-foreground block">
+            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
               Returned this session
             </span>
-            <span className="text-3xl font-extrabold text-[#242335] font-mono">
+            <span className="text-3xl font-extrabold text-slate-900 font-mono">
               {sessionStats.returnedCount}
             </span>
-            <span className="text-xs text-muted-foreground block">
+            <span className="text-xs text-slate-500 block">
               Copies checked back into inventory
             </span>
           </div>
-          <div className="w-12 h-12 rounded-xl bg-[#EDF9F3] text-[#15803D] flex items-center justify-center shrink-0">
-            <RotateCcw className="w-6 h-6" />
+          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 group-hover:scale-105 transition-transform flex items-center justify-center shrink-0 border border-emerald-100 shadow-xs">
+            <RotateCcw className="w-6 h-6 text-emerald-600" />
           </div>
         </div>
 
         {/* In checkout queue */}
-        <div className="bg-white rounded-2xl p-5 border-2 border-[#7654D7] shadow-sm flex items-center justify-between hover-border-blink transition-all duration-200 cursor-pointer">
+        <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-center justify-between hover:border-[#4F35E8] hover:shadow-md transition-all duration-200 cursor-pointer group">
           <div className="space-y-1">
-            <span className="text-xs font-semibold text-muted-foreground block">
+            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
               In checkout queue
             </span>
-            <span className="text-3xl font-extrabold text-[#7654D7] font-mono">
+            <span className="text-3xl font-extrabold text-[#1E0FA8] font-mono">
               {sessionStats.inQueueCount}
             </span>
-            <span className="text-xs text-muted-foreground block">
+            <span className="text-xs text-slate-500 block">
               Awaiting confirmation
             </span>
           </div>
-          <div className="w-12 h-12 rounded-xl bg-[#F4F1FD] text-[#7654D7] flex items-center justify-center shrink-0">
-            <ShoppingBag className="w-6 h-6" />
+          <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#1E0FA8] group-hover:scale-105 transition-transform flex items-center justify-center shrink-0 border border-blue-100 shadow-xs">
+            <ShoppingBag className="w-6 h-6 text-[#1E0FA8]" />
           </div>
         </div>
       </div>
@@ -502,13 +500,13 @@ export const CirculationDeskPage: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* LEFT COLUMN: Identify Patron */}
         <div className="lg:col-span-5 space-y-4">
-          <div className="bg-white rounded-2xl p-6 border-2 border-[#7654D7] shadow-sm space-y-5 hover-border-blink transition-all duration-200">
+          <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm space-y-5 transition-all duration-200">
             <div>
-              <h2 className="text-base font-bold text-[#242335] flex items-center gap-2">
-                <ScanLine className="w-4 h-4 text-[#7654D7]" />
+              <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                <ScanLine className="w-4 h-4 text-[#1E0FA8]" />
                 Identify patron
               </h2>
-              <p className="text-xs text-muted-foreground mt-0.5">
+              <p className="text-xs text-slate-500 mt-0.5">
                 Scan digital member barcode, enter ID, or email
               </p>
             </div>
@@ -525,13 +523,13 @@ export const CirculationDeskPage: React.FC = () => {
                   onKeyDown={handleMemberKeyDown}
                   autoFocus
                   aria-label="Patron barcode or ID"
-                  className="w-full px-4 py-2.5 bg-[#F9F9FC] border border-[#E6E3EE] rounded-xl text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[#7654D7]/20 focus:border-[#7654D7] transition-all min-h-[44px]"
+                  className="w-full px-4 py-2.5 bg-slate-50/70 border border-slate-200 rounded-xl text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[#1E0FA8]/20 focus:border-[#1E0FA8] transition-all min-h-[44px]"
                 />
               </div>
               <button
                 type="submit"
                 disabled={isProcessing}
-                className="px-5 py-2.5 bg-[#7654D7] hover:bg-[#6542C6] active:scale-[0.98] text-white text-sm font-semibold rounded-xl transition-all shadow-sm min-h-[44px]"
+                className="px-5 py-2.5 bg-gradient-to-r from-[#1E0FA8] to-[#4F35E8] hover:opacity-95 active:scale-[0.98] text-white text-sm font-bold rounded-xl transition-all shadow-md min-h-[44px]"
               >
                 Find
               </button>
@@ -548,22 +546,22 @@ export const CirculationDeskPage: React.FC = () => {
                   transition={{ duration: 0.2 }}
                   className={`p-5 rounded-2xl border space-y-4 ${
                     activeMember.status === 'SUSPENDED'
-                      ? 'bg-[#FEF2F2] border-[#FCA5A5]'
-                      : 'bg-[#F9F8FD] border-[#EAE6F5]'
+                      ? 'bg-rose-50/80 border-rose-200'
+                      : 'bg-indigo-50/50 border-indigo-100 shadow-xs'
                   }`}
                 >
                   {/* Avatar & Header */}
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-xl bg-[#7654D7] text-white flex items-center justify-center font-bold text-base shadow-sm">
+                      <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#1E0FA8] to-[#4F35E8] text-white flex items-center justify-center font-bold text-base shadow-md">
                         {patronInitials}
                       </div>
                       <div>
-                        <h3 className="font-bold text-base text-[#242335] leading-tight">
+                        <h3 className="font-bold text-base text-slate-900 leading-tight font-heading">
                           {activeMember.fullName}
                         </h3>
-                        <div className="text-xs font-mono text-muted-foreground mt-0.5">
-                          ID: <strong className="text-[#242335]">{activeMember.memberIdNumber}</strong>
+                        <div className="text-xs font-mono text-slate-500 mt-0.5">
+                          ID: <strong className="text-slate-900">{activeMember.memberIdNumber}</strong>
                         </div>
                       </div>
                     </div>
@@ -571,10 +569,10 @@ export const CirculationDeskPage: React.FC = () => {
                     <span
                       className={`text-xs px-2.5 py-1 rounded-full font-bold ${
                         activeMember.status === 'ACTIVE'
-                          ? 'bg-[#EDF9F3] text-[#15803D]'
+                          ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
                           : activeMember.status === 'SUSPENDED'
-                          ? 'bg-[#FEE2E2] text-[#B91C1C]'
-                          : 'bg-[#FEF3C7] text-[#B45309]'
+                          ? 'bg-rose-100 text-rose-800 border border-rose-200'
+                          : 'bg-amber-100 text-amber-800 border border-amber-200'
                       }`}
                     >
                       {activeMember.status}
@@ -583,21 +581,21 @@ export const CirculationDeskPage: React.FC = () => {
 
                   {/* Suspended Warning */}
                   {activeMember.status === 'SUSPENDED' && (
-                    <div className="p-3 bg-[#DC2626] text-white rounded-xl text-xs font-bold flex items-center gap-2 shadow-sm">
+                    <div className="p-3 bg-rose-600 text-white rounded-xl text-xs font-bold flex items-center gap-2 shadow-sm">
                       <ShieldAlert className="w-4 h-4 shrink-0" />
                       <span>SUSPENDED ACCOUNT — Loan privileges suspended</span>
                     </div>
                   )}
 
                   {/* Key Stats: Membership & Loans */}
-                  <div className="grid grid-cols-2 gap-3 pt-2 border-t border-[#E6E3EE]/60 text-xs">
+                  <div className="grid grid-cols-2 gap-3 pt-2 border-t border-slate-200/80 text-xs">
                     <div>
-                      <span className="text-muted-foreground block text-[11px]">Membership</span>
-                      <strong className="text-[#242335] font-semibold">{activeMember.membershipType}</strong>
+                      <span className="text-slate-500 block text-[11px] font-semibold">Membership</span>
+                      <strong className="text-slate-900 font-bold">{activeMember.membershipType}</strong>
                     </div>
                     <div>
-                      <span className="text-muted-foreground block text-[11px]">Active Loans</span>
-                      <strong className="text-[#242335] font-semibold">
+                      <span className="text-slate-500 block text-[11px] font-semibold">Active Loans</span>
+                      <strong className="text-slate-900 font-bold">
                         {activeMember.activeLoansCount || 0} / {maxLoans} Max
                       </strong>
                     </div>
@@ -605,7 +603,7 @@ export const CirculationDeskPage: React.FC = () => {
 
                   {/* Segmented Loan Utilization Indicator */}
                   <div className="space-y-1.5">
-                    <div className="flex justify-between text-[11px] font-semibold text-muted-foreground">
+                    <div className="flex justify-between text-[11px] font-bold text-slate-600">
                       <span>Loan quota utilization</span>
                       <span>
                         {Math.min(
@@ -627,10 +625,10 @@ export const CirculationDeskPage: React.FC = () => {
                             key={i}
                             className={`rounded-full h-full transition-all ${
                               isBorrowed
-                                ? 'bg-[#7654D7]'
+                                ? 'bg-[#1E0FA8]'
                                 : isStaged
-                                ? 'bg-[#A78BFA]'
-                                : 'bg-[#E5E3ED]'
+                                ? 'bg-[#4F35E8]'
+                                : 'bg-slate-200'
                             }`}
                           />
                         );
@@ -640,28 +638,28 @@ export const CirculationDeskPage: React.FC = () => {
 
                   {/* Fines Indicator */}
                   {activeMember.unpaidFinesTotal && activeMember.unpaidFinesTotal > 0 ? (
-                    <div className="p-3 rounded-xl bg-[#FEF2F2] border border-[#FECACA] flex items-center justify-between text-xs">
-                      <span className="font-semibold text-[#B91C1C] flex items-center gap-1.5">
+                    <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 flex items-center justify-between text-xs">
+                      <span className="font-semibold text-rose-800 flex items-center gap-1.5">
                         <AlertTriangle className="w-3.5 h-3.5" />
                         Outstanding fine:
                       </span>
-                      <span className="font-mono font-bold text-[#B91C1C]">
+                      <span className="font-mono font-bold text-rose-800">
                         LKR {activeMember.unpaidFinesTotal.toFixed(2)}
                       </span>
                     </div>
                   ) : (
-                    <div className="p-2.5 rounded-xl bg-[#EDF9F3] text-[#15803D] text-xs font-semibold flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 shrink-0 text-[#15803D]" />
+                    <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-100 text-xs font-semibold flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600" />
                       <span>Good standing — zero overdue fines</span>
                     </div>
                   )}
 
                   {/* Change Patron Action */}
-                  <div className="pt-2 border-t border-[#E6E3EE]/60 flex justify-end">
+                  <div className="pt-2 border-t border-slate-200/80 flex justify-end">
                     <button
                       type="button"
                       onClick={handleClearPatron}
-                      className="text-xs text-muted-foreground hover:text-[#B91C1C] flex items-center gap-1 py-1 font-medium transition-colors min-h-[36px]"
+                      className="text-xs text-slate-500 hover:text-rose-600 flex items-center gap-1 py-1 font-semibold transition-colors min-h-[36px]"
                     >
                       <UserX className="w-3.5 h-3.5" />
                       Change patron
@@ -669,12 +667,12 @@ export const CirculationDeskPage: React.FC = () => {
                   </div>
                 </motion.div>
               ) : (
-                <div className="p-8 text-center rounded-2xl border-2 border-dashed border-[#E6E3EE] bg-[#FAF9FC] space-y-2">
-                  <div className="w-10 h-10 rounded-full bg-[#F1EFF9] text-[#7654D7] mx-auto flex items-center justify-center">
-                    <User className="w-5 h-5" />
+                <div className="p-8 text-center rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50/60 space-y-2">
+                  <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-[#1E0FA8] mx-auto flex items-center justify-center border border-indigo-100">
+                    <User className="w-6 h-6" />
                   </div>
-                  <p className="text-sm font-semibold text-[#242335]">No patron identified yet</p>
-                  <p className="text-xs text-muted-foreground max-w-xs mx-auto">
+                  <p className="text-sm font-bold text-slate-800 font-heading">No patron identified yet</p>
+                  <p className="text-xs text-slate-500 max-w-xs mx-auto">
                     Scan a student or member ID barcode above to begin processing a transaction batch.
                   </p>
                 </div>
@@ -683,25 +681,25 @@ export const CirculationDeskPage: React.FC = () => {
           </div>
 
           {/* Keyboard Workflow Tip Card */}
-          <div className="bg-[#FAF9FC] rounded-2xl p-4 border-2 border-[#7654D7] text-xs text-muted-foreground flex items-start gap-3 hover-border-blink transition-all duration-200">
-            <Keyboard className="w-4 h-4 text-[#7654D7] shrink-0 mt-0.5" />
+          <div className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs text-xs text-slate-600 flex items-start gap-3">
+            <Keyboard className="w-4 h-4 text-[#1E0FA8] shrink-0 mt-0.5" />
             <div>
-              <strong className="text-[#242335] block mb-0.5">Desk Workflow Tip:</strong>
-              Press <kbd className="px-1.5 py-0.5 bg-white border border-[#E6E3EE] rounded font-mono text-[10px]">Enter</kbd> after scanning to auto-advance. Press <kbd className="px-1.5 py-0.5 bg-white border border-[#E6E3EE] rounded font-mono text-[10px]">Esc</kbd> to quickly clear input.
+              <strong className="text-slate-900 block mb-0.5 font-bold">Desk Workflow Tip:</strong>
+              Press <kbd className="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded font-mono text-[10px] text-slate-800 font-bold">Enter</kbd> after scanning to auto-advance. Press <kbd className="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded font-mono text-[10px] text-slate-800 font-bold">Esc</kbd> to quickly clear input.
             </div>
           </div>
         </div>
 
         {/* RIGHT COLUMN: Scan & Checkout */}
         <div className="lg:col-span-7 space-y-4">
-          <div className="bg-white rounded-2xl p-6 border-2 border-[#7654D7] shadow-sm space-y-5 hover-border-blink transition-all duration-200">
+          <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm space-y-5 transition-all duration-200">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-base font-bold text-[#242335] flex items-center gap-2">
-                  <CornerDownLeft className="w-4 h-4 text-[#7654D7]" />
+                <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                  <CornerDownLeft className="w-4 h-4 text-[#1E0FA8]" />
                   {activeTab === 'ISSUE' ? 'Scan & checkout' : 'Check in returned items'}
                 </h2>
-                <p className="text-xs text-muted-foreground mt-0.5">
+                <p className="text-xs text-slate-500 mt-0.5">
                   {activeTab === 'ISSUE'
                     ? 'Scan copy barcode to stage items in checkout queue'
                     : 'Scan item barcodes continuously to mark returns and check for fines'}
@@ -709,8 +707,8 @@ export const CirculationDeskPage: React.FC = () => {
               </div>
 
               {/* Scanner Ready Indicator */}
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EDF9F3] text-[#15803D] text-xs font-semibold">
-                <span className="w-2 h-2 rounded-full bg-[#15803D] animate-pulse" />
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
                 <span>Scanner ready</span>
               </div>
             </div>
@@ -736,13 +734,13 @@ export const CirculationDeskPage: React.FC = () => {
                   onBlur={() => setIsScanFocused(false)}
                   autoFocus={activeTab === 'RETURN'}
                   aria-label="Book copy barcode"
-                  className="w-full px-4 py-2.5 bg-[#F9F9FC] border border-[#E6E3EE] rounded-xl text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[#7654D7]/20 focus:border-[#7654D7] transition-all min-h-[44px] disabled:opacity-60"
+                  className="w-full px-4 py-2.5 bg-slate-50/70 border border-slate-200 rounded-xl text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[#1E0FA8]/20 focus:border-[#1E0FA8] transition-all min-h-[44px] disabled:opacity-60"
                 />
               </div>
               <button
                 type="submit"
                 disabled={isProcessing || (activeTab === 'ISSUE' && !activeMember)}
-                className="px-6 py-2.5 bg-[#7654D7] hover:bg-[#6542C6] active:scale-[0.98] disabled:opacity-50 text-white text-sm font-semibold rounded-xl transition-all shadow-sm min-h-[44px]"
+                className="px-6 py-2.5 bg-gradient-to-r from-[#1E0FA8] to-[#4F35E8] hover:opacity-95 active:scale-[0.98] disabled:opacity-50 text-white text-sm font-bold rounded-xl transition-all shadow-md min-h-[44px]"
               >
                 {activeTab === 'ISSUE' ? 'Add item' : 'Check in'}
               </button>
@@ -751,18 +749,18 @@ export const CirculationDeskPage: React.FC = () => {
             {/* ISSUE MODE: Checkout Queue */}
             {activeTab === 'ISSUE' && (
               <div className="space-y-4 pt-2">
-                <div className="flex items-center justify-between text-xs font-semibold text-muted-foreground pb-2 border-b border-[#E6E3EE]">
+                <div className="flex items-center justify-between text-xs font-bold text-slate-500 pb-2 border-b border-slate-200">
                   <span>Items in queue ({stagedItems.length})</span>
                   <span>Standard loan period: {loanPeriodDays} days</span>
                 </div>
 
                 {stagedItems.length === 0 ? (
-                  <div className="p-8 text-center rounded-2xl border-2 border-dashed border-[#E6E3EE] bg-[#FAF9FC] space-y-2">
-                    <div className="w-10 h-10 rounded-full bg-[#F1EFF9] text-[#7654D7] mx-auto flex items-center justify-center">
-                      <ShoppingBag className="w-5 h-5" />
+                  <div className="p-8 text-center rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50/60 space-y-2">
+                    <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-[#1E0FA8] mx-auto flex items-center justify-center border border-indigo-100">
+                      <ShoppingBag className="w-6 h-6" />
                     </div>
-                    <p className="text-sm font-semibold text-[#242335]">Checkout queue is empty</p>
-                    <p className="text-xs text-muted-foreground max-w-sm mx-auto">
+                    <p className="text-sm font-bold text-slate-800 font-heading">Checkout queue is empty</p>
+                    <p className="text-xs text-slate-500 max-w-sm mx-auto">
                       Scan book barcodes with a barcode gun or type copy barcodes above to add them to this patron checkout batch.
                     </p>
                   </div>
@@ -776,27 +774,27 @@ export const CirculationDeskPage: React.FC = () => {
                           animate={{ opacity: 1, x: 0 }}
                           exit={{ opacity: 0, x: 8, height: 0 }}
                           transition={{ duration: 0.2 }}
-                          className="p-3.5 bg-[#FAF9FC] hover:bg-[#F4F1FD] border border-[#E6E3EE] rounded-xl flex items-center justify-between transition-colors text-xs"
+                          className="p-3.5 bg-slate-50/80 hover:bg-blue-50/50 border border-slate-200/80 rounded-2xl flex items-center justify-between transition-colors text-xs"
                         >
                           <div className="flex items-center gap-3">
                             {item.coverImageUrl ? (
                               <img
                                 src={item.coverImageUrl}
                                 alt=""
-                                className="w-9 h-12 object-cover rounded shadow-xs shrink-0"
+                                className="w-9 h-12 object-cover rounded-lg shadow-xs shrink-0"
                               />
                             ) : (
-                              <div className="w-9 h-12 rounded bg-[#EAE6F5] text-[#7654D7] flex items-center justify-center font-bold text-xs shrink-0">
+                              <div className="w-9 h-12 rounded-lg bg-indigo-100 text-[#1E0FA8] flex items-center justify-center font-bold text-xs shrink-0">
                                 <BookOpen className="w-4 h-4" />
                               </div>
                             )}
                             <div>
-                              <h4 className="font-bold text-sm text-[#242335] leading-snug">
+                              <h4 className="font-bold text-sm text-slate-900 leading-snug">
                                 {item.title}
                               </h4>
-                              <p className="text-muted-foreground text-[11px] mt-0.5">
+                              <p className="text-slate-500 text-[11px] mt-0.5 font-medium">
                                 {item.author || 'Catalog Item'} • Barcode:{' '}
-                                <span className="font-mono font-semibold text-[#242335]">
+                                <span className="font-mono font-bold text-[#1E0FA8]">
                                   {item.barcode}
                                 </span>
                               </p>
@@ -807,7 +805,7 @@ export const CirculationDeskPage: React.FC = () => {
                             type="button"
                             onClick={() => handleRemoveStagedItem(idx)}
                             aria-label={`Remove ${item.title}`}
-                            className="p-2 text-muted-foreground hover:text-[#B91C1C] hover:bg-[#FEE2E2] rounded-lg transition-colors min-h-[36px] min-w-[36px] flex items-center justify-center"
+                            className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors min-h-[36px] min-w-[36px] flex items-center justify-center"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
@@ -816,20 +814,20 @@ export const CirculationDeskPage: React.FC = () => {
                     </AnimatePresence>
 
                     {/* Bottom Queue Total & Confirm Checkout Button */}
-                    <div className="pt-4 border-t border-[#E6E3EE] flex flex-col sm:flex-row items-center justify-between gap-3 bg-white">
-                      <div className="text-xs text-muted-foreground">
-                        Ready to issue <strong className="text-[#242335]">{stagedItems.length}</strong> book(s) to{' '}
-                        <strong className="text-[#7654D7]">{activeMember?.fullName}</strong>.
+                    <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 bg-white">
+                      <div className="text-xs text-slate-600">
+                        Ready to issue <strong className="text-slate-900">{stagedItems.length}</strong> book(s) to{' '}
+                        <strong className="text-[#1E0FA8]">{activeMember?.fullName}</strong>.
                       </div>
 
                       <button
                         type="button"
                         disabled={isProcessing}
                         onClick={handleFinalCheckout}
-                        className={`w-full sm:w-auto px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-sm flex items-center justify-center gap-2 min-h-[44px] ${
+                        className={`w-full sm:w-auto px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-md flex items-center justify-center gap-2 min-h-[44px] ${
                           justCheckedOut
-                            ? 'bg-[#15803D] text-white'
-                            : 'bg-[#7654D7] hover:bg-[#6542C6] text-white active:scale-[0.98]'
+                            ? 'bg-emerald-600 text-white'
+                            : 'bg-gradient-to-r from-[#1E0FA8] to-[#4F35E8] hover:opacity-95 text-white active:scale-[0.98]'
                         }`}
                       >
                         {justCheckedOut ? (
@@ -854,27 +852,27 @@ export const CirculationDeskPage: React.FC = () => {
       </div>
 
       {/* 4. Session Activity Table Below */}
-      <div className="bg-white rounded-2xl p-6 border-2 border-[#7654D7] shadow-sm space-y-4 hover-border-blink transition-all duration-200">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#E6E3EE]">
+      <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm space-y-4 transition-all duration-200">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200">
           <div>
-            <h3 className="text-base font-bold text-[#242335] flex items-center gap-2">
-              <FileText className="w-4 h-4 text-[#7654D7]" />
+            <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
+              <FileText className="w-4 h-4 text-[#1E0FA8]" />
               Session activity
             </h3>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-slate-500">
               Audit log of loans issued and returns processed in this browser session
             </p>
           </div>
 
           {/* Filter Pills */}
-          <div className="inline-flex bg-[#F1F0F7] p-1 rounded-xl text-xs font-semibold">
+          <div className="inline-flex bg-slate-100 p-1 rounded-xl text-xs font-bold border border-slate-200/80">
             <button
               type="button"
               onClick={() => setActivityFilter('ALL')}
               className={`px-3 py-1.5 rounded-lg transition-all ${
                 activityFilter === 'ALL'
-                  ? 'bg-white text-[#7654D7] shadow-xs'
-                  : 'text-muted-foreground hover:text-[#242335]'
+                  ? 'bg-white text-[#1E0FA8] shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               All ({sessionItems.filter((i) => !i.hidden).length})
@@ -884,8 +882,8 @@ export const CirculationDeskPage: React.FC = () => {
               onClick={() => setActivityFilter('ISSUED')}
               className={`px-3 py-1.5 rounded-lg transition-all ${
                 activityFilter === 'ISSUED'
-                  ? 'bg-white text-[#7654D7] shadow-xs'
-                  : 'text-muted-foreground hover:text-[#242335]'
+                  ? 'bg-white text-[#1E0FA8] shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               Checkouts
@@ -895,8 +893,8 @@ export const CirculationDeskPage: React.FC = () => {
               onClick={() => setActivityFilter('RETURNED')}
               className={`px-3 py-1.5 rounded-lg transition-all ${
                 activityFilter === 'RETURNED'
-                  ? 'bg-white text-[#7654D7] shadow-xs'
-                  : 'text-muted-foreground hover:text-[#242335]'
+                  ? 'bg-white text-[#1E0FA8] shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               Returns
@@ -908,7 +906,7 @@ export const CirculationDeskPage: React.FC = () => {
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="bg-[#FAF9FC] text-muted-foreground border-b border-[#E6E3EE] font-semibold">
+              <tr className="bg-slate-50 text-slate-600 border-b border-slate-200 font-bold uppercase tracking-wider text-[11px]">
                 <th className="p-3.5">Title & details</th>
                 <th className="p-3.5">Barcode</th>
                 <th className="p-3.5">Transaction</th>
@@ -917,35 +915,35 @@ export const CirculationDeskPage: React.FC = () => {
                 <th className="p-3.5 text-right">Receipt action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#E6E3EE]">
+            <tbody className="divide-y divide-slate-100">
               {visibleSessionItems.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="p-8 text-center text-muted-foreground text-xs">
+                  <td colSpan={6} className="p-8 text-center text-slate-500 text-xs">
                     No transactions recorded for the selected filter yet.
                   </td>
                 </tr>
               ) : (
                 visibleSessionItems.map((item) => (
-                  <tr key={item.id} className="hover:bg-[#FAF9FC] transition-colors">
+                  <tr key={item.id} className="hover:bg-blue-50/40 transition-colors">
                     <td className="p-3.5">
-                      <div className="font-bold text-sm text-[#242335]">{item.title}</div>
+                      <div className="font-bold text-sm text-slate-900">{item.title}</div>
                       {item.memberName && (
-                        <div className="text-[11px] text-muted-foreground">
-                          Borrower: <span className="font-medium text-[#242335]">{item.memberName}</span>
+                        <div className="text-[11px] text-slate-500">
+                          Borrower: <span className="font-semibold text-slate-800">{item.memberName}</span>
                         </div>
                       )}
                     </td>
-                    <td className="p-3.5 font-mono text-muted-foreground font-semibold">
+                    <td className="p-3.5 font-mono text-[#1E0FA8] font-bold">
                       {item.barcode}
                     </td>
                     <td className="p-3.5">
                       {item.status === 'ISSUED' ? (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#F4F1FD] text-[#7654D7] font-semibold text-[11px]">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-blue-50 text-[#1E0FA8] border border-blue-200 font-bold text-[11px]">
                           <ShoppingBag className="w-3 h-3" />
                           Checkout
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#EDF9F3] text-[#15803D] font-semibold text-[11px]">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold text-[11px]">
                           <RotateCcw className="w-3 h-3" />
                           Return
                         </span>
@@ -953,16 +951,16 @@ export const CirculationDeskPage: React.FC = () => {
                     </td>
                     <td className="p-3.5">
                       {item.status === 'ISSUED' ? (
-                        <span className="font-mono text-[#242335] font-semibold">
+                        <span className="font-mono text-slate-900 font-bold">
                           Due: {item.dueDate}
                         </span>
                       ) : (
-                        <span className="font-semibold text-[#15803D]">
+                        <span className="font-bold text-emerald-700">
                           Returned {item.fine && item.fine > 0 ? `(Fine: LKR ${item.fine})` : '(No Fines)'}
                         </span>
                       )}
                     </td>
-                    <td className="p-3.5 text-muted-foreground font-mono text-[11px]">
+                    <td className="p-3.5 text-slate-500 font-mono text-[11px] font-medium">
                       {item.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </td>
                     <td className="p-3.5 text-right">
@@ -970,10 +968,10 @@ export const CirculationDeskPage: React.FC = () => {
                         type="button"
                         onClick={() => handleHideSessionItem(item.id)}
                         title="Hide receipt line"
-                        className="p-1.5 text-muted-foreground hover:text-[#B91C1C] hover:bg-[#FEE2E2] rounded-lg transition-colors inline-flex items-center gap-1 min-h-[32px]"
+                        className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors inline-flex items-center gap-1 min-h-[32px]"
                       >
                         <EyeOff className="w-3.5 h-3.5" />
-                        <span className="text-[11px]">Hide</span>
+                        <span className="text-[11px] font-semibold">Hide</span>
                       </button>
                     </td>
                   </tr>
