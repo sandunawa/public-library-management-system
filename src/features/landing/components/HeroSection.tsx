@@ -24,17 +24,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ lang, onOpenLogin }) =
     <section
       className="relative min-h-[92vh] pt-32 pb-20 flex flex-col justify-center overflow-hidden bg-cover bg-center bg-no-repeat"
       style={{
-        backgroundImage: `linear-gradient(to right, rgba(255, 255, 255, 0.90) 0%, rgba(255, 255, 255, 0.78) 50%, rgba(255, 255, 255, 0.45) 100%), url(${heroBgImage})`,
+        backgroundImage: `url(${heroBgImage})`,
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
-        <div className="max-w-3xl space-y-7 text-left">
+        <div className="max-w-3xl space-y-7 text-left p-6 sm:p-8 rounded-3xl bg-white/70 backdrop-blur-md border border-white/60 shadow-xl">
           {/* Eyebrow Pill */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 border border-violet-200 shadow-sm backdrop-blur-md"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-violet-200 shadow-sm"
           >
             <Sparkles className="w-4 h-4 text-[#4F35E8]" />
             <span className="text-xs font-bold text-[#1E0FA8] tracking-wide uppercase">
@@ -60,7 +60,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ lang, onOpenLogin }) =
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-base sm:text-xl text-slate-700 max-w-2xl font-normal leading-relaxed"
+            className="text-base sm:text-xl text-slate-800 max-w-2xl font-medium leading-relaxed"
           >
             {t.subheadline}
           </motion.p>
@@ -82,7 +82,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ lang, onOpenLogin }) =
 
             <a
               href="#contact"
-              className="px-8 py-4 rounded-2xl text-sm font-bold text-slate-800 bg-white/90 border border-slate-300 hover:bg-white hover:border-[#4F35E8] shadow-sm backdrop-blur transition-all"
+              className="px-8 py-4 rounded-2xl text-sm font-bold text-slate-800 bg-white border border-slate-300 hover:bg-slate-50 hover:border-[#4F35E8] shadow-sm transition-all"
             >
               {t.secondaryCta}
             </a>
