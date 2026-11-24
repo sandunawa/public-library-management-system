@@ -19,6 +19,7 @@ import { ShelfAuditSecurityPage } from '@/features/audit/ShelfAuditSecurityPage'
 import { ReportsCenterPage } from '@/features/reports/ReportsCenterPage';
 import { IssuedBooksPage } from '@/features/circulation/IssuedBooksPage';
 import { OverdueFinesPage } from '@/features/circulation/OverdueFinesPage';
+import { ReservationsPage } from '@/features/circulation/ReservationsPage';
 import { SuspendedMembersPage } from '@/features/members/SuspendedMembersPage';
 import { PolicySettingsPage } from '@/features/settings/PolicySettingsPage';
 
@@ -67,6 +68,7 @@ const router = createBrowserRouter([
       { index: true, element: <StaffDashboardPage /> },
       { path: 'circulation', element: <CirculationDeskPage /> },
       { path: 'issued-books', element: <IssuedBooksPage /> },
+      { path: 'reservations', element: <ReservationsPage /> },
       { path: 'fines', element: <OverdueFinesPage /> },
       { path: 'suspended', element: <SuspendedMembersPage /> },
       { path: 'catalog', element: <CatalogManagementPage /> },

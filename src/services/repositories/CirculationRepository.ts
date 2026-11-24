@@ -388,4 +388,40 @@ export class CirculationRepository {
       fineAmount,
     };
   }
+
+  /**
+   * Renew an active loan (additive method)
+   */
+  static async renewLoan(
+    loanId: string,
+    policy: LoanPolicy
+  ): Promise<{ success: boolean; newDueDate?: number; error?: string }> {
+    const loans = this.getLocalLoans();
+    const loanIndex = loans.findIndex((l) => l.id === loanId);
+    if (loanIndex === -1) {
+      return { success: false, error: 'Loan not found' };
+    }
+
+    const loan = loans[loanIndex]!;
+    if (loan.status !== 'ACTIVE') {
+      return { success: false, error: 'Only active loans can be renewed' };
+    }
+
+    const maxRenewals = policy.maxRenewals || 2;
+    if ((loan.renewalCount || 0) >= maxRenewals) {
+      return { success: false, error: `Maximum renewal limit (${maxRenewals}) reached` };
+    }
+
+    const now = Date.now();
+    const periodDays = policy.loanPeriodDays || 14;
+    const newDueDate = (loan.dueDate > now ? loan.dueDate : now) + periodDays * 24 * 60 * 60 * 1000;
+
+    loan.renewalCount = (loan.renewalCount || 0) + 1;
+    loan.dueDate = newDueDate;
+
+    loans[loanIndex] = loan;
+    this.saveLocalLoans(loans);
+
+    return { success: true, newDueDate };
+  }
 }

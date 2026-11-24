@@ -18,12 +18,16 @@ import {
   Mail,
   RefreshCw,
   Receipt,
+  CheckCircle2,
+  FileCheck,
 } from 'lucide-react';
 import { CirculationRepository } from '@/services/repositories/CirculationRepository';
 import { LocalAuthService } from '@/services/auth/LocalAuthService';
 import { CatalogRepository } from '@/services/repositories/CatalogRepository';
 import { PolicyService } from '@/services/circulation/PolicyService';
 import { SampleCirculationSeeder } from '@/services/circulation/SampleCirculationSeeder';
+import { PrintService } from '@/services/infrastructure/PrintService';
+import { AuditLogService } from '@/services/infrastructure/AuditLogService';
 import { Loan, calculateFine } from '@libraryos/shared';
 import { toast } from 'sonner';
 
@@ -412,8 +416,86 @@ export const OverdueFinesPage: React.FC = () => {
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 bg-muted/30 border-t border-border flex justify-end">
-              <Button size="sm" onClick={() => setSelectedRecord(null)} className="text-xs font-semibold">
+            <div className="p-4 bg-muted/30 border-t border-border flex justify-between items-center">
+              <div className="flex gap-2">
+                <Button
+                  size="sm"
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold"
+                  onClick={() => {
+                    const member = LocalAuthService.getAllMembers().find((m) => m.id === selectedRecord.loan.memberId);
+                    if (member) {
+                      member.unpaidFinesTotal = Math.max(0, (member.unpaidFinesTotal || 0) - selectedRecord.fineAmount);
+                      LocalAuthService.updateMember(member);
+                    }
+                    AuditLogService.log({
+                      action: 'FINES_PAY_CASH',
+                      entityType: 'LOAN_FINE',
+                      entityId: selectedRecord.loan.id,
+                      performedBy: 'Current Operator',
+                      performerRole: 'LIBRARIAN',
+                      details: {
+                        amount: selectedRecord.fineAmount,
+                        memberId: selectedRecord.memberIdNumber,
+                      },
+                    });
+                    PrintService.printThermalSlip({
+                      libraryName: 'LibraryOS Main Library',
+                      patronName: selectedRecord.loan.memberName,
+                      memberId: selectedRecord.memberIdNumber,
+                      transactionType: 'FINE_PAYMENT',
+                      dateStr: new Date().toLocaleDateString(),
+                      staffName: 'Desk Officer',
+                      items: [
+                        {
+                          title: selectedRecord.loan.bookTitle,
+                          barcode: selectedRecord.bookBarcode,
+                          fine: selectedRecord.fineAmount,
+                        },
+                      ],
+                      totalAmount: selectedRecord.fineAmount,
+                    });
+                    toast.success(`Payment of Rs. ${selectedRecord.fineAmount.toFixed(2)} recorded.`);
+                    setSelectedRecord(null);
+                    setRefreshKey((k) => k + 1);
+                  }}
+                >
+                  <Receipt className="w-3.5 h-3.5 mr-1" />
+                  Collect Cash & Print Slip
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="text-amber-600 border-amber-300 hover:bg-amber-50 text-xs font-semibold"
+                  onClick={() => {
+                    const reason = prompt('Enter waiver reason / approval note:');
+                    if (!reason) return;
+                    const member = LocalAuthService.getAllMembers().find((m) => m.id === selectedRecord.loan.memberId);
+                    if (member) {
+                      member.unpaidFinesTotal = Math.max(0, (member.unpaidFinesTotal || 0) - selectedRecord.fineAmount);
+                      LocalAuthService.updateMember(member);
+                    }
+                    AuditLogService.log({
+                      action: 'FINES_WAIVE',
+                      entityType: 'LOAN_FINE',
+                      entityId: selectedRecord.loan.id,
+                      performedBy: 'Current Operator',
+                      performerRole: 'LIBRARIAN',
+                      details: {
+                        amount: selectedRecord.fineAmount,
+                        reason,
+                        memberId: selectedRecord.memberIdNumber,
+                      },
+                    });
+                    toast.info(`Fine of Rs. ${selectedRecord.fineAmount.toFixed(2)} waived (${reason}).`);
+                    setSelectedRecord(null);
+                    setRefreshKey((k) => k + 1);
+                  }}
+                >
+                  <FileCheck className="w-3.5 h-3.5 mr-1" />
+                  Waive Fine
+                </Button>
+              </div>
+              <Button size="sm" variant="ghost" onClick={() => setSelectedRecord(null)} className="text-xs font-semibold">
                 Close (වසන්න)
               </Button>
             </div>

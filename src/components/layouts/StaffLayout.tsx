@@ -17,6 +17,10 @@ import {
   FileSpreadsheet,
   ChevronLeft,
   ChevronRight,
+  BookmarkCheck,
+  CalendarCheck,
+  QrCode,
+  UserPlus,
 } from 'lucide-react';
 import { LanguageSwitcher } from '../common/LanguageSwitcher';
 import { ThemeSwitcher } from '../common/ThemeSwitcher';
@@ -100,6 +104,15 @@ export const StaffLayout: React.FC = () => {
               <span className="truncate">Issued Books</span>
               <span className="text-xs text-muted-foreground font-normal leading-tight font-sinhala truncate">
                 ණයට දුන් පොත්
+              </span>
+            </div>
+          </NavLink>
+          <NavLink to="/staff/reservations" className={navLinkClass}>
+            <BookmarkCheck className="w-4 h-4 shrink-0 text-[#7654D7]" />
+            <div className="flex flex-col min-w-0">
+              <span className="truncate">Hold Requests</span>
+              <span className="text-xs text-muted-foreground font-normal leading-tight font-sinhala truncate">
+                වෙන්කිරීම් පෝලිම
               </span>
             </div>
           </NavLink>

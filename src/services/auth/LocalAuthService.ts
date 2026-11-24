@@ -341,6 +341,10 @@ export class LocalAuthService {
     this.saveUsers(users);
   }
 
+  static updateMember(profile: MemberProfile) {
+    this.saveMembers([profile]);
+  }
+
   static logout() {
     inMemoryCurrentUser = null;
     try {
