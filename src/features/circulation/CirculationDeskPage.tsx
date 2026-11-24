@@ -26,6 +26,7 @@ import { PolicyService } from '@/services/circulation/PolicyService';
 import { MemberProfile } from '@libraryos/shared';
 import { toast } from 'sonner';
 import { LocalAuthService } from '@/services/auth/LocalAuthService';
+import { DeskBackdrop } from '@/components/common/DeskBackdrop';
 
 // Item prepared in the checkout cart before final checkout
 interface StagedCartItem {
@@ -54,6 +55,20 @@ export const CirculationDeskPage: React.FC = () => {
   // Completed transaction history for receipts
   const [sessionItems, setSessionItems] = useState<ScannedSessionItem[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isScanFocused, setIsScanFocused] = useState(false);
+  const [showSuccessPulse, setShowSuccessPulse] = useState(false);
+  const prevSessionCount = useRef(0);
+
+  // Trigger gentle success pulse when sessionItems increase
+  React.useEffect(() => {
+    if (sessionItems.length > prevSessionCount.current) {
+      setShowSuccessPulse(true);
+      const timer = setTimeout(() => setShowSuccessPulse(false), 900);
+      prevSessionCount.current = sessionItems.length;
+      return () => clearTimeout(timer);
+    }
+    prevSessionCount.current = sessionItems.length;
+  }, [sessionItems.length]);
 
   const memberInputRef = useRef<HTMLInputElement | null>(null);
   const itemInputRef = useRef<HTMLInputElement | null>(null);
@@ -309,43 +324,48 @@ export const CirculationDeskPage: React.FC = () => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="space-y-6"
-    >
-      {/* Top Desk Header with Mode Selector */}
-      <PageHeader
-        title="Circulation Desk Terminal"
-        description="High-speed keyboard-first barcode checkout and return terminal"
-        actions={
-          <div className="flex bg-muted/80 backdrop-blur p-1 rounded-xl border border-border shadow-subtle">
-            <button
-              type="button"
-              onClick={() => setActiveTab('ISSUE')}
-              className={`relative px-4 py-2 rounded-lg text-sm font-semibold transition-all min-h-[36px] ${
-                activeTab === 'ISSUE'
-                  ? 'bg-card text-foreground shadow-subtle'
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              Check Out (Issue)
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab('RETURN')}
-              className={`relative px-4 py-2 rounded-lg text-sm font-semibold transition-all min-h-[36px] ${
-                activeTab === 'RETURN'
-                  ? 'bg-card text-foreground shadow-subtle'
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              Check In (Return)
-            </button>
-          </div>
-        }
-      />
+    <div className="relative min-h-[calc(100vh-80px)]">
+      {/* Layered Animated Backdrop */}
+      <DeskBackdrop variant="library" />
+
+      {/* Foreground Content sitting safely on top */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35 }}
+        className="relative z-10 space-y-6"
+      >
+        {/* Top Desk Header with Mode Selector */}
+        <PageHeader
+          title="Circulation Desk Terminal"
+          description="High-speed keyboard-first barcode checkout and return terminal"
+          actions={
+            <div className="flex bg-muted/80 backdrop-blur p-1 rounded-xl border border-border shadow-subtle">
+              <button
+                type="button"
+                onClick={() => setActiveTab('ISSUE')}
+                className={`relative px-4 py-2 rounded-lg text-sm font-semibold transition-all min-h-[36px] ${
+                  activeTab === 'ISSUE'
+                    ? 'bg-card text-foreground shadow-subtle'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                Check Out (Issue)
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('RETURN')}
+                className={`relative px-4 py-2 rounded-lg text-sm font-semibold transition-all min-h-[36px] ${
+                  activeTab === 'RETURN'
+                    ? 'bg-card text-foreground shadow-subtle'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                Check In (Return)
+              </button>
+            </div>
+          }
+        />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Left Column: Patron Verification */}
@@ -465,7 +485,23 @@ export const CirculationDeskPage: React.FC = () => {
         )}
 
         {/* Right Column: Barcode Scanning Feed */}
-        <Card className={`${activeTab === 'ISSUE' ? 'md:col-span-2' : 'md:col-span-3'} shadow-card border-border hover:shadow-elevated transition-shadow duration-300`}>
+        <div className="relative md:col-span-2">
+          {/* Gentle success pulse glow behind scanner card */}
+          {showSuccessPulse && (
+            <div className="absolute -inset-2 bg-secondary/30 rounded-2xl filter blur-xl animate-success-pulse pointer-events-none" />
+          )}
+
+          <Card
+            className={`${
+              activeTab === 'ISSUE' ? '' : 'md:col-span-3'
+            } shadow-card border-border hover:shadow-elevated transition-all duration-300 relative overflow-hidden bg-card ${
+              isScanFocused ? 'ring-2 ring-primary/40' : ''
+            }`}
+          >
+            {/* Shimmer line when scanner input is focused */}
+            {isScanFocused && (
+              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent animate-scanner-shimmer pointer-events-none" />
+            )}
           <CardHeader className="p-5 pb-3">
             <CardTitle className="text-base font-semibold flex items-center gap-2">
               <div className="w-8 h-8 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center">
@@ -498,6 +534,8 @@ export const CirculationDeskPage: React.FC = () => {
                   }
                   value={itemBarcode}
                   onChange={(e) => setItemBarcode(e.target.value)}
+                  onFocus={() => setIsScanFocused(true)}
+                  onBlur={() => setIsScanFocused(false)}
                   autoFocus={activeTab === 'RETURN'}
                   className="font-mono text-sm pl-9 focus:ring-2 focus:ring-secondary/20 transition-all"
                 />
@@ -652,6 +690,8 @@ export const CirculationDeskPage: React.FC = () => {
           </CardContent>
         </Card>
       </div>
+      </div>
     </motion.div>
+  </div>
   );
 };
