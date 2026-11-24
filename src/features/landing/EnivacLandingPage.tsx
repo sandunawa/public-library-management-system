@@ -47,17 +47,46 @@ export const EnivacLandingPage: React.FC = () => {
       {/* Section 1: Hero Section */}
       <HeroSection lang={lang} onOpenLogin={handleOpenLogin} />
 
-      {/* Section 2: What is Smart Library Intro */}
-      <section className="py-20 max-w-5xl mx-auto px-4 sm:px-6 text-center space-y-6">
-        <span className="text-xs font-bold uppercase tracking-wider text-[#A99BFF] px-4 py-1.5 rounded-full bg-white/5 border border-white/10">
-          Enterprise Overview
-        </span>
-        <h2 className="text-3xl sm:text-5xl font-extrabold text-white font-heading">
-          {introT.title}
-        </h2>
-        <p className="text-base sm:text-lg text-[#F5F4FF]/80 leading-relaxed max-w-3xl mx-auto font-normal">
-          {introT.p1}
-        </p>
+      {/* Section 2: What is Smart Library Intro with Connected Ecosystem Visual */}
+      <section className="py-20 max-w-6xl mx-auto px-4 sm:px-6 text-center space-y-10">
+        <div className="space-y-4 max-w-3xl mx-auto">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#A99BFF] px-4 py-1.5 rounded-full bg-white/5 border border-white/10 shadow-sm">
+            Enterprise Overview
+          </span>
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-white font-heading">
+            {introT.title}
+          </h2>
+          <p className="text-base sm:text-lg text-[#F5F4FF]/80 leading-relaxed font-normal">
+            {introT.p1}
+          </p>
+        </div>
+
+        {/* Photorealistic 3D Connected Ecosystem Module Graphic */}
+        <div className="relative rounded-3xl overflow-hidden border border-[#4F35E8]/40 shadow-2xl bg-gradient-to-b from-[#1E0FA8]/10 via-[#0B0630]/90 to-[#0B0630] p-2 sm:p-4 group">
+          <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-inner">
+            <img
+              src="/images/enivac-ecosystem.jpg"
+              alt="Interconnected Smart Library Operating System Modules"
+              className="w-full h-auto max-h-[440px] object-cover object-center group-hover:scale-[1.02] transition-transform duration-700"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0B0630] via-transparent to-transparent opacity-60" />
+            
+            <div className="absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-2xl bg-[#0B0630]/85 border border-white/15 backdrop-blur-md text-left">
+              <div>
+                <span className="text-xs font-bold text-white block">
+                  Unified Smart Operations Architecture (ඒකාබද්ධ ස්මාර්ට් පද්ධති ව්‍යුහය)
+                </span>
+                <span className="text-[11px] text-[#A99BFF]">
+                  Entrance Kiosk • Circulation Desk • Member PVC Cards • Timetable Grid • Executive Analytics
+                </span>
+              </div>
+              <span className="px-3 py-1 rounded-full text-[10px] font-bold bg-[#16A34A]/20 text-emerald-300 border border-[#16A34A]/40 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                Active Inter-Module Sync
+              </span>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Sections 3-5: Key Numbers, 9 Features Grid & Showcase */}
