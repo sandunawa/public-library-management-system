@@ -63,7 +63,7 @@ export const LandingNavbar: React.FC<LandingNavbarProps> = ({
           : 'bg-transparent py-5'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <div className="w-full px-4 sm:px-6 lg:px-10 flex items-center justify-between">
         {/* Brand Logo & Wordmark */}
         <a href="#" className="flex items-center gap-3 group">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#1E0FA8] to-[#4F35E8] p-[2px] shadow-lg shadow-[#4F35E8]/30 group-hover:scale-105 transition-transform">
