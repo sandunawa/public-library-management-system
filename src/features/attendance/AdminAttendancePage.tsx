@@ -204,20 +204,17 @@ export const AdminAttendancePage: React.FC = () => {
     schedStart: string,
     schedEnd: string
   ): 'present' | 'late' | 'absent' => {
+    // When a member scans at the gate/counter, they have physically arrived at the library.
+    // They are 'present' (or 'late' if past the scheduled start time, but still present).
     const arrivalHours = arrivalDate.getHours();
     const arrivalMinutes = arrivalDate.getMinutes();
     const arrivalTotalMinutes = arrivalHours * 60 + arrivalMinutes;
 
     const [startH, startM] = (schedStart || '08:00').split(':').map((v) => Number(v) || 0);
-    const [endH, endM] = (schedEnd || '10:30').split(':').map((v) => Number(v) || 0);
-
     const startTotalMinutes = (startH ?? 8) * 60 + (startM ?? 0);
-    const endTotalMinutes = (endH ?? 10) * 60 + (endM ?? 30);
 
     if (arrivalTotalMinutes <= startTotalMinutes) {
       return 'present';
-    } else if (arrivalTotalMinutes > endTotalMinutes) {
-      return 'absent';
     } else {
       return 'late';
     }
@@ -240,7 +237,7 @@ export const AdminAttendancePage: React.FC = () => {
       batchId: selectedBatchId,
       batchName: selectedBatch.name,
       sessionDate: sessionDate || new Date().toISOString().split('T')[0] || '',
-      studentId: matched.id,
+      studentId: matched.memberIdNumber || matched.id,
       studentName: matched.fullName,
       status: determinedStatus,
       markedBy: 'admin',
@@ -306,12 +303,15 @@ export const AdminAttendancePage: React.FC = () => {
     );
   };
 
+  const getDisplayStudentId = (studentId: string) => {
+    const found = members.find((m) => m.id === studentId || m.memberIdNumber === studentId);
+    return found?.memberIdNumber || studentId;
+  };
+
   const todayBatchAttendance = attendance.filter(
-    (a) => a.batchId === selectedBatchId && a.sessionDate === sessionDate
+    (a) => a.sessionDate === sessionDate && (a.status === 'present' || a.status === 'late')
   );
-  const todayPresentCount = todayBatchAttendance.filter(
-    (a) => a.status === 'present' || a.status === 'late'
-  ).length;
+  const todayPresentCount = todayBatchAttendance.length;
 
   const filteredHistory = attendance.filter((a) => {
     const matchesDate = historySelectedDate ? a.sessionDate === historySelectedDate : true;
@@ -426,17 +426,17 @@ export const AdminAttendancePage: React.FC = () => {
             </CardContent>
           </Card>
 
-          {/* Today's Checked-In Roster for Selected Batch */}
+          {/* Today's Checked-In Roster (Members Currently Inside / Present) */}
           <Card className="border-2 border-[#C69A35]/30">
             <CardContent className="p-0">
               <div className="p-4 border-b flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Users className="w-4 h-4 text-primary" />
+                  <Users className="w-4 h-4 text-emerald-600" />
                   <span className="font-bold text-sm">
-                    Today's Check-in Roster ({todayPresentCount} Students Present)
+                    Today's Checked-in Roster ({todayPresentCount} Members Present Inside)
                   </span>
                 </div>
-                <Badge variant="outline" className="text-xs">
+                <Badge variant="outline" className="text-xs font-mono">
                   Date: {sessionDate}
                 </Badge>
               </div>
@@ -446,40 +446,44 @@ export const AdminAttendancePage: React.FC = () => {
                     <tr className="bg-muted/50 border-b text-xs text-left">
                       <th className="p-2.5">Student ID</th>
                       <th className="p-2.5">Name</th>
+                      <th className="p-2.5">Arrival Time</th>
                       <th className="p-2.5">Status</th>
-                      <th className="p-2.5">Time</th>
                     </tr>
                   </thead>
                   <tbody>
                     {todayBatchAttendance.length === 0 ? (
                       <tr>
                         <td colSpan={4} className="p-6 text-center text-muted-foreground text-xs">
-                          No attendance records scanned for this batch today.
+                          No members currently checked in for today.
                         </td>
                       </tr>
                     ) : (
                       todayBatchAttendance.map((rec) => (
                         <tr key={rec.id} className="border-b hover:bg-muted/30">
-                          <td className="p-2.5 font-mono font-bold text-[#064B2A]">{rec.studentId}</td>
+                          <td className="p-2.5 font-mono font-bold text-[#064B2A]">
+                            {getDisplayStudentId(rec.studentId)}
+                          </td>
                           <td className="p-2.5 font-medium">{rec.studentName}</td>
+                          <td className="p-2.5 text-xs text-muted-foreground font-mono font-semibold">
+                            {new Date(rec.markedAt).toLocaleTimeString([], {
+                              hour: '2-digit',
+                              minute: '2-digit',
+                              second: '2-digit',
+                              hour12: true,
+                            })}
+                          </td>
                           <td className="p-2.5">
                             <Badge
                               className={
                                 rec.status === 'present'
-                                  ? 'bg-emerald-600'
+                                  ? 'bg-emerald-600 text-white font-bold text-[11px]'
                                   : rec.status === 'late'
-                                  ? 'bg-amber-600'
-                                  : 'bg-rose-600'
+                                  ? 'bg-amber-600 text-white font-bold text-[11px]'
+                                  : 'bg-rose-600 text-white font-bold text-[11px]'
                               }
                             >
                               {rec.status.toUpperCase()}
                             </Badge>
-                          </td>
-                          <td className="p-2.5 text-xs text-muted-foreground font-mono">
-                            {new Date(rec.markedAt).toLocaleTimeString([], {
-                              hour: '2-digit',
-                              minute: '2-digit',
-                            })}
                           </td>
                         </tr>
                       ))

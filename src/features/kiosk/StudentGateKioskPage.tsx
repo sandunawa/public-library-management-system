@@ -306,20 +306,16 @@ export const StudentGateKioskPage: React.FC = () => {
     schedStart: string,
     schedEnd: string
   ): 'present' | 'late' | 'absent' => {
+    // When scanning at the gate, the student has arrived at the library.
     const arrivalHours = arrivalDate.getHours();
     const arrivalMinutes = arrivalDate.getMinutes();
     const arrivalTotalMinutes = arrivalHours * 60 + arrivalMinutes;
 
     const [startH, startM] = (schedStart || '08:00').split(':').map((v) => Number(v) || 0);
-    const [endH, endM] = (schedEnd || '10:30').split(':').map((v) => Number(v) || 0);
-
     const startTotalMinutes = (startH ?? 8) * 60 + (startM ?? 0);
-    const endTotalMinutes = (endH ?? 10) * 60 + (endM ?? 30);
 
     if (arrivalTotalMinutes <= startTotalMinutes) {
       return 'present';
-    } else if (arrivalTotalMinutes > endTotalMinutes) {
-      return 'absent';
     } else {
       return 'late';
     }
@@ -344,7 +340,7 @@ export const StudentGateKioskPage: React.FC = () => {
         batchId: currentActiveBatch.id,
         batchName: currentActiveBatch.name,
         sessionDate: todayStr || new Date().toISOString().split('T')[0] || '',
-        studentId: matched.id,
+        studentId: matched.memberIdNumber || matched.id,
         studentName: matched.fullName,
         status: determinedStatus,
         markedBy: 'gate_kiosk',

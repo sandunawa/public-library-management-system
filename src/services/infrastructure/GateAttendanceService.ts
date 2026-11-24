@@ -79,7 +79,23 @@ class GateAttendanceServiceClass {
     try {
       const data = localStorage.getItem(LOCAL_GATE_ATTENDANCE_KEY);
       if (data) {
-        return JSON.parse(data);
+        const records: GateAttendanceRecord[] = JSON.parse(data);
+        // Self-heal: ensure records marked via scanner aren't wrongly displayed as 'absent'
+        let changed = false;
+        const cleaned = records.map((r) => {
+          if (r.verificationMethod === 'qr_scan' || r.verificationMethod === 'gate_kiosk') {
+            if (r.status === 'absent') {
+              changed = true;
+              return { ...r, status: 'present' as const };
+            }
+          }
+          return r;
+        });
+        if (changed) {
+          this.saveAttendance(cleaned);
+          return cleaned;
+        }
+        return records;
       }
     } catch {}
     return [];
