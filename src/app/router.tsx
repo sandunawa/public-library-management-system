@@ -12,6 +12,7 @@ import { StaffDashboardPage } from '@/features/dashboard/StaffDashboardPage';
 import { CirculationDeskPage } from '@/features/circulation/CirculationDeskPage';
 import { StaffApprovalQueuePage } from '@/features/members/StaffApprovalQueuePage';
 import { StaffMembersPage } from '@/features/members/StaffMembersPage';
+import { BulkRegistrationPage } from '@/features/members/BulkRegistrationPage';
 import { CatalogManagementPage } from '@/features/books/CatalogManagementPage';
 import { InventoryStocktakePage } from '@/features/inventory/InventoryStocktakePage';
 import { MissingBooksPage } from '@/features/inventory/MissingBooksPage';
@@ -80,6 +81,7 @@ const router = createBrowserRouter([
       { path: 'suspended', element: <SuspendedMembersPage /> },
       { path: 'catalog', element: <CatalogManagementPage /> },
       { path: 'members', element: <StaffMembersPage /> },
+      { path: 'bulk-registration', element: <BulkRegistrationPage /> },
       { path: 'requests', element: <StaffMembersPage /> },
       { path: 'inventory', element: <InventoryStocktakePage /> },
       { path: 'missing-books', element: <MissingBooksPage /> },

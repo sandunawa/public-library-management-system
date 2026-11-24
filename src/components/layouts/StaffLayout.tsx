@@ -174,6 +174,15 @@ export const StaffLayout: React.FC = () => {
             <Users className="w-4 h-4 shrink-0" />
             <span className="truncate">Members Directory</span>
           </NavLink>
+          <NavLink to="/staff/bulk-registration" className={navLinkClass}>
+            <UserPlus className="w-4 h-4 shrink-0 text-[#7654D7]" />
+            <div className="flex flex-col min-w-0">
+              <span className="truncate">Bulk Class Enrol</span>
+              <span className="text-xs text-muted-foreground font-normal leading-tight font-sinhala truncate">
+                කණ්ඩායම් ලියාපදිංචිය
+              </span>
+            </div>
+          </NavLink>
           <NavLink
             to="/staff/members?tab=requests"
             className={() =>

@@ -14,8 +14,8 @@
 | **Wave A** | UI gaps, role navigation, shared data models, shared services (`SoundService`, `PrintService`, `PhotoStore`, `SnapshotService`, `AuditLogService`, `useScanInput`) | **COMPLETED** |
 | **Wave B** | Circulation desk renewal, thermal receipt generation, fine payments & waivers, hold reservations queue (`ReservationsPage`) | **COMPLETED** |
 | **Wave C** | Smart Entrance Kiosk (`/kiosk`), attendance logging, live occupancy | **COMPLETED** |
-| **Wave D** | Member webcam capture, CR80 / A4 card printing, bulk class registration wizard | **IN PROGRESS** |
-| **Wave E** | Timetable scheduler, catalog barcode sheets, executive dashboard, white-label settings | Pending |
+| **Wave D** | Member webcam capture, CR80 / A4 card printing, bulk class registration wizard | **COMPLETED** |
+| **Wave E** | Timetable scheduler, catalog barcode sheets, executive dashboard, white-label settings | **IN PROGRESS** |
 
 ---
 
