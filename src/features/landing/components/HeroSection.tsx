@@ -89,37 +89,78 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ lang, onOpenLogin }) =
           </motion.div>
         </div>
 
-        {/* Live Operational Ticker & Info Glass Cards */}
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 rounded-2xl bg-white/90 border border-slate-200/90 shadow-sm backdrop-blur-md flex items-center gap-3 text-left">
-            <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700 shrink-0">
-              <Users className="w-5 h-5" />
+        {/* Live Operational Ticker & Info Glass Cards — Premium Redesign */}
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-5">
+          {/* Card 1: Live Occupancy */}
+          <motion.div
+            whileHover={{ y: -5, scale: 1.02 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            className="group relative p-5 rounded-3xl bg-white/95 backdrop-blur-xl border border-emerald-200/80 shadow-lg shadow-emerald-900/5 hover:shadow-xl hover:shadow-emerald-500/10 hover:border-emerald-400 transition-all text-left flex items-center gap-4 overflow-hidden"
+          >
+            {/* Ambient background glow on hover */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-100/50 rounded-full blur-2xl pointer-events-none group-hover:scale-150 transition-transform duration-500" />
+            <div className="relative w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white shadow-md shadow-emerald-500/30 shrink-0 group-hover:rotate-6 transition-transform">
+              <Users className="w-6 h-6" />
             </div>
-            <div>
-              <span className="text-xs text-slate-900 font-bold block">{t.liveOccupancy}</span>
-              <span className="text-xs text-slate-500">Automated gate counter active</span>
+            <div className="relative z-10 flex-1">
+              <div className="flex items-center gap-2 mb-0.5">
+                <span className="text-sm font-extrabold text-slate-900 group-hover:text-emerald-700 transition-colors">
+                  {t.liveOccupancy}
+                </span>
+                <span className="flex h-2 w-2 relative">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                </span>
+              </div>
+              <span className="text-xs text-slate-500 font-medium">Automated gate counter active</span>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="p-4 rounded-2xl bg-white/90 border border-slate-200/90 shadow-sm backdrop-blur-md flex items-center gap-3 text-left">
-            <div className="w-10 h-10 rounded-xl bg-violet-50 border border-violet-200 flex items-center justify-center text-[#4F35E8] shrink-0">
-              <Clock className="w-5 h-5" />
+          {/* Card 2: Today's Library Hours */}
+          <motion.div
+            whileHover={{ y: -5, scale: 1.02 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            className="group relative p-5 rounded-3xl bg-white/95 backdrop-blur-xl border border-indigo-200/80 shadow-lg shadow-indigo-900/5 hover:shadow-xl hover:shadow-indigo-500/10 hover:border-[#4F35E8] transition-all text-left flex items-center gap-4 overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-100/50 rounded-full blur-2xl pointer-events-none group-hover:scale-150 transition-transform duration-500" />
+            <div className="relative w-12 h-12 rounded-2xl bg-gradient-to-br from-[#1E0FA8] to-[#4F35E8] flex items-center justify-center text-white shadow-md shadow-indigo-500/30 shrink-0 group-hover:rotate-6 transition-transform">
+              <Clock className="w-6 h-6" />
             </div>
-            <div>
-              <span className="text-xs text-slate-900 font-bold block">{t.libraryHours}</span>
-              <span className="text-xs text-slate-500">Open to patrons and scholars</span>
+            <div className="relative z-10 flex-1">
+              <div className="flex items-center gap-2 mb-0.5">
+                <span className="text-sm font-extrabold text-slate-900 group-hover:text-[#1E0FA8] transition-colors">
+                  {t.libraryHours}
+                </span>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-violet-100 text-[#1E0FA8]">
+                  OPEN
+                </span>
+              </div>
+              <span className="text-xs text-slate-500 font-medium">Open to patrons and scholars</span>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="p-4 rounded-2xl bg-white/90 border border-slate-200/90 shadow-sm backdrop-blur-md flex items-center gap-3 text-left">
-            <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-700 shrink-0">
-              <Radio className="w-5 h-5 animate-pulse" />
+          {/* Card 3: Now in Library */}
+          <motion.div
+            whileHover={{ y: -5, scale: 1.02 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            className="group relative p-5 rounded-3xl bg-white/95 backdrop-blur-xl border border-amber-200/80 shadow-lg shadow-amber-900/5 hover:shadow-xl hover:shadow-amber-500/10 hover:border-amber-400 transition-all text-left flex items-center gap-4 overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 w-32 h-32 bg-amber-100/50 rounded-full blur-2xl pointer-events-none group-hover:scale-150 transition-transform duration-500" />
+            <div className="relative w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-white shadow-md shadow-amber-500/30 shrink-0 group-hover:rotate-6 transition-transform">
+              <Radio className="w-6 h-6 animate-pulse" />
             </div>
-            <div>
-              <span className="text-xs text-slate-900 font-bold block">{t.nowInLibrary}</span>
-              <span className="text-xs text-slate-500">Timetable scheduler synchronized</span>
+            <div className="relative z-10 flex-1">
+              <div className="flex items-center gap-2 mb-0.5">
+                <span className="text-sm font-extrabold text-slate-900 group-hover:text-amber-700 transition-colors">
+                  {t.nowInLibrary}
+                </span>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">
+                  LIVE
+                </span>
+              </div>
+              <span className="text-xs text-slate-500 font-medium">Timetable scheduler synchronized</span>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Trust Chips Strip */}

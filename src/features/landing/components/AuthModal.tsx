@@ -131,21 +131,21 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, initialMode, onClo
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[99999] bg-black/75 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200"
+      className="fixed inset-0 z-[99999] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md bg-gradient-to-b from-[#1E0FA8]/40 via-[#0B0630] to-[#0B0630] border-2 border-[#4F35E8]/60 shadow-2xl rounded-3xl overflow-hidden my-auto animate-in zoom-in-95 duration-200"
+        className="w-full max-w-md bg-white border border-slate-200/90 shadow-2xl rounded-3xl overflow-hidden my-auto animate-in zoom-in-95 duration-200 text-slate-900"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="p-5 border-b border-white/10 flex items-center justify-between bg-black/40">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-[#4F35E8] flex items-center justify-center text-white shadow">
-              <BookOpen className="w-4 h-4 text-[#A99BFF]" />
+        <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#1E0FA8] to-[#4F35E8] flex items-center justify-center text-white shadow-md shadow-indigo-500/20">
+              <BookOpen className="w-5 h-5 text-white" />
             </div>
-            <div>
-              <h3 className="text-base font-bold text-white font-heading">
+            <div className="text-left">
+              <h3 className="text-base font-extrabold text-slate-900 font-heading">
                 {mode === 'login'
                   ? lang === 'en'
                     ? 'Login to Smart Library'
@@ -154,27 +154,27 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, initialMode, onClo
                   ? 'New Member Registration'
                   : 'නව සාමාජික ලියාපදිංචිය'}
               </h3>
-              <p className="text-[11px] text-[#A99BFF]">Enivac Smart Library Operating System</p>
+              <p className="text-[11px] text-slate-500">Enivac Smart Library Operating System</p>
             </div>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-lg text-[#A99BFF] hover:bg-white/10 hover:text-white transition-colors"
+            className="p-1.5 rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Mode Switcher Tabs */}
-        <div className="grid grid-cols-2 p-1.5 m-4 mb-0 bg-black/50 border border-white/10 rounded-xl text-xs font-bold">
+        <div className="grid grid-cols-2 p-1.5 m-5 mb-0 bg-slate-100 border border-slate-200/80 rounded-2xl text-xs font-bold">
           <button
             type="button"
             onClick={() => setMode('login')}
-            className={`py-2 rounded-lg transition-all ${
+            className={`py-2 rounded-xl transition-all ${
               mode === 'login'
-                ? 'bg-gradient-to-r from-[#1E0FA8] to-[#4F35E8] text-white shadow'
-                : 'text-muted-foreground hover:text-white'
+                ? 'bg-gradient-to-r from-[#1E0FA8] to-[#4F35E8] text-white shadow-md'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             {lang === 'en' ? 'Login' : 'පිවිසෙන්න'}
@@ -182,10 +182,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, initialMode, onClo
           <button
             type="button"
             onClick={() => setMode('register')}
-            className={`py-2 rounded-lg transition-all ${
+            className={`py-2 rounded-xl transition-all ${
               mode === 'register'
-                ? 'bg-gradient-to-r from-[#1E0FA8] to-[#4F35E8] text-white shadow'
-                : 'text-muted-foreground hover:text-white'
+                ? 'bg-gradient-to-r from-[#1E0FA8] to-[#4F35E8] text-white shadow-md'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             {lang === 'en' ? 'Registration' : 'ලියාපදිංචි වන්න'}
@@ -198,14 +198,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, initialMode, onClo
             /* LOGIN FORM */
             <form onSubmit={handleExecuteLogin} className="space-y-4 text-left">
               {/* Quick Role Badges */}
-              <div className="grid grid-cols-3 gap-1.5 p-1 rounded-xl bg-black/30 border border-white/10 text-xs">
+              <div className="grid grid-cols-3 gap-1.5 p-1 rounded-xl bg-slate-100 border border-slate-200 text-xs">
                 <button
                   type="button"
                   onClick={() => handleRoleSelect('SUPER_ADMIN')}
-                  className={`py-1.5 rounded-lg font-semibold transition-all ${
+                  className={`py-1.5 rounded-lg font-bold transition-all ${
                     selectedRole === 'SUPER_ADMIN'
-                      ? 'bg-[#4F35E8] text-white font-bold'
-                      : 'text-muted-foreground hover:text-white'
+                      ? 'bg-[#1E0FA8] text-white shadow'
+                      : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   Admin
@@ -213,10 +213,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, initialMode, onClo
                 <button
                   type="button"
                   onClick={() => handleRoleSelect('STAFF')}
-                  className={`py-1.5 rounded-lg font-semibold transition-all ${
+                  className={`py-1.5 rounded-lg font-bold transition-all ${
                     selectedRole === 'STAFF'
-                      ? 'bg-[#4F35E8] text-white font-bold'
-                      : 'text-muted-foreground hover:text-white'
+                      ? 'bg-[#1E0FA8] text-white shadow'
+                      : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   Staff
@@ -224,10 +224,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, initialMode, onClo
                 <button
                   type="button"
                   onClick={() => handleRoleSelect('MEMBER')}
-                  className={`py-1.5 rounded-lg font-semibold transition-all ${
+                  className={`py-1.5 rounded-lg font-bold transition-all ${
                     selectedRole === 'MEMBER'
-                      ? 'bg-[#4F35E8] text-white font-bold'
-                      : 'text-muted-foreground hover:text-white'
+                      ? 'bg-[#1E0FA8] text-white shadow'
+                      : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   Student
@@ -235,38 +235,38 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, initialMode, onClo
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-[#A99BFF] block mb-1">
+                <label className="text-xs font-semibold text-slate-700 block mb-1">
                   {lang === 'en' ? 'Email / Member ID' : 'විද්‍යුත් තැපෑල හෝ සාමාජික අංකය'}
                 </label>
                 <div className="relative">
-                  <Mail className="w-4 h-4 absolute left-3 top-3 text-[#A99BFF]" />
+                  <Mail className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
                   <input
                     type="text"
                     required
                     value={loginEmail}
                     onChange={(e) => setLoginEmail(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2 rounded-xl bg-black/40 border border-white/15 text-white text-xs outline-none focus:border-[#4F35E8]"
+                    className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs outline-none focus:border-[#4F35E8] focus:bg-white transition-all"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-[#A99BFF] block mb-1">
+                <label className="text-xs font-semibold text-slate-700 block mb-1">
                   {lang === 'en' ? 'Password' : 'මුරපදය'}
                 </label>
                 <div className="relative">
-                  <Lock className="w-4 h-4 absolute left-3 top-3 text-[#A99BFF]" />
+                  <Lock className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
                   <input
                     type={showPassword ? 'text' : 'password'}
                     required
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
-                    className="w-full pl-9 pr-9 py-2 rounded-xl bg-black/40 border border-white/15 text-white text-xs outline-none focus:border-[#4F35E8]"
+                    className="w-full pl-9 pr-9 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs outline-none focus:border-[#4F35E8] focus:bg-white transition-all"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-2.5 text-[#A99BFF] hover:text-white"
+                    className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-700"
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -276,7 +276,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, initialMode, onClo
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-[#1E0FA8] via-[#4F35E8] to-[#1E0FA8] text-white font-bold text-xs shadow-lg shadow-[#4F35E8]/40 hover:scale-[1.01] transition-all flex items-center justify-center gap-2"
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-[#1E0FA8] via-[#4F35E8] to-[#1E0FA8] text-white font-bold text-xs shadow-lg shadow-indigo-500/20 hover:scale-[1.01] transition-all flex items-center justify-center gap-2"
               >
                 <span>
                   {loading
@@ -290,27 +290,27 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, initialMode, onClo
             </form>
           ) : (
             /* REGISTRATION FORM */
-            <form onSubmit={handleExecuteRegister} className="space-y-3.5 text-left">
+            <form onSubmit={handleExecuteRegister} className="space-y-3 text-left">
               <div>
-                <label className="text-xs font-semibold text-[#A99BFF] block mb-1">
+                <label className="text-xs font-semibold text-slate-700 block mb-1">
                   {lang === 'en' ? 'Full Name' : 'සම්පූර්ණ නම'}
                 </label>
                 <div className="relative">
-                  <User className="w-4 h-4 absolute left-3 top-2.5 text-[#A99BFF]" />
+                  <User className="w-4 h-4 absolute left-3 top-2.5 text-slate-400" />
                   <input
                     type="text"
                     required
                     placeholder="e.g. Kasun Perera"
                     value={regFullName}
                     onChange={(e) => setRegFullName(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2 rounded-xl bg-black/40 border border-white/15 text-white text-xs outline-none focus:border-[#4F35E8]"
+                    className="w-full pl-9 pr-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs outline-none focus:border-[#4F35E8] focus:bg-white"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="text-xs font-semibold text-[#A99BFF] block mb-1">
+                  <label className="text-xs font-semibold text-slate-700 block mb-1">
                     {lang === 'en' ? 'Email' : 'විද්‍යුත් තැපෑල'}
                   </label>
                   <input
@@ -319,11 +319,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, initialMode, onClo
                     placeholder="name@school.lk"
                     value={regEmail}
                     onChange={(e) => setRegEmail(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-black/40 border border-white/15 text-white text-xs outline-none focus:border-[#4F35E8]"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs outline-none focus:border-[#4F35E8] focus:bg-white"
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-semibold text-[#A99BFF] block mb-1">
+                  <label className="text-xs font-semibold text-slate-700 block mb-1">
                     {lang === 'en' ? 'Phone Number' : 'දුරකථන අංකය'}
                   </label>
                   <input
@@ -331,20 +331,20 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, initialMode, onClo
                     placeholder="0771234567"
                     value={regPhone}
                     onChange={(e) => setRegPhone(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-black/40 border border-white/15 text-white text-xs outline-none focus:border-[#4F35E8]"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs outline-none focus:border-[#4F35E8] focus:bg-white"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="text-xs font-semibold text-[#A99BFF] block mb-1">
+                  <label className="text-xs font-semibold text-slate-700 block mb-1">
                     {lang === 'en' ? 'Category' : 'සාමාජික වර්ගය'}
                   </label>
                   <select
                     value={regMembershipType}
                     onChange={(e: any) => setRegMembershipType(e.target.value)}
-                    className="w-full px-2 py-2 rounded-xl bg-black/50 border border-white/15 text-white text-xs outline-none focus:border-[#4F35E8]"
+                    className="w-full px-2 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs outline-none focus:border-[#4F35E8] focus:bg-white"
                   >
                     <option value="STUDENT">Student (ශිෂ්‍ය)</option>
                     <option value="TEACHER">Teacher (ගුරු)</option>
@@ -352,31 +352,31 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, initialMode, onClo
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs font-semibold text-[#A99BFF] block mb-1">
+                  <label className="text-xs font-semibold text-slate-700 block mb-1">
                     {lang === 'en' ? 'District' : 'දිස්ත්‍රික්කය'}
                   </label>
                   <input
                     type="text"
                     value={regDistrict}
                     onChange={(e) => setRegDistrict(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-black/40 border border-white/15 text-white text-xs outline-none focus:border-[#4F35E8]"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs outline-none focus:border-[#4F35E8] focus:bg-white"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-[#A99BFF] block mb-1">
+                <label className="text-xs font-semibold text-slate-700 block mb-1">
                   {lang === 'en' ? 'Choose Password' : 'මුරපදයක් සකසන්න'}
                 </label>
                 <div className="relative">
-                  <Lock className="w-4 h-4 absolute left-3 top-2.5 text-[#A99BFF]" />
+                  <Lock className="w-4 h-4 absolute left-3 top-2.5 text-slate-400" />
                   <input
                     type="password"
                     required
                     placeholder="At least 6 characters"
                     value={regPassword}
                     onChange={(e) => setRegPassword(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2 rounded-xl bg-black/40 border border-white/15 text-white text-xs outline-none focus:border-[#4F35E8]"
+                    className="w-full pl-9 pr-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs outline-none focus:border-[#4F35E8] focus:bg-white"
                   />
                 </div>
               </div>
@@ -384,7 +384,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, initialMode, onClo
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-[#16A34A] to-[#1E0FA8] text-white font-bold text-xs shadow-lg hover:scale-[1.01] transition-all flex items-center justify-center gap-2 mt-2"
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-[#1E0FA8] via-[#4F35E8] to-[#1E0FA8] text-white font-bold text-xs shadow-lg shadow-indigo-500/20 hover:scale-[1.01] transition-all flex items-center justify-center gap-2 mt-2"
               >
                 <span>
                   {loading
