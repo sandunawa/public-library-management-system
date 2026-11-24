@@ -139,7 +139,7 @@ export const DeskBackdrop: React.FC<DeskBackdropProps> = ({
       {/* 1. Base color layer */}
       <div className="absolute inset-0 bg-background transition-colors duration-300" />
 
-      {/* 2. Photo Layer with Ken Burns + Parallax */}
+      {/* 2. Photo Layer with Ken Burns + Parallax - High visual presence */}
       {!saveData && (
         <div
           ref={photoRef}
@@ -148,8 +148,8 @@ export const DeskBackdrop: React.FC<DeskBackdropProps> = ({
             transition: 'transform 200ms ease-out',
           }}
           className={cn(
-            'absolute inset-[-4%] w-[108%] h-[108%] transition-opacity duration-700 ease-in-out',
-            photoLoaded ? (isDark ? 'opacity-50' : 'opacity-65') : 'opacity-0'
+            'absolute inset-[-4%] w-[108%] h-[108%] transition-opacity duration-500 ease-in-out',
+            photoLoaded ? (isDark ? 'opacity-70' : 'opacity-85') : 'opacity-75'
           )}
         >
           <img
@@ -157,7 +157,7 @@ export const DeskBackdrop: React.FC<DeskBackdropProps> = ({
             alt=""
             width={2400}
             height={1400}
-            fetchPriority="low"
+            fetchPriority="high"
             decoding="async"
             onLoad={() => setPhotoLoaded(true)}
             className="w-full h-full object-cover object-center animate-ken-burns"
@@ -166,14 +166,14 @@ export const DeskBackdrop: React.FC<DeskBackdropProps> = ({
       )}
 
       {/* 3. Bokeh Layer with Parallax */}
-      {!saveData && photoLoaded && (
+      {!saveData && (
         <div
           ref={bokehRef}
           style={{
             transform: `translate3d(${-mouseOffset.x * 14}px, ${-mouseOffset.y * 14}px, 0)`,
             transition: 'transform 250ms ease-out',
           }}
-          className="absolute inset-[-6%] w-[112%] h-[112%] mix-blend-soft-light opacity-35"
+          className="absolute inset-[-6%] w-[112%] h-[112%] mix-blend-overlay opacity-30 pointer-events-none"
         >
           <img
             src="/images/backgrounds/bg-library-bokeh.webp"
@@ -189,14 +189,14 @@ export const DeskBackdrop: React.FC<DeskBackdropProps> = ({
 
       {/* 4. Sliding Light Rays Overlay */}
       {!saveData && (
-        <div className="absolute inset-0 overflow-hidden opacity-25 pointer-events-none">
-          <div className="absolute -inset-x-full h-full bg-gradient-to-r from-transparent via-primary-soft/40 to-transparent animate-light-beam blur-2xl" />
+        <div className="absolute inset-0 overflow-hidden opacity-30 pointer-events-none">
+          <div className="absolute -inset-x-full h-full bg-gradient-to-r from-transparent via-primary-soft/50 to-transparent animate-light-beam blur-2xl" />
         </div>
       )}
 
-      {/* 5. Readability Overlays: linear top-to-middle + radial vignette */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/90 to-background/95" />
-      <div className="absolute inset-0 [background:radial-gradient(ellipse_at_center,transparent_0%,hsl(var(--background)/0.7)_100%)]" />
+      {/* 5. Readability Overlays: gentle vignette so photo stays clearly visible */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/40 to-background/70 pointer-events-none" />
+      <div className="absolute inset-0 [background:radial-gradient(ellipse_at_center,transparent_20%,hsl(var(--background)/0.5)_100%)] pointer-events-none" />
 
       {/* 6. Accent Gradient Blobs (subtle) */}
       <div className="absolute top-12 left-1/4 w-96 h-96 bg-primary-soft/30 rounded-full blur-3xl" />
