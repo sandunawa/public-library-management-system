@@ -258,7 +258,7 @@ export const ShelfAuditSecurityPage: React.FC = () => {
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b pb-4">
         <div>
-          <h1 className="text-2xl font-serif font-bold text-foreground flex items-center gap-2">
+          <h1 className="text-2xl font-heading font-bold text-foreground flex items-center gap-2">
             <ClipboardCheck className="w-6 h-6 text-primary" />
             <span>Shelf Audit & Security Verification (රාක්ක විගණනය සහ ආරක්ෂාව)</span>
           </h1>
@@ -285,7 +285,7 @@ export const ShelfAuditSecurityPage: React.FC = () => {
                 <Library className="w-4 h-4 text-primary" />
                 <span>Audit Target Shelf</span>
               </span>
-              <span className="text-[11px] font-mono font-semibold px-2 py-0.5 rounded bg-primary/10 text-primary">
+              <span className="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-primary/10 text-primary">
                 {shelves.length} Shelves
               </span>
             </CardTitle>
@@ -325,7 +325,7 @@ export const ShelfAuditSecurityPage: React.FC = () => {
                   {targetShelf.name}
                 </div>
                 <div className="text-muted-foreground flex items-center gap-1">
-                  <MapPin className="w-3.5 h-3.5 text-amber-600" />
+                  <MapPin className="w-3.5 h-3.5 text-warning" />
                   Zone: {targetShelf.floorZone}
                 </div>
                 <div className="text-muted-foreground font-mono">
@@ -363,12 +363,12 @@ export const ShelfAuditSecurityPage: React.FC = () => {
                 type="button"
                 size="default"
                 onClick={handleFinishAudit}
-                className="w-full font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-md text-xs gap-2 py-5"
+                className="w-full font-bold bg-success hover:bg-success/90 text-white shadow-md text-xs gap-2 py-5"
               >
                 <CheckCircle2 className="w-4 h-4" />
                 Finish Shelf Audit (විගණනය අවසන් කරන්න)
               </Button>
-              <p className="text-[11px] text-muted-foreground text-center mt-1.5">
+              <p className="text-xs text-muted-foreground text-center mt-1.5">
                 Calculates present books, active loans, severe defaulters, and missing items.
               </p>
             </div>
@@ -380,7 +380,7 @@ export const ShelfAuditSecurityPage: React.FC = () => {
           <CardHeader className="pb-3 flex flex-row items-center justify-between">
             <div>
               <CardTitle className="text-base flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                <CheckCircle2 className="w-4 h-4 text-success" />
                 <span>Present & Verified on Shelf ({scannedRecords.length} Items)</span>
               </CardTitle>
               <CardDescription className="text-xs">
@@ -389,7 +389,7 @@ export const ShelfAuditSecurityPage: React.FC = () => {
             </div>
 
             {scannedRecords.length > 0 && (
-              <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 border border-emerald-500/20">
+              <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-success-soft text-success border border-success/30">
                 {scannedRecords.length} Verified Present
               </span>
             )}
@@ -397,7 +397,7 @@ export const ShelfAuditSecurityPage: React.FC = () => {
 
           <CardContent>
             <div className="border rounded-xl divide-y text-xs max-h-[380px] overflow-y-auto">
-              <div className="p-3 bg-muted font-semibold text-muted-foreground flex justify-between uppercase tracking-wider text-[11px] sticky top-0 z-10">
+              <div className="p-3 bg-muted font-semibold text-muted-foreground flex justify-between uppercase tracking-wider text-xs sticky top-0 z-10">
                 <span>Book Title & Barcode</span>
                 <span>Call Number / Status / Time</span>
               </div>
@@ -417,20 +417,20 @@ export const ShelfAuditSecurityPage: React.FC = () => {
                       <BookOpen className="w-4 h-4 text-primary shrink-0" />
                       <div>
                         <div className="font-semibold text-sm text-foreground">{item.bookTitle}</div>
-                        <div className="text-muted-foreground font-mono text-[11px]">
+                        <div className="text-muted-foreground font-mono text-xs">
                           Barcode: <strong className="text-foreground">{item.barcode}</strong>
                         </div>
                       </div>
                     </div>
 
                     <div className="flex items-center space-x-3">
-                      <span className="text-[11px] font-mono text-muted-foreground bg-muted px-2 py-0.5 rounded">
+                      <span className="text-xs font-mono text-muted-foreground bg-muted px-2 py-0.5 rounded">
                         {item.callNumber}
                       </span>
-                      <span className="bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 font-bold px-2 py-0.5 rounded-full text-[10px] uppercase">
+                      <span className="bg-success-soft text-success dark:bg-card dark:text-success font-bold px-2 py-0.5 rounded-full text-xs uppercase">
                         Present
                       </span>
-                      <span className="text-[11px] text-muted-foreground font-mono">
+                      <span className="text-xs text-muted-foreground font-mono">
                         {item.timestamp}
                       </span>
                     </div>
@@ -449,38 +449,38 @@ export const ShelfAuditSecurityPage: React.FC = () => {
         <div className="space-y-6 pt-4 border-t">
           {/* KPI Summary Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-            <Card className="p-4 bg-emerald-500/5 border-emerald-500/20">
-              <div className="text-xs font-semibold text-emerald-600 uppercase">Physically Present (තිබූ පොත්)</div>
-              <div className="text-2xl font-bold font-mono text-emerald-700 mt-1">{auditReport.presentCount}</div>
-              <div className="text-[11px] text-muted-foreground mt-0.5">Verified on shelf bay</div>
+            <Card className="p-4 bg-success-soft border-success/30">
+              <div className="text-xs font-semibold text-success uppercase">Physically Present (තිබූ පොත්)</div>
+              <div className="text-2xl font-bold font-mono text-success mt-1">{auditReport.presentCount}</div>
+              <div className="text-xs text-muted-foreground mt-0.5">Verified on shelf bay</div>
             </Card>
 
-            <Card className="p-4 bg-blue-500/5 border-blue-500/20">
-              <div className="text-xs font-semibold text-blue-600 uppercase">On Loan to Members (ගෙනගිය පොත්)</div>
-              <div className="text-2xl font-bold font-mono text-blue-700 mt-1">{auditReport.borrowedCount}</div>
-              <div className="text-[11px] text-muted-foreground mt-0.5">Officially borrowed loans</div>
+            <Card className="p-4 bg-info-soft border-info/30">
+              <div className="text-xs font-semibold text-info uppercase">On Loan to Members (ගෙනගිය පොත්)</div>
+              <div className="text-2xl font-bold font-mono text-info mt-1">{auditReport.borrowedCount}</div>
+              <div className="text-xs text-muted-foreground mt-0.5">Officially borrowed loans</div>
             </Card>
 
-            <Card className="p-4 bg-rose-500/10 border-2 border-rose-500/40">
-              <div className="text-xs font-bold text-rose-700 uppercase flex items-center gap-1">
-                <AlertTriangle className="w-3.5 h-3.5 text-rose-600" />
+            <Card className="p-4 bg-danger-soft border-2 border-danger/30">
+              <div className="text-xs font-bold text-danger uppercase flex items-center gap-1">
+                <AlertTriangle className="w-3.5 h-3.5 text-danger" />
                 Severe Defaulters (මාස 3+ පැහැරහැරීම්)
               </div>
-              <div className="text-2xl font-extrabold font-mono text-rose-700 mt-1">
+              <div className="text-2xl font-extrabold font-mono text-danger mt-1">
                 {auditReport.severeDefaultersCount}
               </div>
-              <div className="text-[11px] font-semibold text-rose-700/80 mt-0.5">Overdue past 90+ days</div>
+              <div className="text-xs font-semibold text-danger/80 mt-0.5">Overdue past 90+ days</div>
             </Card>
 
-            <Card className="p-4 bg-amber-500/10 border-2 border-amber-500/40">
-              <div className="text-xs font-bold text-amber-700 uppercase flex items-center gap-1">
-                <AlertOctagon className="w-3.5 h-3.5 text-amber-600" />
+            <Card className="p-4 bg-warning-soft border-2 border-warning/30">
+              <div className="text-xs font-bold text-warning uppercase flex items-center gap-1">
+                <AlertOctagon className="w-3.5 h-3.5 text-warning" />
                 Missing Books (අස්ථානගත වූ පොත්)
               </div>
-              <div className="text-2xl font-extrabold font-mono text-amber-700 mt-1">
+              <div className="text-2xl font-extrabold font-mono text-warning mt-1">
                 {auditReport.missingCount}
               </div>
-              <div className="text-[11px] text-amber-800 dark:text-amber-300 mt-0.5">
+              <div className="text-xs text-warning-soft-foreground dark:text-warning mt-0.5">
                 Sent to Missing Books Section!
               </div>
             </Card>
@@ -492,10 +492,10 @@ export const ShelfAuditSecurityPage: React.FC = () => {
               <CardHeader className="pb-3">
                 <CardTitle className="text-base flex items-center justify-between">
                   <span className="flex items-center gap-2">
-                    <User className="w-4 h-4 text-blue-600" />
+                    <User className="w-4 h-4 text-info" />
                     <span>Members Borrowed Loans ({auditReport.borrowedList.length})</span>
                   </span>
-                  <span className="text-[11px] text-rose-600 font-bold">
+                  <span className="text-xs text-danger font-bold">
                     🔴 Red: Overdue &gt; 3 Months
                   </span>
                 </CardTitle>
@@ -507,7 +507,7 @@ export const ShelfAuditSecurityPage: React.FC = () => {
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-xs border-collapse">
                     <thead>
-                      <tr className="bg-muted/70 text-muted-foreground border-y font-semibold uppercase text-[11px]">
+                      <tr className="bg-muted/70 text-muted-foreground border-y font-semibold uppercase text-xs">
                         <th className="p-3">Borrower & Book</th>
                         <th className="p-3">Due Date</th>
                         <th className="p-3">Contact</th>
@@ -527,20 +527,20 @@ export const ShelfAuditSecurityPage: React.FC = () => {
                             key={idx}
                             className={`transition-colors ${
                               item.isSevereDefaulter
-                                ? 'bg-rose-500/15 border-l-4 border-l-rose-600 text-rose-950 dark:text-rose-200'
+                                ? 'bg-danger-soft border-l-4 border-l-danger text-danger'
                                 : 'hover:bg-muted/30'
                             }`}
                           >
                             <td className="p-3">
                               <div className="font-bold text-foreground flex items-center gap-1.5">
                                 {item.isSevereDefaulter ? (
-                                  <UserX className="w-3.5 h-3.5 text-rose-600 shrink-0" />
+                                  <UserX className="w-3.5 h-3.5 text-danger shrink-0" />
                                 ) : (
-                                  <User className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                                  <User className="w-3.5 h-3.5 text-info shrink-0" />
                                 )}
                                 {item.loan.memberName}
                               </div>
-                              <div className="text-[11px] text-muted-foreground font-mono mt-0.5">
+                              <div className="text-xs text-muted-foreground font-mono mt-0.5">
                                 {item.loan.bookTitle}
                               </div>
                             </td>
@@ -548,7 +548,7 @@ export const ShelfAuditSecurityPage: React.FC = () => {
                             <td className="p-3 font-mono">
                               <div>{new Date(item.loan.dueDate).toLocaleDateString()}</div>
                               {item.daysLate && item.daysLate > 0 ? (
-                                <span className="text-rose-600 font-bold text-[10px]">
+                                <span className="text-danger font-bold text-xs">
                                   {item.daysLate} Days Overdue
                                 </span>
                               ) : null}
@@ -560,12 +560,12 @@ export const ShelfAuditSecurityPage: React.FC = () => {
 
                             <td className="p-3 text-right">
                               {item.isSevereDefaulter ? (
-                                <span className="bg-rose-600 text-white font-extrabold px-2.5 py-1 rounded-full text-[10px] uppercase shadow-sm inline-flex items-center gap-1">
+                                <span className="bg-danger text-white font-extrabold px-2.5 py-1 rounded-full text-xs uppercase shadow-sm inline-flex items-center gap-1">
                                   <AlertTriangle className="w-3 h-3" />
                                   3+ Mo Defaulter!
                                 </span>
                               ) : (
-                                <span className="bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 font-semibold px-2 py-0.5 rounded-full text-[10px] uppercase">
+                                <span className="bg-info-soft text-info-soft-foreground dark:bg-card dark:text-info font-semibold px-2 py-0.5 rounded-full text-xs uppercase">
                                   Borrowed
                                 </span>
                               )}
@@ -584,10 +584,10 @@ export const ShelfAuditSecurityPage: React.FC = () => {
               <CardHeader className="pb-3">
                 <CardTitle className="text-base flex items-center justify-between">
                   <span className="flex items-center gap-2">
-                    <AlertOctagon className="w-4 h-4 text-amber-600" />
+                    <AlertOctagon className="w-4 h-4 text-warning" />
                     <span>Missing Books Discrepancy ({auditReport.missingList.length})</span>
                   </span>
-                  <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-amber-500/10 text-amber-700">
+                  <span className="text-xs font-bold px-2 py-0.5 rounded bg-warning-soft text-warning">
                     Logged to Missing Directory
                   </span>
                 </CardTitle>
@@ -599,7 +599,7 @@ export const ShelfAuditSecurityPage: React.FC = () => {
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-xs border-collapse">
                     <thead>
-                      <tr className="bg-muted/70 text-muted-foreground border-y font-semibold uppercase text-[11px]">
+                      <tr className="bg-muted/70 text-muted-foreground border-y font-semibold uppercase text-xs">
                         <th className="p-3">Missing Book Title</th>
                         <th className="p-3">Barcode</th>
                         <th className="p-3">Call Number</th>
@@ -615,9 +615,9 @@ export const ShelfAuditSecurityPage: React.FC = () => {
                         </tr>
                       ) : (
                         auditReport.missingList.map((item, idx) => (
-                          <tr key={idx} className="hover:bg-amber-50/50 dark:hover:bg-amber-950/20">
+                          <tr key={idx} className="hover:bg-muted/40 dark:hover:bg-card/20">
                             <td className="p-3 font-semibold text-foreground flex items-center gap-1.5">
-                              <BookOpen className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                              <BookOpen className="w-3.5 h-3.5 text-warning shrink-0" />
                               {item.title}
                             </td>
                             <td className="p-3 font-mono font-bold text-foreground">
@@ -627,7 +627,7 @@ export const ShelfAuditSecurityPage: React.FC = () => {
                               {item.copy.callNumber || 'DDC-Standard'}
                             </td>
                             <td className="p-3 text-right">
-                              <span className="bg-amber-500/15 text-amber-800 dark:text-amber-200 border border-amber-500/30 px-2 py-0.5 rounded font-bold text-[10px] uppercase">
+                              <span className="bg-warning-soft text-warning-soft-foreground dark:text-foreground border border-warning/30 px-2 py-0.5 rounded font-bold text-xs uppercase">
                                 Flagged Missing
                               </span>
                             </td>

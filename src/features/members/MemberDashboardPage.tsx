@@ -54,14 +54,14 @@ export const MemberDashboardPage: React.FC = () => {
       {/* Greeting Banner */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b pb-4">
         <div>
-          <h1 className="text-2xl font-serif font-bold text-foreground">
+          <h1 className="text-2xl font-heading font-bold text-foreground">
             Welcome, {profile?.fullName || 'Patron'}!
           </h1>
           <p className="text-xs text-muted-foreground">
             Library Card: <strong>{profile?.memberIdNumber || 'LIB-PENDING'}</strong> | Status:{' '}
             <span
               className={`font-semibold ${
-                profile?.status === 'ACTIVE' ? 'text-emerald-600' : 'text-amber-600'
+                profile?.status === 'ACTIVE' ? 'text-success' : 'text-warning'
               }`}
             >
               {profile?.status || 'PENDING APPROVAL'}
@@ -79,7 +79,7 @@ export const MemberDashboardPage: React.FC = () => {
               <span className="font-semibold tracking-wider uppercase">Public Library Card</span>
               <span>{profile?.membershipType || 'GENERAL'}</span>
             </div>
-            <CardTitle className="text-lg font-serif">{profile?.fullName || 'Patron Name'}</CardTitle>
+            <CardTitle className="text-lg font-heading">{profile?.fullName || 'Patron Name'}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4 pt-2 flex flex-col items-center">
             {/* Real QR Code generation for kiosk and circulation desk scanning */}
@@ -94,7 +94,7 @@ export const MemberDashboardPage: React.FC = () => {
               <div className="font-mono text-sm tracking-widest font-bold">
                 {profile?.memberIdNumber || 'LIB-XXXX-XXXX'}
               </div>
-              <p className="text-[10px] text-primary-foreground/70">
+              <p className="text-xs text-primary-foreground/70">
                 Hold under kiosk or desk scanner for touchless service
               </p>
             </div>
@@ -117,7 +117,7 @@ export const MemberDashboardPage: React.FC = () => {
         <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Card className="flex flex-col justify-between">
             <CardHeader className="pb-2">
-              <div className="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-600 flex items-center justify-center mb-2">
+              <div className="w-8 h-8 rounded-lg bg-info-soft text-info flex items-center justify-center mb-2">
                 <BookOpen className="w-4 h-4" />
               </div>
               <CardTitle className="text-sm font-semibold text-muted-foreground">Active Checkouts</CardTitle>
@@ -130,7 +130,7 @@ export const MemberDashboardPage: React.FC = () => {
 
           <Card className="flex flex-col justify-between">
             <CardHeader className="pb-2">
-              <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-600 flex items-center justify-center mb-2">
+              <div className="w-8 h-8 rounded-lg bg-success-soft text-success flex items-center justify-center mb-2">
                 <CreditCard className="w-4 h-4" />
               </div>
               <CardTitle className="text-sm font-semibold text-muted-foreground">Outstanding Fines</CardTitle>

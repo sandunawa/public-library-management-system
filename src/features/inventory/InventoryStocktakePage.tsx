@@ -240,7 +240,7 @@ export const InventoryStocktakePage: React.FC = () => {
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b pb-4">
         <div>
-          <h1 className="text-2xl font-serif font-bold text-foreground flex items-center gap-2">
+          <h1 className="text-2xl font-heading font-bold text-foreground flex items-center gap-2">
             <ClipboardCheck className="w-6 h-6 text-primary" />
             <span>Stocktake & Shelf Management (රාක්ක සහ තොග කළමනාකරණය)</span>
           </h1>
@@ -313,7 +313,7 @@ export const InventoryStocktakePage: React.FC = () => {
                   <Library className="w-4 h-4 text-primary" />
                   <span>Destination Shelf (යොමුකරන රාක්කය)</span>
                 </span>
-                <span className="text-[11px] font-mono font-semibold px-2 py-0.5 rounded bg-primary/10 text-primary">
+                <span className="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-primary/10 text-primary">
                   {shelves.length} Shelves
                 </span>
               </CardTitle>
@@ -355,7 +355,7 @@ export const InventoryStocktakePage: React.FC = () => {
                   )}
                   {targetShelf.floorZone && (
                     <div className="text-muted-foreground flex items-center gap-1">
-                      <MapPin className="w-3.5 h-3.5 text-amber-600" />
+                      <MapPin className="w-3.5 h-3.5 text-warning" />
                       Location: {targetShelf.floorZone}
                     </div>
                   )}
@@ -415,7 +415,7 @@ export const InventoryStocktakePage: React.FC = () => {
 
             <CardContent className="space-y-4">
               <div className="border rounded-xl divide-y text-xs max-h-[420px] overflow-y-auto">
-                <div className="p-3 bg-muted font-semibold text-muted-foreground flex justify-between uppercase tracking-wider text-[11px] sticky top-0 z-10">
+                <div className="p-3 bg-muted font-semibold text-muted-foreground flex justify-between uppercase tracking-wider text-xs sticky top-0 z-10">
                   <span>Book Title & Barcode</span>
                   <span>Previous Location / Action</span>
                 </div>
@@ -435,14 +435,14 @@ export const InventoryStocktakePage: React.FC = () => {
                         <BookOpen className="w-4 h-4 text-primary shrink-0" />
                         <div>
                           <div className="font-semibold text-sm text-foreground">{item.bookTitle}</div>
-                          <div className="text-muted-foreground font-mono text-[11px]">
+                          <div className="text-muted-foreground font-mono text-xs">
                             Barcode: <span className="font-bold text-foreground">{item.barcode}</span>
                           </div>
                         </div>
                       </div>
 
                       <div className="flex items-center space-x-3">
-                        <span className="text-[11px] text-muted-foreground bg-muted px-2 py-0.5 rounded font-mono">
+                        <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded font-mono">
                           Was: {item.currentShelf}
                         </span>
                         <Button
@@ -462,15 +462,15 @@ export const InventoryStocktakePage: React.FC = () => {
 
               {/* Bottom Commit Action Button */}
               {stagedBatchItems.length > 0 && (
-                <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex flex-col sm:flex-row items-center justify-between gap-3">
-                  <div className="text-xs text-emerald-950 dark:text-emerald-200">
+                <div className="p-4 rounded-xl bg-success-soft border border-success/30 flex flex-col sm:flex-row items-center justify-between gap-3">
+                  <div className="text-xs text-success dark:text-success">
                     Ready to move <strong>{stagedBatchItems.length}</strong> book(s) to{' '}
                     <strong className="text-primary">{targetShelf?.name}</strong>.
                   </div>
                   <Button
                     size="default"
                     onClick={handleCommitBatchAssignment}
-                    className="w-full sm:w-auto font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-md px-6 gap-2"
+                    className="w-full sm:w-auto font-bold bg-success hover:bg-success/90 text-white shadow-md px-6 gap-2"
                   >
                     <CheckCircle2 className="w-4 h-4" />
                     Confirm & Move All to Shelf ({stagedBatchItems.length} Books)
@@ -529,7 +529,7 @@ export const InventoryStocktakePage: React.FC = () => {
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs border-collapse">
                 <thead>
-                  <tr className="bg-muted/70 text-muted-foreground border-y font-semibold uppercase tracking-wider text-[11px]">
+                  <tr className="bg-muted/70 text-muted-foreground border-y font-semibold uppercase tracking-wider text-xs">
                     <th className="p-3">Physical Shelf Location (රාක්කය)</th>
                     <th className="p-3">Book Title (පොතේ නම)</th>
                     <th className="p-3">Copy Barcode (බාර්කෝඩ් අංකය)</th>
@@ -548,8 +548,8 @@ export const InventoryStocktakePage: React.FC = () => {
                     filteredShelfBooks.map((item, idx) => (
                       <tr key={idx} className="hover:bg-muted/30 transition-colors">
                         <td className="p-3">
-                          <span className="font-bold text-foreground flex items-center gap-1.5 text-xs bg-amber-500/10 text-amber-900 dark:text-amber-200 border border-amber-500/30 px-2.5 py-1 rounded-lg inline-flex">
-                            <MapPin className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                          <span className="font-bold text-foreground flex items-center gap-1.5 text-xs bg-warning-soft text-foreground dark:text-foreground border border-warning/30 px-2.5 py-1 rounded-lg inline-flex">
+                            <MapPin className="w-3.5 h-3.5 text-warning shrink-0" />
                             {item.shelf}
                           </span>
                         </td>
@@ -567,12 +567,12 @@ export const InventoryStocktakePage: React.FC = () => {
                         </td>
                         <td className="p-3">
                           <span
-                            className={`px-2.5 py-0.5 rounded-full font-bold uppercase text-[10px] ${
+                            className={`px-2.5 py-0.5 rounded-full font-bold uppercase text-xs ${
                               item.status === 'AVAILABLE'
-                                ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
+                                ? 'bg-success-soft text-success dark:bg-card dark:text-success'
                                 : item.status === 'ISSUED'
-                                ? 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300'
-                                : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
+                                ? 'bg-info-soft text-info-soft-foreground dark:bg-card dark:text-info'
+                                : 'bg-warning-soft text-warning-soft-foreground dark:bg-card dark:text-warning'
                             }`}
                           >
                             {item.status}
@@ -596,7 +596,7 @@ export const InventoryStocktakePage: React.FC = () => {
               <div className="p-4 bg-muted/60 border-b flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Library className="w-5 h-5 text-primary" />
-                  <h3 className="font-serif font-bold text-base text-foreground">
+                  <h3 className="font-heading font-bold text-base text-foreground">
                     Create New Library Shelf (අලුත් රාක්කයක් එක් කරන්න)
                   </h3>
                 </div>

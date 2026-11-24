@@ -102,7 +102,7 @@ export const StaffMembersPage: React.FC = () => {
       {/* Page Title & Navigation Tabs */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b pb-4">
         <div>
-          <h1 className="text-2xl font-serif font-bold text-foreground">
+          <h1 className="text-2xl font-heading font-bold text-foreground">
             Patron & Membership Management
           </h1>
           <p className="text-xs text-muted-foreground mt-0.5">
@@ -145,10 +145,10 @@ export const StaffMembersPage: React.FC = () => {
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              <Clock className="w-4 h-4 text-amber-500" />
+              <Clock className="w-4 h-4 text-warning" />
               <span>Registration Requests</span>
               {pendingRequests.length > 0 && (
-                <span className="px-1.5 py-0.5 rounded-full text-[10px] bg-amber-500 text-white font-bold ml-1">
+                <span className="px-1.5 py-0.5 rounded-full text-xs bg-warning text-warning-foreground font-bold ml-1">
                   {pendingRequests.length}
                 </span>
               )}
@@ -204,7 +204,7 @@ export const StaffMembersPage: React.FC = () => {
             <span>
               Showing <strong>{displayList.length}</strong> pending student & member applications
             </span>
-            <span className="text-amber-600 font-semibold">
+            <span className="text-warning font-semibold">
               Action Required: Verify patron identity & grant borrowing privileges
             </span>
           </div>
@@ -214,8 +214,8 @@ export const StaffMembersPage: React.FC = () => {
           ) : displayList.length === 0 ? (
             <Card className="p-12 text-center">
               <CardContent className="space-y-3">
-                <UserCheck className="w-12 h-12 text-emerald-500 mx-auto" />
-                <h3 className="font-serif font-bold text-lg">No Pending Registration Requests</h3>
+                <UserCheck className="w-12 h-12 text-success mx-auto" />
+                <h3 className="font-heading font-bold text-lg">No Pending Registration Requests</h3>
                 <p className="text-xs text-muted-foreground max-w-sm mx-auto">
                   All member registrations and student sign-ups have been verified and processed.
                 </p>
@@ -232,18 +232,18 @@ export const StaffMembersPage: React.FC = () => {
                     <div className="flex justify-between items-start gap-2">
                       <div>
                         <CardTitle className="text-sm font-bold">{member.fullName}</CardTitle>
-                        <div className="text-[11px] font-mono text-primary font-semibold mt-0.5">
+                        <div className="text-xs font-mono text-primary font-semibold mt-0.5">
                           {member.memberIdNumber}
                         </div>
                       </div>
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">
+                      <span className="text-xs font-bold px-2 py-0.5 rounded uppercase tracking-wider bg-warning-soft text-warning-soft-foreground dark:bg-card dark:text-warning">
                         {member.membershipType}
                       </span>
                     </div>
                   </CardHeader>
 
                   <CardContent className="p-4 pt-2 space-y-3 text-xs">
-                    <div className="bg-muted/40 p-2.5 rounded-lg space-y-1 text-[11px] text-muted-foreground">
+                    <div className="bg-muted/40 p-2.5 rounded-lg space-y-1 text-xs text-muted-foreground">
                       <div><strong>Email:</strong> {member.email}</div>
                       <div><strong>Phone:</strong> {member.phone}</div>
                       <div><strong>District:</strong> {member.district}</div>
@@ -264,7 +264,7 @@ export const StaffMembersPage: React.FC = () => {
                       <Button
                         size="sm"
                         onClick={() => handleAction(member.id, 'ACTIVE')}
-                        className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white h-8 text-xs font-semibold"
+                        className="flex-1 bg-success hover:bg-success/90 text-white h-8 text-xs font-semibold"
                       >
                         <CheckCircle2 className="w-3.5 h-3.5 mr-1" />
                         Approve
@@ -327,7 +327,7 @@ export const StaffMembersPage: React.FC = () => {
                       <td className="p-3 font-mono font-bold text-primary">{m.memberIdNumber}</td>
                       <td className="p-3 font-medium text-foreground">{m.fullName}</td>
                       <td className="p-3">
-                        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-muted">
+                        <span className="px-2 py-0.5 rounded text-xs font-bold bg-muted">
                           {m.membershipType}
                         </span>
                       </td>
@@ -336,12 +336,12 @@ export const StaffMembersPage: React.FC = () => {
                       <td className="p-3 font-semibold">{m.activeLoansCount} books</td>
                       <td className="p-3">
                         <span
-                          className={`px-2 py-0.5 rounded font-bold uppercase text-[10px] ${
+                          className={`px-2 py-0.5 rounded font-bold uppercase text-xs ${
                             m.status === 'ACTIVE'
-                              ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
+                              ? 'bg-success-soft text-success dark:bg-card dark:text-success'
                               : m.status === 'PENDING'
-                              ? 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
-                              : 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300'
+                              ? 'bg-warning-soft text-warning-soft-foreground dark:bg-card dark:text-warning'
+                              : 'bg-danger-soft text-danger-soft-foreground dark:bg-card dark:text-danger'
                           }`}
                         >
                           {m.status}
@@ -400,27 +400,27 @@ export const StaffMembersPage: React.FC = () => {
             <CardContent className="p-6 space-y-4 text-xs">
               <div className="grid grid-cols-2 gap-3 bg-muted/40 p-3 rounded-xl">
                 <div>
-                  <div className="text-muted-foreground text-[10px] uppercase font-bold">Category</div>
+                  <div className="text-muted-foreground text-xs uppercase font-bold">Category</div>
                   <div className="font-semibold">{selectedMember.membershipType}</div>
                 </div>
                 <div>
-                  <div className="text-muted-foreground text-[10px] uppercase font-bold">Status</div>
-                  <div className="font-semibold text-emerald-600 font-bold">{selectedMember.status}</div>
+                  <div className="text-muted-foreground text-xs uppercase font-bold">Status</div>
+                  <div className="font-semibold text-success font-bold">{selectedMember.status}</div>
                 </div>
                 <div>
-                  <div className="text-muted-foreground text-[10px] uppercase font-bold">Email</div>
+                  <div className="text-muted-foreground text-xs uppercase font-bold">Email</div>
                   <div>{selectedMember.email}</div>
                 </div>
                 <div>
-                  <div className="text-muted-foreground text-[10px] uppercase font-bold">Phone</div>
+                  <div className="text-muted-foreground text-xs uppercase font-bold">Phone</div>
                   <div>{selectedMember.phone}</div>
                 </div>
                 <div>
-                  <div className="text-muted-foreground text-[10px] uppercase font-bold">District / Address</div>
+                  <div className="text-muted-foreground text-xs uppercase font-bold">District / Address</div>
                   <div>{selectedMember.district} ({selectedMember.address})</div>
                 </div>
                 <div>
-                  <div className="text-muted-foreground text-[10px] uppercase font-bold">Home Branch</div>
+                  <div className="text-muted-foreground text-xs uppercase font-bold">Home Branch</div>
                   <div>{selectedMember.homeBranchId}</div>
                 </div>
               </div>
@@ -449,7 +449,7 @@ export const StaffMembersPage: React.FC = () => {
                   </Button>
                   <Button
                     onClick={() => handleAction(selectedMember.id, 'ACTIVE')}
-                    className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white"
+                    className="flex-1 bg-success hover:bg-success/90 text-white"
                   >
                     Approve Application
                   </Button>

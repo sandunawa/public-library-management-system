@@ -423,7 +423,7 @@ export const SuspendedMembersPage: React.FC = () => {
             {/* Modal Content */}
             <div className="p-6 space-y-4 text-xs">
               <div className="p-4 bg-danger-soft/40 rounded-xl border border-danger/20 space-y-1">
-                <div className="text-[11px] font-semibold text-danger">
+                <div className="text-xs font-semibold text-danger">
                   Suspended Patron Account
                 </div>
                 <div className="text-sm font-bold text-foreground">{selectedRecord.memberName}</div>
@@ -433,7 +433,7 @@ export const SuspendedMembersPage: React.FC = () => {
               </div>
 
               <div className="p-3.5 rounded-xl border border-border bg-card space-y-1">
-                <div className="text-[11px] font-semibold text-muted-foreground uppercase">Reason Category</div>
+                <div className="text-xs font-semibold text-muted-foreground uppercase">Reason Category</div>
                 <div className="font-semibold text-sm text-foreground">{selectedRecord.reasonCategory}</div>
                 <div className="text-muted-foreground mt-1 leading-relaxed bg-muted/40 p-3 rounded-lg">
                   {selectedRecord.reasonDetails}
@@ -442,7 +442,7 @@ export const SuspendedMembersPage: React.FC = () => {
 
               {selectedRecord.overdueBookTitle && (
                 <div className="p-3.5 rounded-xl border border-border bg-card">
-                  <div className="text-[11px] font-semibold text-muted-foreground uppercase">Associated Overdue Book</div>
+                  <div className="text-xs font-semibold text-muted-foreground uppercase">Associated Overdue Book</div>
                   <div className="font-semibold text-foreground mt-0.5">{selectedRecord.overdueBookTitle}</div>
                   {selectedRecord.daysLate && (
                     <div className="text-danger font-mono mt-0.5 text-xs">

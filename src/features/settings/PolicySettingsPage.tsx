@@ -104,7 +104,7 @@ export const PolicySettingsPage: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b pb-4">
         <div>
-          <h1 className="text-2xl font-serif font-bold text-foreground flex items-center gap-2">
+          <h1 className="text-2xl font-heading font-bold text-foreground flex items-center gap-2">
             <Settings className="w-6 h-6 text-primary" />
             <span>Circulation Policy & Fine Settings (පොත් ණය ප්‍රතිපත්ති සහ දඩ මුදල්)</span>
           </h1>
@@ -148,7 +148,7 @@ export const PolicySettingsPage: React.FC = () => {
                   />
                   <span className="text-xs text-muted-foreground">Books (පොත්)</span>
                 </div>
-                <p className="text-[11px] text-muted-foreground">
+                <p className="text-xs text-muted-foreground">
                   Circulation desk එකේදී මෙම ගණන ඉක්මවා පොත් scan කිරීමට පද්ධතිය ඉඩ නොදෙයි.
                 </p>
               </div>
@@ -168,7 +168,7 @@ export const PolicySettingsPage: React.FC = () => {
                   />
                   <span className="text-xs text-muted-foreground">Days (දින)</span>
                 </div>
-                <p className="text-[11px] text-muted-foreground">
+                <p className="text-xs text-muted-foreground">
                   පොතක් නිකුත් කළ දිනයේ සිට ආපසු භාර දිය යුතු දිනය (Due Date) ස්වයංක්‍රීයව ගණනය වීමට මෙම දින ගණන යොදා ගනී.
                 </p>
               </div>
@@ -180,7 +180,7 @@ export const PolicySettingsPage: React.FC = () => {
         <Card>
           <CardHeader>
             <CardTitle className="text-base flex items-center gap-2">
-              <Coins className="w-5 h-5 text-amber-600" />
+              <Coins className="w-5 h-5 text-warning" />
               <span>2. Late Return Fines (ප්‍රමාද ගාස්තු සහ දඩ මුදල් ගණනය කිරීම)</span>
             </CardTitle>
             <CardDescription className="text-xs">
@@ -205,7 +205,7 @@ export const PolicySettingsPage: React.FC = () => {
                   />
                   <span className="text-xs text-muted-foreground">Per Day (දිනකට)</span>
                 </div>
-                <p className="text-[11px] text-muted-foreground">
+                <p className="text-xs text-muted-foreground">
                   ශිෂ්‍යයාගේ කාඩ්පත scan කළ විට හෝ පොත Check-in කරන විට ප්‍රමාද වූ දින ගණනට අදාළව ස්වයංක්‍රීයව මෙම මුදලින් දඩය ගණනය වේ.
                 </p>
               </div>
@@ -225,14 +225,14 @@ export const PolicySettingsPage: React.FC = () => {
                   />
                   <span className="text-xs text-muted-foreground">Days (දින)</span>
                 </div>
-                <p className="text-[11px] text-muted-foreground">
+                <p className="text-xs text-muted-foreground">
                   නියමිත දිනට පසු කිසිදු දඩයක් අය නොකරන සහන දින ගණන (සාමාන්‍යයෙන් 0 හෝ 1 දින).
                 </p>
               </div>
             </div>
 
-            <div className="pt-2 border-t text-xs text-muted-foreground flex items-center gap-2 bg-amber-500/10 p-3 rounded-lg border border-amber-500/20 text-amber-800 dark:text-amber-200">
-              <AlertCircle className="w-4 h-4 shrink-0 text-amber-600" />
+            <div className="pt-2 border-t text-xs text-muted-foreground flex items-center gap-2 bg-warning-soft p-3 rounded-lg border border-warning/30 text-warning-soft-foreground dark:text-foreground">
+              <AlertCircle className="w-4 h-4 shrink-0 text-warning" />
               <span>
                 <strong>උදාහරණයක් ලෙස:</strong> පොත ළඟ තබා ගත හැකි දින ගණන 14ක් සහ දිනකට දඩය රු. 10ක් ලෙස ලබා දුන් විට, පොත ලබා ගෙන දින 18ක් ගිය පසු භාර දීමට පැමිණියහොත් දින 4ක ප්‍රමාදය සඳහා රු. 40/- ක දඩ මුදලක් සාමාජික කාඩ්පතෙහි ක්ෂණිකව සටහන් වේ.
               </span>
@@ -245,10 +245,10 @@ export const PolicySettingsPage: React.FC = () => {
           <CardHeader>
             <CardTitle className="text-base flex items-center justify-between">
               <span className="flex items-center gap-2">
-                <Send className="w-5 h-5 text-blue-500" />
+                <Send className="w-5 h-5 text-info" />
                 <span>3. Automated Daily Telegram ZIP Backup (දිනපතා Telegram උපස්ථය)</span>
               </span>
-              <span className="text-xs font-mono px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-600 font-bold border border-blue-500/30">
+              <span className="text-xs font-mono px-2.5 py-0.5 rounded-full bg-info-soft text-info font-bold border border-info/30">
                 Telegram Bot API Connected
               </span>
             </CardTitle>
@@ -291,16 +291,16 @@ export const PolicySettingsPage: React.FC = () => {
 
             {/* Conditional Save Button - Only visible when Token or Chat ID is changed */}
             {hasTelegramChanges && (
-              <div className="flex items-center justify-between p-2.5 px-3 bg-amber-500/10 border border-amber-500/30 rounded-lg animate-in fade-in slide-in-from-top-1">
-                <span className="text-xs text-amber-900 dark:text-amber-200 font-medium flex items-center gap-1.5">
-                  <AlertCircle className="w-4 h-4 text-amber-600 animate-pulse" />
+              <div className="flex items-center justify-between p-2.5 px-3 bg-warning-soft border border-warning/30 rounded-lg animate-in fade-in slide-in-from-top-1">
+                <span className="text-xs text-foreground dark:text-foreground font-medium flex items-center gap-1.5">
+                  <AlertCircle className="w-4 h-4 text-warning animate-pulse" />
                   Telegram Token හෝ Chat ID වෙනස් කර ඇත. කරුණාකර වෙනස්කම් Save කරන්න.
                 </span>
                 <Button
                   type="button"
                   size="sm"
                   onClick={handleSaveTelegramOnly}
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold gap-1.5 shadow-sm"
+                  className="bg-success hover:bg-success/90 text-white text-xs font-bold gap-1.5 shadow-sm"
                 >
                   <Save className="w-3.5 h-3.5" />
                   Save Telegram Credentials
@@ -310,17 +310,17 @@ export const PolicySettingsPage: React.FC = () => {
 
             {/* Live Progress Bar when sending */}
             {isSendingTelegram && (
-              <div className="p-3.5 bg-blue-500/10 border border-blue-500/30 rounded-xl space-y-2 animate-in fade-in">
-                <div className="flex justify-between items-center text-xs font-semibold text-blue-900 dark:text-blue-200">
+              <div className="p-3.5 bg-info-soft border border-info/30 rounded-xl space-y-2 animate-in fade-in">
+                <div className="flex justify-between items-center text-xs font-semibold text-info">
                   <span className="flex items-center gap-1.5">
-                    <Send className="w-3.5 h-3.5 animate-pulse text-blue-600" />
+                    <Send className="w-3.5 h-3.5 animate-pulse text-info" />
                     {telegramStatusText || 'Uploading to Telegram...'}
                   </span>
-                  <span className="font-mono font-bold text-sm text-blue-600">{telegramProgress}%</span>
+                  <span className="font-mono font-bold text-sm text-info">{telegramProgress}%</span>
                 </div>
-                <div className="w-full bg-blue-200/50 dark:bg-blue-950/60 rounded-full h-2.5 overflow-hidden">
+                <div className="w-full bg-info-soft dark:bg-card/60 rounded-full h-2.5 overflow-hidden">
                   <div
-                    className="bg-blue-600 h-2.5 rounded-full transition-all duration-300 ease-out shadow-sm"
+                    className="bg-info h-2.5 rounded-full transition-all duration-300 ease-out shadow-sm"
                     style={{ width: `${telegramProgress}%` }}
                   />
                 </div>
@@ -330,10 +330,10 @@ export const PolicySettingsPage: React.FC = () => {
             <div className="p-3 bg-muted/40 rounded-xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
               <div className="space-y-0.5">
                 <div className="font-semibold text-foreground flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                  <CheckCircle2 className="w-4 h-4 text-success" />
                   Auto Daily Backup is Active
                 </div>
-                <div className="text-muted-foreground text-[11px]">
+                <div className="text-muted-foreground text-xs">
                   Last Backup: {telegramConfig.lastBackupAt ? new Date(telegramConfig.lastBackupAt).toLocaleString() : 'Not dispatched yet today'}
                 </div>
               </div>
@@ -354,7 +354,7 @@ export const PolicySettingsPage: React.FC = () => {
                   size="sm"
                   disabled={isSendingTelegram}
                   onClick={handleManualTelegramBackup}
-                  className="text-xs font-bold gap-1.5 bg-blue-600 hover:bg-blue-700 text-white w-full sm:w-auto shadow"
+                  className="text-xs font-bold gap-1.5 bg-info hover:bg-info/90 text-white w-full sm:w-auto shadow"
                 >
                   <Send className="w-3.5 h-3.5" />
                   {isSendingTelegram ? 'Sending ZIP...' : 'Send ZIP to Telegram Now'}

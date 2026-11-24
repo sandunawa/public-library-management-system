@@ -212,7 +212,7 @@ export const CatalogManagementPage: React.FC = () => {
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b pb-4">
         <div>
-          <h1 className="text-2xl font-serif font-bold text-foreground">
+          <h1 className="text-2xl font-heading font-bold text-foreground">
             Catalogue & Copy Inventory
           </h1>
           <p className="text-xs text-muted-foreground">
@@ -281,7 +281,7 @@ export const CatalogManagementPage: React.FC = () => {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="border-b bg-muted/60 text-muted-foreground font-semibold uppercase tracking-wider text-[11px]">
+              <tr className="border-b bg-muted/60 text-muted-foreground font-semibold uppercase tracking-wider text-xs">
                 <th className="py-3 px-4 w-12 text-center">#</th>
                 <th className="py-3 px-4">Book Title</th>
                 <th className="py-3 px-4">Author(s)</th>
@@ -317,14 +317,14 @@ export const CatalogManagementPage: React.FC = () => {
                         isSelected ? 'bg-primary/10 font-medium' : ''
                       }`}
                     >
-                      <td className="py-3 px-4 text-center font-mono text-muted-foreground text-[11px]">
+                      <td className="py-3 px-4 text-center font-mono text-muted-foreground text-xs">
                         {idx + 1}
                       </td>
                       <td className="py-3 px-4">
                         <div className="font-semibold text-foreground text-sm flex items-center gap-1.5">
                           <span>{book.title}</span>
                         </div>
-                        <div className="text-[10px] text-muted-foreground font-mono">
+                        <div className="text-xs text-muted-foreground font-mono">
                           ISBN: {book.isbn13 || 'N/A'}
                         </div>
                       </td>
@@ -332,26 +332,26 @@ export const CatalogManagementPage: React.FC = () => {
                         {book.authorNames.join(', ')}
                       </td>
                       <td className="py-3 px-4">
-                        <span className="px-2 py-0.5 rounded-full text-[10px] bg-muted font-medium text-muted-foreground">
+                        <span className="px-2 py-0.5 rounded-full text-xs bg-muted font-medium text-muted-foreground">
                           {book.categoryName}
                         </span>
                       </td>
                       <td className="py-3 px-4">
-                        <span className="uppercase text-[10px] font-bold text-muted-foreground">
+                        <span className="uppercase text-xs font-bold text-muted-foreground">
                           {book.format}
                         </span>
                       </td>
                       <td className="py-3 px-4">
-                        <span className="uppercase text-[10px] font-semibold px-1.5 py-0.5 rounded bg-muted">
+                        <span className="uppercase text-xs font-semibold px-1.5 py-0.5 rounded bg-muted">
                           {book.language}
                         </span>
                       </td>
                       <td className="py-3 px-4 text-center">
                         <span
-                          className={`inline-block px-2.5 py-0.5 rounded-full font-bold text-[11px] ${
+                          className={`inline-block px-2.5 py-0.5 rounded-full font-bold text-xs ${
                             book.availableCopies > 0
-                              ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
-                              : 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300'
+                              ? 'bg-success-soft text-success dark:bg-card dark:text-success'
+                              : 'bg-danger-soft text-danger dark:bg-card dark:text-danger'
                           }`}
                         >
                           {book.availableCopies} / {book.totalCopies}
@@ -383,14 +383,14 @@ export const CatalogManagementPage: React.FC = () => {
             <CardHeader className="flex flex-row items-start justify-between border-b pb-4">
               <div>
                 <div className="flex items-center space-x-2">
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-muted uppercase tracking-wider text-muted-foreground">
+                  <span className="text-xs font-bold px-2 py-0.5 rounded bg-muted uppercase tracking-wider text-muted-foreground">
                     {selectedBook.format}
                   </span>
-                  <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300">
+                  <span className="text-xs font-bold uppercase px-2 py-0.5 rounded bg-info-soft text-info-soft-foreground dark:bg-card dark:text-info">
                     Language: {selectedBook.language}
                   </span>
                 </div>
-                <CardTitle className="text-xl font-bold font-serif mt-2">
+                <CardTitle className="text-xl font-bold font-heading mt-2">
                   {selectedBook.title}
                 </CardTitle>
                 <CardDescription className="text-xs">
@@ -411,22 +411,22 @@ export const CatalogManagementPage: React.FC = () => {
               {/* Metadata Bento Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-muted/40 p-3 rounded-xl text-xs">
                 <div>
-                  <div className="text-muted-foreground text-[10px] font-bold uppercase">Classification</div>
+                  <div className="text-muted-foreground text-xs font-bold uppercase">Classification</div>
                   <div className="font-semibold text-foreground mt-0.5">{selectedBook.categoryName}</div>
                 </div>
                 <div>
-                  <div className="text-muted-foreground text-[10px] font-bold uppercase">ISBN 13</div>
+                  <div className="text-muted-foreground text-xs font-bold uppercase">ISBN 13</div>
                   <div className="font-mono font-semibold text-foreground mt-0.5">
                     {selectedBook.isbn13 || 'Unassigned'}
                   </div>
                 </div>
                 <div>
-                  <div className="text-muted-foreground text-[10px] font-bold uppercase">Audience</div>
+                  <div className="text-muted-foreground text-xs font-bold uppercase">Audience</div>
                   <div className="font-semibold text-foreground mt-0.5">{selectedBook.audience}</div>
                 </div>
                 <div>
-                  <div className="text-muted-foreground text-[10px] font-bold uppercase">Total Copies</div>
-                  <div className="font-semibold text-emerald-600 font-bold mt-0.5">
+                  <div className="text-muted-foreground text-xs font-bold uppercase">Total Copies</div>
+                  <div className="font-semibold text-success font-bold mt-0.5">
                     {selectedBook.availableCopies} Available / {selectedBook.totalCopies} Total
                   </div>
                 </div>
@@ -476,12 +476,12 @@ export const CatalogManagementPage: React.FC = () => {
                           <span className="text-muted-foreground">Colombo Central HQ</span>
                           <span className="text-right">
                             <span
-                              className={`px-2 py-0.5 rounded font-bold uppercase text-[10px] ${
+                              className={`px-2 py-0.5 rounded font-bold uppercase text-xs ${
                                 copy.status === 'AVAILABLE'
-                                  ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
+                                  ? 'bg-success-soft text-success dark:bg-card dark:text-success'
                                   : copy.status === 'ISSUED'
-                                  ? 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300'
-                                  : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
+                                  ? 'bg-info-soft text-info-soft-foreground dark:bg-card dark:text-info'
+                                  : 'bg-warning-soft text-warning-soft-foreground dark:bg-card dark:text-warning'
                               }`}
                             >
                               {copy.status}

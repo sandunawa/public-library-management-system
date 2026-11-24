@@ -49,7 +49,7 @@ export const ReportsCenterPage: React.FC = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b pb-4">
         <div>
-          <h1 className="text-2xl font-serif font-bold text-foreground">Analytics, Reports & Exports</h1>
+          <h1 className="text-2xl font-heading font-bold text-foreground">Analytics, Reports & Exports</h1>
           <p className="text-xs text-muted-foreground">
             Generate certified reports, circulation logs, and financial fine audit exports
           </p>
@@ -62,11 +62,11 @@ export const ReportsCenterPage: React.FC = () => {
             CSV
           </Button>
           <Button variant="outline" size="sm" onClick={() => handleExport('EXCEL')} className="text-xs">
-            <FileSpreadsheet className="w-3.5 h-3.5 mr-1 text-emerald-600" />
+            <FileSpreadsheet className="w-3.5 h-3.5 mr-1 text-success" />
             Excel
           </Button>
           <Button size="sm" onClick={() => handleExport('PDF')} className="text-xs font-semibold">
-            <FileText className="w-3.5 h-3.5 mr-1 text-red-300" />
+            <FileText className="w-3.5 h-3.5 mr-1 text-danger" />
             Print / PDF
           </Button>
         </div>
@@ -123,10 +123,10 @@ export const ReportsCenterPage: React.FC = () => {
                 <span className="text-muted-foreground">{item.dueDate}</span>
                 <span className="text-right">
                   <span
-                    className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                    className={`px-2 py-0.5 rounded text-xs font-bold ${
                       item.status === 'ACTIVE'
-                        ? 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300'
-                        : 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300'
+                        ? 'bg-info-soft text-info-soft-foreground dark:bg-card dark:text-info'
+                        : 'bg-danger-soft text-danger dark:bg-card dark:text-danger'
                     }`}
                   >
                     {item.status}

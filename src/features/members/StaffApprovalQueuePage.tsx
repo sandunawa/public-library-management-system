@@ -95,14 +95,14 @@ export const StaffApprovalQueuePage: React.FC = () => {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b pb-4">
         <div>
-          <h1 className="text-2xl font-serif font-bold text-foreground">
+          <h1 className="text-2xl font-heading font-bold text-foreground">
             Member Registration Approval Queue
           </h1>
           <p className="text-xs text-muted-foreground">
             Review self-registered students, institutional applications, and citizens before issuing active digital library cards.
           </p>
         </div>
-        <div className="flex items-center space-x-2 text-xs font-semibold px-3 py-1 bg-amber-500/10 text-amber-600 rounded-full">
+        <div className="flex items-center space-x-2 text-xs font-semibold px-3 py-1 bg-warning-soft text-warning rounded-full">
           <Clock className="w-4 h-4" />
           <span>{pendingMembers.length} Applications Awaiting Staff Approval</span>
         </div>
@@ -140,8 +140,8 @@ export const StaffApprovalQueuePage: React.FC = () => {
       ) : filteredMembers.length === 0 ? (
         <Card className="p-12 text-center">
           <CardContent className="space-y-3">
-            <UserCheck className="w-12 h-12 text-emerald-500 mx-auto" />
-            <h3 className="font-serif font-bold text-lg">No Applications Pending</h3>
+            <UserCheck className="w-12 h-12 text-success mx-auto" />
+            <h3 className="font-heading font-bold text-lg">No Applications Pending</h3>
             <p className="text-xs text-muted-foreground max-w-sm mx-auto">
               All member registrations have been verified and processed.
             </p>
@@ -155,14 +155,14 @@ export const StaffApprovalQueuePage: React.FC = () => {
                 <div className="flex justify-between items-start gap-2">
                   <div>
                     <CardTitle className="text-sm font-bold">{member.fullName}</CardTitle>
-                    <div className="text-[11px] font-mono text-primary font-semibold mt-0.5">
+                    <div className="text-xs font-mono text-primary font-semibold mt-0.5">
                       {member.memberIdNumber}
                     </div>
                   </div>
                   <span
-                    className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider ${
+                    className={`text-xs font-bold px-2 py-0.5 rounded uppercase tracking-wider ${
                       member.membershipType === 'STUDENT'
-                        ? 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300'
+                        ? 'bg-info-soft text-info-soft-foreground dark:bg-card dark:text-info'
                         : 'bg-muted text-muted-foreground'
                     }`}
                   >
@@ -172,7 +172,7 @@ export const StaffApprovalQueuePage: React.FC = () => {
               </CardHeader>
 
               <CardContent className="p-4 pt-2 space-y-3 text-xs">
-                <div className="bg-muted/40 p-2.5 rounded-lg space-y-1 text-[11px] text-muted-foreground">
+                <div className="bg-muted/40 p-2.5 rounded-lg space-y-1 text-xs text-muted-foreground">
                   <div><strong>Email:</strong> {member.email}</div>
                   <div><strong>Phone:</strong> {member.phone}</div>
                   <div><strong>District:</strong> {member.district}</div>
@@ -192,7 +192,7 @@ export const StaffApprovalQueuePage: React.FC = () => {
                   </Button>
                   <Button
                     size="sm"
-                    className="h-8 text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-medium"
+                    className="h-8 text-xs bg-success hover:bg-success/90 text-white font-medium"
                     onClick={() => handleAction(member.id, 'ACTIVE')}
                   >
                     <CheckCircle2 className="w-3.5 h-3.5 mr-1" />
