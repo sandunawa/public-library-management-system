@@ -1,0 +1,36 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isStaff() {
+      return isAuthenticated() && request.auth.token.role in [
+        'SUPER_ADMIN', 'HEAD_LIBRARIAN', 'LIBRARIAN'
+      ];
+    }
+
+    // Deny all by default
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+
+    // Public book covers: Publicly readable, Staff uploadable (< 5MB, image types only)
+    match /covers/{coverId} {
+      allow read: if true;
+      allow write: if isStaff() 
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+
+    // Patron verification documents: Strictly private, patron uploadable during registration
+    match /verification_documents/{userId}/{docId} {
+      allow read: if isStaff() || (isAuthenticated() && request.auth.uid == userId);
+      allow write: if isAuthenticated() && request.auth.uid == userId
+        && request.resource.size < 10 * 1024 * 1024
+        && (request.resource.contentType.matches('image/.*') || request.resource.contentType == 'application/pdf');
+    }
+  }
+}

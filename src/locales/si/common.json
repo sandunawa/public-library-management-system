@@ -1,0 +1,35 @@
+{
+  "appName": "LibraryOS (පුස්තකාල පද්ධතිය)",
+  "tagline": "මහජන පුස්තකාල කළමනාකරණ පද්ධතිය",
+  "nav": {
+    "catalog": "නාමාවලිය",
+    "branches": "ශාඛා",
+    "events": "වැඩසටහන්",
+    "about": "අප ගැන",
+    "signIn": "ඇතුල් වන්න",
+    "register": "ලියාපදිංචි වන්න",
+    "portal": "සාමාජික ද්වාරය",
+    "staff": "කාර්ය මණ්ඩල අංශය",
+    "kiosk": "ස්වයංක්‍රීය පර්යන්තය"
+  },
+  "search": {
+    "placeholder": "පොත් නාම, කතුවරුන්, විෂයන් හෝ ISBN සොයන්න...",
+    "allCollections": "සියලුම එකතු",
+    "booksOnly": "පොත් පමණි",
+    "digitalOnly": "ඩිජිටල් පුස්තකාලය",
+    "searchButton": "සොයන්න"
+  },
+  "auth": {
+    "welcomeBack": "පුස්තකාලයට සාදරයෙන් පිළිගනිමු",
+    "signInTitle": "ඔබගේ ගිණුමට ඇතුල් වන්න",
+    "registerTitle": "නව සාමාජිකයෙකු ලෙස ලියාපදිංචි වන්න",
+    "emailLabel": "විද්‍යුත් තැපෑල",
+    "passwordLabel": "මුරපදය",
+    "rememberMe": "මෙම උපාංගය මතක තබා ගන්න",
+    "forgotPassword": "මුරපදය අමතකද?",
+    "signInAction": "ඇතුල් වන්න",
+    "createAccountAction": "ගිණුමක් සාදන්න",
+    "noAccountPrompt": "ගිණුමක් නොමැතිද?",
+    "hasAccountPrompt": "දැනටමත් ලියාපදිංචි වී තිබේද?"
+  }
+}

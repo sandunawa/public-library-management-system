@@ -1,0 +1,35 @@
+{
+  "appName": "LibraryOS (நூலக மேலாண்மை)",
+  "tagline": "பொது நூலக மேலாண்மை தளம்",
+  "nav": {
+    "catalog": "நூல் அட்டவணை",
+    "branches": "கிளைகள்",
+    "events": "நிகழ்வுகள்",
+    "about": "எங்களை பற்றி",
+    "signIn": "உள்நுழைக",
+    "register": "பதிவு செய்க",
+    "portal": "உறுப்பினர் தளம்",
+    "staff": "பணியாளர் தளம்",
+    "kiosk": "சுயசேவை மையம்"
+  },
+  "search": {
+    "placeholder": "நூல்கள், எழுத்தாளர்கள், பாடங்கள் அல்லது ISBN ஐத் தேடுங்கள்...",
+    "allCollections": "அனைத்து தொகுப்புகள்",
+    "booksOnly": "நூல்கள் மட்டும்",
+    "digitalOnly": "டிஜிட்டல் நூலகம்",
+    "searchButton": "தேடுங்கள்"
+  },
+  "auth": {
+    "welcomeBack": "நூலகத்திற்கு மீண்டும் வருக",
+    "signInTitle": "உங்கள் கணக்கில் உள்நுழைக",
+    "registerTitle": "புதிய உறுப்பினராக பதிவு செய்யுங்கள்",
+    "emailLabel": "மின்னஞ்சல் முகவரி",
+    "passwordLabel": "கடவுச்சொல்",
+    "rememberMe": "இந்த சாதனத்தை நினைவில் கொள்க",
+    "forgotPassword": "கடவுச்சொல்லை மறந்துவிட்டீர்களா?",
+    "signInAction": "உள்நுழைக",
+    "createAccountAction": "கணக்கை உருவாக்கவும்",
+    "noAccountPrompt": "கணக்கு இல்லையா?",
+    "hasAccountPrompt": "ஏற்கனவே பதிவு செய்யப்பட்டுள்ளதா?"
+  }
+}

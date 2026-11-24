@@ -1,0 +1,35 @@
+{
+  "appName": "LibraryOS",
+  "tagline": "Public Library Management Platform",
+  "nav": {
+    "catalog": "Catalogue",
+    "branches": "Branches",
+    "events": "Events",
+    "about": "About",
+    "signIn": "Sign In",
+    "register": "Register",
+    "portal": "Member Portal",
+    "staff": "Staff Console",
+    "kiosk": "Kiosk Mode"
+  },
+  "search": {
+    "placeholder": "Search titles, authors, subjects, ISBNs...",
+    "allCollections": "All Collections",
+    "booksOnly": "Books",
+    "digitalOnly": "Digital Library",
+    "searchButton": "Search"
+  },
+  "auth": {
+    "welcomeBack": "Welcome Back to the Library",
+    "signInTitle": "Sign In to Your Account",
+    "registerTitle": "Register as a New Member",
+    "emailLabel": "Email Address",
+    "passwordLabel": "Password",
+    "rememberMe": "Remember this device",
+    "forgotPassword": "Forgot password?",
+    "signInAction": "Sign In",
+    "createAccountAction": "Create Account",
+    "noAccountPrompt": "Don't have an account?",
+    "hasAccountPrompt": "Already registered?"
+  }
+}

@@ -1,0 +1,50 @@
+# LibraryOS Project Implementation Plan
+
+## Phase Overview & Milestones
+
+- [x] **Phase 0: Discovery, Architecture, and Benchmark Alignment**
+  - Benchmark analysis (`docs/BENCHMARK_ANALYSIS.md`)
+  - Architecture decisions (`docs/DECISIONS.md`)
+  - Domain models, state machines, and permission matrix in `packages/shared`
+- [ ] **Phase 1: Foundation and Accessible Design System**
+  - Workspace configuration (`npm workspaces`, TypeScript strict, Vite, Tailwind CSS with CSS tokens)
+  - Internationalization framework (`i18next` with `en`, `si`, `ta`)
+  - Theme engine: Light, Dark, High-Contrast, Sepia/Warm Paper, Midnight + Brand color derivation
+  - Accessible UI primitives (Radix UI / Tailwind)
+  - Layout framework: Public, Auth, Member Portal, Staff Console, Kiosk
+  - Testing skeleton (Vitest, React Testing Library)
+- [ ] **Phase 2: Authentication, Security & Member Registration**
+  - Split-screen unified Auth Hub (Sign in & Multi-step Register)
+  - Member registration Cloud Function (`registerMember`) with App Check & Zod validation
+  - Role-Based Access Control (RBAC) engine & custom claims verification
+  - Security Rules (Firestore & Storage) with unit tests
+  - Super Admin setup CLI & Initial Setup Wizard
+- [ ] **Phase 3: Core Catalog & Bibliographic Management**
+  - Books and item copies with strict status state machine
+  - Authors, Publishers, Categories (with DDC), Series
+  - Multi-branch hierarchy
+  - Member management and Staff Approval Queue UI
+  - Policy configuration engine with Policy Simulator
+- [ ] **Phase 4: Circulation Desk, Holds, Fines & Payments**
+  - Keyboard-first, barcode-driven circulation desk
+  - Transactional issue, return, renew with idempotency keys
+  - Holds allocation and queue fairness
+  - Fine accrual and immutable ledger
+  - Cashier shift reconciliation & sandbox payment adapters
+- [ ] **Phase 5: Public OPAC, Member Portal & Kiosk Mode**
+  - Faceted search & discovery with instant suggestions
+  - Member self-service portal (loans, holds, digital card, payments)
+  - Full-screen touch Kiosk mode with inactivity protection
+- [ ] **Phase 6: Operations & Community Engagement**
+  - Role-specific bento dashboards
+  - Mobile-friendly stocktake/inventory mode
+  - Event management & asset/room booking with QR check-in
+  - In-app notification engine with multilingual templates
+- [ ] **Phase 7: Reports, Digital Library & Smart Discovery**
+  - 22+ standard & advanced operational reports (Unicode PDF, Excel, CSV)
+  - Digital lending with time-limited signed leases
+  - Rule-based & collaborative recommendations
+- [ ] **Phase 8: Adapters, PWA & Production Hardening**
+  - PWA offline caching & safe circulation desk queue
+  - External adapters: PayHere/Stripe, SMS, MARC21/OpenLibrary, SIP2
+  - Full security and accessibility audit (axe-core)
