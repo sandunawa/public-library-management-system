@@ -15,6 +15,7 @@ import {
   Check,
   BookOpen,
   GraduationCap,
+  LogOut,
 } from 'lucide-react';
 import { LocalAuthService } from '@/services/auth/LocalAuthService';
 import { GateAttendanceService, GateScanEvent, DEFAULT_GATE_SETTINGS } from '@/services/infrastructure/GateAttendanceService';
@@ -192,33 +193,75 @@ export const StudentGateKioskPage: React.FC = () => {
     return () => clearTimeout(timer);
   }, [activeScan]);
 
-  const handleStudentArrival = (member: MemberProfile, batchName?: string, photoUrl?: string) => {
+  const handleStudentArrival = (
+    member: MemberProfile,
+    batchName?: string,
+    photoUrl?: string,
+    direction: 'in' | 'out' = 'in',
+    debounceWarning?: string
+  ) => {
     const todayStr = new Date().toISOString().split('T')[0] || '';
     const { wasAbsentLastSession, hasUnpaidFees, lastSessionDate, unpaidAmount } =
       GateAttendanceService.evaluateStudentStatus(member, todayStr);
     const greeting = getGreeting(member.fullName);
 
-    const isAlert = wasAbsentLastSession || hasUnpaidFees;
+    // If debounced within 3 minutes
+    if (debounceWarning) {
+      const event: GateScanEvent = {
+        studentId: member.memberIdNumber,
+        studentName: member.fullName,
+        avatarUrl: photoUrl,
+        batchName: batchName || currentActiveBatch.name,
+        grade: member.grade,
+        section: member.section,
+        admissionNo: member.admissionNo,
+        scanTime: new Date().toLocaleTimeString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true,
+        }),
+        greetingText: '⚠️ DUPLICATE SCAN IGNORED',
+        spokenGreeting: `Card already recorded. Please wait 3 minutes before scanning again.`,
+        greetingType: greeting.greetingType,
+        direction,
+        isAlert: true,
+        alertType: 'debounced',
+        alertTitle: '⚠️ CARD ALREADY SCANNED (තත්පර කිහිපයකට පෙර ස්කෑන් කරන ලදී)',
+        alertMessage: debounceWarning,
+      };
+
+      setActiveScan(event);
+      playEmergencyAlarmSound();
+      return;
+    }
+
+    const isExit = direction === 'out';
+    const isAlert = !isExit && (wasAbsentLastSession || hasUnpaidFees);
     let alertType: 'absent_last_week' | 'unpaid_fees' | 'absent_and_unpaid' | undefined;
     let alertTitle: string | undefined;
     let alertMessage: string | undefined;
-    let spokenMsg = greeting.spokenGreeting;
+    let spokenMsg = isExit
+      ? `Thank you ${member.fullName}! Have a great day. You have exited the library.`
+      : greeting.spokenGreeting;
 
-    if (wasAbsentLastSession && hasUnpaidFees) {
-      alertType = 'absent_and_unpaid';
-      alertTitle = '⚠️ ATTENDANCE & PAYMENT NOTICE';
-      alertMessage = `පසුගිය දිනයේ නොපැමිණි අතර රු. ${unpaidAmount.toFixed(2)} ක ගෙවීම් ශේෂයක් පවතී. කරුණාකර කවුන්ටරය වෙත යොමු වන්න.`;
-      spokenMsg = `Attention ${member.fullName}. Please report to the reception counter regarding your pending fees and absence.`;
-    } else if (hasUnpaidFees) {
-      alertType = 'unpaid_fees';
-      alertTitle = '💳 MONTHLY FEE / FINE PAYMENT PENDING';
-      alertMessage = `රු. ${unpaidAmount.toFixed(2)} ක මුදලක් ගෙවීමට ඉතිරිව ඇත. කරුණාකර කවුන්ටරයෙන් ගෙවීම සිදු කරන්න.`;
-      spokenMsg = `Attention ${member.fullName}. You have a pending balance of ${Math.round(unpaidAmount)} rupees. Please visit the counter.`;
-    } else if (wasAbsentLastSession) {
-      alertType = 'absent_last_week';
-      alertTitle = '⚠️ PREVIOUS CLASS ABSENT';
-      alertMessage = `පසුගිය දින (${lastSessionDate || 'පෙර පන්තිය'}) නොපැමිණි බව සටහන්ව ඇත. අතපසු වූ පාඩම් සම්පූර්ණ කරගන්න.`;
-      spokenMsg = `Welcome ${member.fullName}. You were marked absent last class. Please catch up on your missed lessons.`;
+    if (!isExit) {
+      if (wasAbsentLastSession && hasUnpaidFees) {
+        alertType = 'absent_and_unpaid';
+        alertTitle = '⚠️ ATTENDANCE & PAYMENT NOTICE';
+        alertMessage = `පසුගිය දිනයේ නොපැමිණි අතර රු. ${unpaidAmount.toFixed(2)} ක ගෙවීම් ශේෂයක් පවතී. කරුණාකර කවුන්ටරය වෙත යොමු වන්න.`;
+        spokenMsg = `Attention ${member.fullName}. Please report to the reception counter regarding your pending fees and absence.`;
+      } else if (hasUnpaidFees) {
+        alertType = 'unpaid_fees';
+        alertTitle = '💳 MONTHLY FEE / FINE PAYMENT PENDING';
+        alertMessage = `රු. ${unpaidAmount.toFixed(2)} ක මුදලක් ගෙවීමට ඉතිරිව ඇත. කරුණාකර කවුන්ටරයෙන් ගෙවීම සිදු කරන්න.`;
+        spokenMsg = `Attention ${member.fullName}. You have a pending balance of ${Math.round(unpaidAmount)} rupees. Please visit the counter.`;
+      } else if (wasAbsentLastSession) {
+        alertType = 'absent_last_week';
+        alertTitle = '⚠️ PREVIOUS CLASS ABSENT';
+        alertMessage = `පසුගිය දින (${lastSessionDate || 'පෙර පන්තිය'}) නොපැමිණි බව සටහන්ව ඇත. අතපසු වූ පාඩම් සම්පූර්ණ කරගන්න.`;
+        spokenMsg = `Welcome ${member.fullName}. You were marked absent last class. Please catch up on your missed lessons.`;
+      }
     }
 
     const event: GateScanEvent = {
@@ -235,9 +278,14 @@ export const StudentGateKioskPage: React.FC = () => {
         second: '2-digit',
         hour12: true,
       }),
-      greetingText: isAlert ? alertTitle! : greeting.greetingText,
+      greetingText: isExit
+        ? `Goodbye, ${member.fullName}! (පුස්තකාලයෙන් පිටවීම සටහන් විය)`
+        : isAlert
+        ? alertTitle!
+        : greeting.greetingText,
       spokenGreeting: spokenMsg,
       greetingType: greeting.greetingType,
+      direction,
       isAlert,
       alertType,
       alertTitle,
@@ -328,28 +376,51 @@ export const StudentGateKioskPage: React.FC = () => {
     const matched = LocalAuthService.findMemberByBarcodeOrId(raw);
 
     if (matched) {
-      const todayStr = new Date().toISOString().split('T')[0];
+      const todayStr = new Date().toISOString().split('T')[0] || '';
       const determinedStatus = determineArrivalStatus(
         new Date(),
         currentActiveBatch.startTime || '08:00',
         currentActiveBatch.endTime || '10:30'
       );
 
-      // Record attendance
-      GateAttendanceService.recordAttendance({
+      // Process via Smart Gate Attendance (In / Out toggle + 3-minute debounce)
+      const scanResult = GateAttendanceService.processSmartGateScan({
         batchId: currentActiveBatch.id,
         batchName: currentActiveBatch.name,
-        sessionDate: todayStr || new Date().toISOString().split('T')[0] || '',
+        sessionDate: todayStr,
         studentId: matched.memberIdNumber || matched.id,
         studentName: matched.fullName,
         status: determinedStatus,
         markedBy: 'gate_kiosk',
         verificationMethod: 'gate_kiosk',
-        notes: `Gate Scanner Checked In (${determinedStatus.toUpperCase()})`,
+        notes: `Gate Scanner Checked`,
       });
 
       const photo = await PhotoStore.getPhoto(matched.id);
-      handleStudentArrival(matched, currentActiveBatch.name, photo || undefined);
+
+      if (scanResult.action === 'debounced') {
+        handleStudentArrival(
+          matched,
+          currentActiveBatch.name,
+          photo || undefined,
+          'in',
+          scanResult.message
+        );
+      } else if (scanResult.action === 'check_out') {
+        handleStudentArrival(
+          matched,
+          currentActiveBatch.name,
+          photo || undefined,
+          'out'
+        );
+      } else {
+        handleStudentArrival(
+          matched,
+          currentActiveBatch.name,
+          photo || undefined,
+          'in'
+        );
+      }
     }
   };
 
@@ -560,15 +631,29 @@ export const StudentGateKioskPage: React.FC = () => {
             {/* Alert / Greeting Pill */}
             <div
               className={`inline-flex items-center gap-2 px-5 py-1.5 rounded-full text-xs sm:text-sm font-black uppercase tracking-wider mb-2 border ${
-                isBlinkingRed
+                activeScan.alertType === 'debounced'
+                  ? 'bg-amber-500/30 border-amber-400 text-amber-200 animate-pulse'
+                  : isBlinkingRed
                   ? 'bg-rose-500/30 border-rose-400 text-rose-200 animate-pulse'
+                  : activeScan.direction === 'out'
+                  ? 'bg-blue-600/30 border-blue-400 text-blue-200'
                   : 'bg-[#C69A35]/20 border-[#C69A35]/60 text-[#FFF5DF]'
               }`}
             >
-              {isBlinkingRed ? (
+              {activeScan.alertType === 'debounced' ? (
+                <>
+                  <Clock className="w-4 h-4 text-amber-300 animate-spin" />
+                  <span>3-MINUTE COOLDOWN ACTIVE</span>
+                </>
+              ) : isBlinkingRed ? (
                 <>
                   <AlertTriangle className="w-4 h-4 text-rose-300 animate-bounce" />
                   <span>{activeScan.alertTitle}</span>
+                </>
+              ) : activeScan.direction === 'out' ? (
+                <>
+                  <LogOut className="w-4 h-4 text-blue-300" />
+                  <span>EXIT VERIFIED — පුස්තකාලයෙන් පිටවීම</span>
                 </>
               ) : (
                 <>
@@ -588,7 +673,11 @@ export const StudentGateKioskPage: React.FC = () => {
               </span>
               <span>•</span>
               <span className="text-white font-semibold">
-                {activeScan.grade ? `Grade ${activeScan.grade}-${activeScan.section || ''}` : activeScan.batchName}
+                {activeScan.direction === 'out' ? (
+                  <span className="text-blue-300 font-bold">LIBRARY EXIT (පිටවීම)</span>
+                ) : (
+                  <span className="text-emerald-400 font-bold">LIBRARY ENTRANCE (ඇතුල්වීම)</span>
+                )}
               </span>
               <span>•</span>
               <span className="text-[#C69A35] font-mono font-bold">{activeScan.scanTime}</span>
@@ -596,12 +685,19 @@ export const StudentGateKioskPage: React.FC = () => {
 
             <div
               className={`w-full p-4 rounded-2xl border text-sm sm:text-base font-bold ${
-                isBlinkingRed
+                activeScan.alertType === 'debounced'
+                  ? 'bg-amber-950/70 border-amber-500/60 text-amber-100 shadow-inner'
+                  : isBlinkingRed
                   ? 'bg-rose-950/70 border-rose-500/60 text-rose-100 shadow-inner'
+                  : activeScan.direction === 'out'
+                  ? 'bg-blue-950/70 border-blue-500/60 text-blue-100 shadow-inner'
                   : 'bg-black/40 border-[#C69A35]/40 text-[#FFF5DF] shadow-inner'
               }`}
             >
-              {activeScan.alertMessage || '✨ සාදරයෙන් පිළිගනිමු! කරුණාකර ඔබගේ ආසනය වෙත යන්න. සාර්ථක දවසක් වේවා!'}
+              {activeScan.alertMessage ||
+                (activeScan.direction === 'out'
+                  ? '👋 ඔබට සුබ දවසක්! පුස්තකාලයෙන් සාර්ථකව පිටවීම සටහන් විය.'
+                  : '✨ සාදරයෙන් පිළිගනිමු! කරුණාකර ඔබගේ ආසනය වෙත යන්න. සාර්ථක දවසක් වේවා!')}
             </div>
           </div>
         ) : (
