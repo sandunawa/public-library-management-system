@@ -3,17 +3,26 @@ import { LandingNavbar } from './components/LandingNavbar';
 import { HeroSection } from './components/HeroSection';
 import { FeaturesSection } from './components/FeaturesSection';
 import { SupportingSections } from './components/SupportingSections';
+import { AuthModal } from './components/AuthModal';
 import { landingEn } from '@/i18n/landing/en';
 import { landingSi } from '@/i18n/landing/si';
 
 export const EnivacLandingPage: React.FC = () => {
   const [lang, setLang] = useState<'en' | 'si'>('en');
+  const [authModalState, setAuthModalState] = useState<{
+    isOpen: boolean;
+    mode: 'login' | 'register';
+  }>({
+    isOpen: false,
+    mode: 'login',
+  });
 
-  const scrollToLogin = () => {
-    const el = document.getElementById('login');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
+  const handleOpenLogin = () => {
+    setAuthModalState({ isOpen: true, mode: 'login' });
+  };
+
+  const handleOpenRegister = () => {
+    setAuthModalState({ isOpen: true, mode: 'register' });
   };
 
   const introT = lang === 'en' ? landingEn.intro : landingSi.intro;
@@ -28,10 +37,15 @@ export const EnivacLandingPage: React.FC = () => {
       <div className="fixed bottom-0 right-0 w-[600px] h-[600px] bg-[#4F35E8]/20 rounded-full blur-[160px] pointer-events-none -z-10" />
 
       {/* Sticky Glass Navbar */}
-      <LandingNavbar lang={lang} setLang={setLang} onOpenLogin={scrollToLogin} />
+      <LandingNavbar
+        lang={lang}
+        setLang={setLang}
+        onOpenLogin={handleOpenLogin}
+        onOpenRegister={handleOpenRegister}
+      />
 
       {/* Section 1: Hero Section */}
-      <HeroSection lang={lang} onOpenLogin={scrollToLogin} />
+      <HeroSection lang={lang} onOpenLogin={handleOpenLogin} />
 
       {/* Section 2: What is Smart Library Intro */}
       <section className="py-20 max-w-5xl mx-auto px-4 sm:px-6 text-center space-y-6">
@@ -53,6 +67,14 @@ export const EnivacLandingPage: React.FC = () => {
       <div className="mt-20">
         <SupportingSections lang={lang} />
       </div>
+
+      {/* Auth Pop-up Modal (Login & Registration) */}
+      <AuthModal
+        isOpen={authModalState.isOpen}
+        initialMode={authModalState.mode}
+        onClose={() => setAuthModalState({ ...authModalState, isOpen: false })}
+        lang={lang}
+      />
     </div>
   );
 };

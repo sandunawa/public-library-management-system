@@ -20,9 +20,15 @@ interface LandingNavbarProps {
   lang: 'en' | 'si';
   setLang: (l: 'en' | 'si') => void;
   onOpenLogin: () => void;
+  onOpenRegister: () => void;
 }
 
-export const LandingNavbar: React.FC<LandingNavbarProps> = ({ lang, setLang, onOpenLogin }) => {
+export const LandingNavbar: React.FC<LandingNavbarProps> = ({
+  lang,
+  setLang,
+  onOpenLogin,
+  onOpenRegister,
+}) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -110,20 +116,22 @@ export const LandingNavbar: React.FC<LandingNavbarProps> = ({ lang, setLang, onO
             <span>{lang === 'en' ? 'සිංහල' : 'English'}</span>
           </button>
 
-          {/* Demo Button */}
-          <a
-            href="#contact"
-            className="px-4 py-1.5 rounded-xl text-xs font-bold text-[#F5F4FF] border border-[#4F35E8]/60 hover:bg-[#4F35E8]/20 hover:border-[#A99BFF] transition-all"
-          >
-            {t.requestDemo}
-          </a>
-
-          {/* Login Solid Button */}
+          {/* Registration Button (Pill Outline) */}
           <button
+            type="button"
+            onClick={onOpenRegister}
+            className="px-4 py-1.5 rounded-xl text-xs font-bold text-[#F5F4FF] border border-[#4F35E8]/60 bg-[#1E0FA8]/20 hover:bg-[#4F35E8]/30 hover:border-[#A99BFF] transition-all flex items-center gap-1.5 shadow-sm"
+          >
+            <span>{lang === 'en' ? 'Registration' : 'ලියාපදිංචිය'}</span>
+          </button>
+
+          {/* Login Solid Button (Solid Gradient) */}
+          <button
+            type="button"
             onClick={onOpenLogin}
             className="px-5 py-1.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-[#1E0FA8] via-[#4F35E8] to-[#1E0FA8] hover:shadow-lg hover:shadow-[#4F35E8]/40 hover:scale-[1.02] transition-all flex items-center gap-1.5"
           >
-            <span>{t.login}</span>
+            <span>{lang === 'en' ? 'Login' : 'පිවිසෙන්න'}</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -175,15 +183,17 @@ export const LandingNavbar: React.FC<LandingNavbarProps> = ({ lang, setLang, onO
                 }}
                 className="w-full py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-[#1E0FA8] to-[#4F35E8] text-center"
               >
-                {t.login}
+                {lang === 'en' ? 'Login' : 'පිවිසෙන්න'}
               </button>
-              <a
-                href="#contact"
-                onClick={() => setMobileMenuOpen(false)}
-                className="w-full py-2.5 rounded-xl text-xs font-bold text-[#F5F4FF] border border-[#4F35E8]/60 text-center"
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenRegister();
+                }}
+                className="w-full py-2.5 rounded-xl text-xs font-bold text-[#F5F4FF] border border-[#4F35E8]/60 bg-[#1E0FA8]/20 text-center"
               >
-                {t.requestDemo}
-              </a>
+                {lang === 'en' ? 'Registration' : 'ලියාපදිංචි වන්න'}
+              </button>
             </div>
           </motion.div>
         )}
