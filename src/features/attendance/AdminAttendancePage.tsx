@@ -226,14 +226,24 @@ export const AdminAttendancePage: React.FC = () => {
   const handleProcessScan = async (code: string) => {
     const raw = code.trim();
     if (!raw) return;
-    const cleaned = raw.replace(/^\*+|\*+$/g, '').trim().toLowerCase();
+    const cleanSearch = raw.toLowerCase().replace(/[^a-z0-9]/g, '');
 
     const allMembers = LocalAuthService.getAllMembers();
     const matched = allMembers.find((m) => {
-      const mId = (m.memberIdNumber || '').trim().toLowerCase();
-      const adm = (m.admissionNo || '').trim().toLowerCase();
-      const uId = (m.id || '').trim().toLowerCase();
-      return mId === cleaned || adm === cleaned || uId === cleaned;
+      const mIdClean = (m.memberIdNumber || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      const uidClean = (m.id || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      const admClean = (m.admissionNo || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      const emailClean = (m.email || '').toLowerCase().trim();
+
+      return (
+        mIdClean === cleanSearch ||
+        uidClean === cleanSearch ||
+        (admClean && admClean === cleanSearch) ||
+        emailClean === raw.toLowerCase() ||
+        (m.memberIdNumber && m.memberIdNumber.toLowerCase() === raw.toLowerCase()) ||
+        cleanSearch.includes(mIdClean) ||
+        (mIdClean && mIdClean.includes(cleanSearch))
+      );
     });
 
     if (!matched) {

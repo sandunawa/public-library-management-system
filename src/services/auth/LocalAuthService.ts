@@ -326,7 +326,7 @@ export class LocalAuthService {
   static getAllMembers(): MemberProfile[] {
     const users = this.getStoredUsers();
     return users
-      .filter((u) => u.role === 'MEMBER')
+      .filter((u) => u.profile)
       .map((u) => u.profile);
   }
 
