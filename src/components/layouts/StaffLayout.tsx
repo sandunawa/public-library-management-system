@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Outlet, Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import {
   BookOpen,
   LayoutDashboard,
@@ -12,165 +12,362 @@ import {
   LogOut,
   Coins,
   AlertOctagon,
+  Menu,
+  X,
+  FileSpreadsheet,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 import { LanguageSwitcher } from '../common/LanguageSwitcher';
 import { ThemeSwitcher } from '../common/ThemeSwitcher';
 import { TelegramBackupService } from '@/services/circulation/TelegramBackupService';
+import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
 export const StaffLayout: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    return localStorage.getItem('libraryos-sidebar-collapsed') === 'true';
+  });
+
+  const toggleCollapsed = () => {
+    setIsCollapsed((prev) => {
+      const next = !prev;
+      localStorage.setItem('libraryos-sidebar-collapsed', String(next));
+      return next;
+    });
+  };
+
+  // Close mobile drawer on route change
+  useEffect(() => {
+    setMobileDrawerOpen(false);
+  }, [location.pathname, location.search]);
 
   // Run daily automated telegram backup check when staff logs in / opens workspace
   useEffect(() => {
     TelegramBackupService.checkAndRunDailyScheduledBackup();
   }, []);
 
+  // Keyboard navigation: Escape closes drawer
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && mobileDrawerOpen) {
+        setMobileDrawerOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [mobileDrawerOpen]);
+
+  // Lock body scroll when mobile drawer is open
+  useEffect(() => {
+    if (mobileDrawerOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileDrawerOpen]);
+
+  const navLinkClass = ({ isActive }: { isActive: boolean }) =>
+    cn(
+      'group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors relative min-h-[40px]',
+      isActive
+        ? 'bg-primary-soft text-primary font-semibold shadow-subtle before:absolute before:left-0 before:top-2 before:bottom-2 before:w-[3px] before:bg-primary before:rounded-full'
+        : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+    );
+
+  const navigationContent = (
+    <div className="space-y-6">
+      {/* Group 1: Circulation Desk */}
+      <div>
+        <div className="text-xs font-semibold text-muted-foreground px-3 mb-2 tracking-normal">
+          Circulation Desk
+        </div>
+        <div className="space-y-1">
+          <NavLink to="/staff/circulation" className={navLinkClass}>
+            <ScanLine className="w-4 h-4 shrink-0 text-primary" />
+            <span className="truncate">Desk Scan Mode</span>
+          </NavLink>
+          <NavLink to="/staff/issued-books" className={navLinkClass}>
+            <BookOpen className="w-4 h-4 shrink-0 text-success" />
+            <div className="flex flex-col min-w-0">
+              <span className="truncate">Issued Books</span>
+              <span className="text-xs text-muted-foreground font-normal leading-tight font-sinhala truncate">
+                ණයට දුන් පොත්
+              </span>
+            </div>
+          </NavLink>
+          <NavLink to="/staff/fines" className={navLinkClass}>
+            <Coins className="w-4 h-4 shrink-0 text-warning" />
+            <div className="flex flex-col min-w-0">
+              <span className="truncate">Overdue & Fines</span>
+              <span className="text-xs text-muted-foreground font-normal leading-tight font-sinhala truncate">
+                ප්‍රමාද දඩ මුදල්
+              </span>
+            </div>
+          </NavLink>
+          <NavLink to="/staff/suspended" className={navLinkClass}>
+            <ShieldAlert className="w-4 h-4 shrink-0 text-danger" />
+            <div className="flex flex-col min-w-0">
+              <span className="truncate">Suspended</span>
+              <span className="text-xs text-muted-foreground font-normal leading-tight font-sinhala truncate">
+                අත්හිටුවූ ගිණුම්
+              </span>
+            </div>
+          </NavLink>
+        </div>
+      </div>
+
+      {/* Group 2: Management */}
+      <div>
+        <div className="text-xs font-semibold text-muted-foreground px-3 mb-2 tracking-normal">
+          Management
+        </div>
+        <div className="space-y-1">
+          <NavLink to="/staff" end className={navLinkClass}>
+            <LayoutDashboard className="w-4 h-4 shrink-0" />
+            <span className="truncate">Dashboard</span>
+          </NavLink>
+          <NavLink to="/staff/catalog" className={navLinkClass}>
+            <BookCopy className="w-4 h-4 shrink-0" />
+            <span className="truncate">Catalogue & Copies</span>
+          </NavLink>
+          <NavLink
+            to="/staff/members?tab=directory"
+            className={() =>
+              navLinkClass({
+                isActive:
+                  location.pathname === '/staff/members' &&
+                  (location.search === '' ||
+                    location.search.includes('tab=directory')),
+              })
+            }
+          >
+            <Users className="w-4 h-4 shrink-0" />
+            <span className="truncate">Members Directory</span>
+          </NavLink>
+          <NavLink
+            to="/staff/members?tab=requests"
+            className={() =>
+              navLinkClass({
+                isActive:
+                  location.pathname === '/staff/members' &&
+                  location.search.includes('tab=requests'),
+              })
+            }
+          >
+            <ClipboardList className="w-4 h-4 shrink-0 text-warning" />
+            <span className="truncate">Registration Requests</span>
+          </NavLink>
+          <NavLink to="/staff/inventory" className={navLinkClass}>
+            <BookCopy className="w-4 h-4 shrink-0" />
+            <span className="truncate">Stocktake & Inventory</span>
+          </NavLink>
+          <NavLink to="/staff/missing-books" className={navLinkClass}>
+            <AlertOctagon className="w-4 h-4 shrink-0 text-warning" />
+            <div className="flex flex-col min-w-0">
+              <span className="truncate">Missing Books</span>
+              <span className="text-xs text-muted-foreground font-normal leading-tight font-sinhala truncate">
+                අස්ථානගත පොත්
+              </span>
+            </div>
+          </NavLink>
+          <NavLink to="/staff/reports" className={navLinkClass}>
+            <FileSpreadsheet className="w-4 h-4 shrink-0" />
+            <span className="truncate">Reports Center</span>
+          </NavLink>
+        </div>
+      </div>
+
+      {/* Group 3: Administration */}
+      <div>
+        <div className="text-xs font-semibold text-muted-foreground px-3 mb-2 tracking-normal">
+          Administration
+        </div>
+        <div className="space-y-1">
+          <NavLink to="/staff/settings" className={navLinkClass}>
+            <Settings className="w-4 h-4 shrink-0" />
+            <span className="truncate">Policy & Settings</span>
+          </NavLink>
+          <NavLink to="/staff/audit" className={navLinkClass}>
+            <ShieldAlert className="w-4 h-4 shrink-0" />
+            <span className="truncate">Audit & Security</span>
+          </NavLink>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
-    <div className="min-h-screen flex flex-col bg-background">
-      {/* Top Header */}
-      <header className="border-b bg-card px-6 h-16 flex items-center justify-between sticky top-0 z-30">
-        <div className="flex items-center space-x-4">
-          <Link to="/staff" className="flex items-center space-x-2">
-            <div className="w-8 h-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center font-bold">
+    <div className="min-h-screen flex flex-col bg-background text-foreground">
+      {/* Skip to main content link for screen readers */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 z-50 px-4 py-2 bg-primary text-primary-foreground font-medium rounded-md shadow-elevated outline-none ring-2 ring-ring"
+      >
+        Skip to main content
+      </a>
+
+      {/* Top Header (64px) */}
+      <header className="border-b border-border bg-card/95 backdrop-blur-sm px-4 lg:px-6 h-16 flex items-center justify-between sticky top-0 z-30 shadow-subtle">
+        <div className="flex items-center gap-3">
+          {/* Mobile Drawer Trigger */}
+          <button
+            onClick={() => setMobileDrawerOpen(true)}
+            className="lg:hidden p-2 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+            aria-label="Open staff navigation drawer"
+            aria-expanded={mobileDrawerOpen}
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+
+          <NavLink to="/staff" className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold shadow-sm">
               <BookOpen className="w-5 h-5" />
             </div>
-            <span className="font-serif font-bold text-lg text-primary">LibraryOS</span>
-          </Link>
-          <span className="text-xs font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200 uppercase tracking-wider">
+            <div className="flex flex-col">
+              <span className="font-heading font-bold text-lg leading-tight text-primary">
+                LibraryOS
+              </span>
+              <span className="text-[11px] text-muted-foreground hidden sm:inline">
+                National LSP
+              </span>
+            </div>
+          </NavLink>
+
+          <Badge variant="warning" size="sm" className="hidden sm:inline-flex ml-1">
             Staff Workspace
-          </span>
-          <span className="text-xs text-muted-foreground border-l pl-3">
-            Branch: <strong className="text-foreground">Colombo Central (HQ)</strong>
+          </Badge>
+
+          <span className="hidden md:inline-flex text-xs text-muted-foreground border-l border-border pl-3">
+            Branch: <strong className="text-foreground ml-1 font-semibold">Colombo Central (HQ)</strong>
           </span>
         </div>
 
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center gap-2 sm:gap-3">
           <LanguageSwitcher />
           <ThemeSwitcher />
-          <button
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => navigate('/login')}
-            className="flex items-center space-x-1 text-sm text-muted-foreground hover:text-destructive"
+            className="text-muted-foreground hover:text-danger gap-1.5 px-2.5"
+            aria-label="Sign Out"
           >
             <LogOut className="w-4 h-4" />
-            <span>Sign Out</span>
-          </button>
+            <span className="hidden sm:inline">Sign Out</span>
+          </Button>
         </div>
       </header>
 
-      <div className="flex-1 flex">
-        {/* Left Staff Navigation Sidebar */}
-        <aside className="w-64 border-r bg-card/50 p-4 space-y-6">
-          <div>
-            <div className="text-xs font-bold text-muted-foreground uppercase tracking-wider px-3 mb-2">
-              Circulation Desk
-            </div>
-            <div className="space-y-1">
-              <Link
-                to="/staff/circulation"
-                className="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-semibold bg-primary text-primary-foreground shadow-sm"
-              >
-                <ScanLine className="w-4 h-4" />
-                <span>Desk Scan Mode</span>
-              </Link>
-              <Link
-                to="/staff/issued-books"
-                className="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-semibold text-muted-foreground hover:bg-muted hover:text-foreground transition-all"
-              >
-                <BookOpen className="w-4 h-4 text-emerald-600" />
-                <span>Issued Books (ණයට දුන් පොත්)</span>
-              </Link>
-              <Link
-                to="/staff/fines"
-                className="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-semibold text-muted-foreground hover:bg-muted hover:text-foreground transition-all"
-              >
-                <Coins className="w-4 h-4 text-amber-500" />
-                <span>Overdue & Fines (ප්‍රමාද දඩ මුදල්)</span>
-              </Link>
-              <Link
-                to="/staff/suspended"
-                className="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-semibold text-muted-foreground hover:bg-muted hover:text-foreground transition-all"
-              >
-                <ShieldAlert className="w-4 h-4 text-rose-600" />
-                <span>Suspended (අත්හිටුවූ ගිණුම්)</span>
-              </Link>
-            </div>
+      <div className="flex-1 flex overflow-hidden">
+        {/* Desktop Left Staff Navigation Sidebar */}
+        <aside
+          className={cn(
+            'hidden lg:block border-r border-border bg-card/60 p-4 transition-all duration-200 overflow-y-auto shrink-0 relative',
+            isCollapsed ? 'w-20' : 'w-[264px]'
+          )}
+          aria-label="Staff navigation"
+        >
+          <div className="flex justify-end mb-2">
+            <button
+              onClick={toggleCollapsed}
+              className="p-1 rounded-md text-muted-foreground hover:bg-muted hover:text-foreground text-xs"
+              title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+              aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            >
+              {isCollapsed ? (
+                <ChevronRight className="w-4 h-4" />
+              ) : (
+                <ChevronLeft className="w-4 h-4" />
+              )}
+            </button>
           </div>
-
-          <div>
-            <div className="text-xs font-bold text-muted-foreground uppercase tracking-wider px-3 mb-2">
-              Management
+          {isCollapsed ? (
+            <div className="space-y-4 flex flex-col items-center">
+              <NavLink to="/staff" end className="p-2.5 rounded-lg hover:bg-muted text-muted-foreground" title="Dashboard">
+                <LayoutDashboard className="w-5 h-5" />
+              </NavLink>
+              <NavLink to="/staff/circulation" className="p-2.5 rounded-lg hover:bg-muted text-muted-foreground" title="Desk Scan Mode">
+                <ScanLine className="w-5 h-5" />
+              </NavLink>
+              <NavLink to="/staff/issued-books" className="p-2.5 rounded-lg hover:bg-muted text-muted-foreground" title="Issued Books">
+                <BookOpen className="w-5 h-5" />
+              </NavLink>
+              <NavLink to="/staff/fines" className="p-2.5 rounded-lg hover:bg-muted text-muted-foreground" title="Overdue & Fines">
+                <Coins className="w-5 h-5" />
+              </NavLink>
+              <NavLink to="/staff/catalog" className="p-2.5 rounded-lg hover:bg-muted text-muted-foreground" title="Catalog">
+                <BookCopy className="w-5 h-5" />
+              </NavLink>
+              <NavLink to="/staff/members?tab=directory" className="p-2.5 rounded-lg hover:bg-muted text-muted-foreground" title="Members">
+                <Users className="w-5 h-5" />
+              </NavLink>
+              <NavLink to="/staff/settings" className="p-2.5 rounded-lg hover:bg-muted text-muted-foreground" title="Settings">
+                <Settings className="w-5 h-5" />
+              </NavLink>
             </div>
-            <div className="space-y-1 text-sm font-medium">
-              <Link
-                to="/staff"
-                className="flex items-center space-x-3 px-3 py-2 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
-              >
-                <LayoutDashboard className="w-4 h-4" />
-                <span>Dashboard</span>
-              </Link>
-              <Link
-                to="/staff/catalog"
-                className="flex items-center space-x-3 px-3 py-2 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
-              >
-                <BookCopy className="w-4 h-4" />
-                <span>Catalogue & Copies</span>
-              </Link>
-              <Link
-                to="/staff/members?tab=directory"
-                className="flex items-center space-x-3 px-3 py-2 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
-              >
-                <Users className="w-4 h-4" />
-                <span>Members Directory</span>
-              </Link>
-              <Link
-                to="/staff/members?tab=requests"
-                className="flex items-center space-x-3 px-3 py-2 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
-              >
-                <ClipboardList className="w-4 h-4 text-amber-500" />
-                <span>Registration Requests</span>
-              </Link>
-              <Link
-                to="/staff/inventory"
-                className="flex items-center space-x-3 px-3 py-2 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
-              >
-                <BookCopy className="w-4 h-4" />
-                <span>Stocktake & Inventory</span>
-              </Link>
-              <Link
-                to="/staff/missing-books"
-                className="flex items-center space-x-3 px-3 py-2 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
-              >
-                <AlertOctagon className="w-4 h-4 text-amber-600" />
-                <span>Missing Books (අස්ථානගත පොත්)</span>
-              </Link>
-            </div>
-          </div>
-
-          <div>
-            <div className="text-xs font-bold text-muted-foreground uppercase tracking-wider px-3 mb-2">
-              Administration
-            </div>
-            <div className="space-y-1 text-sm font-medium">
-              <Link
-                to="/staff/settings"
-                className="flex items-center space-x-3 px-3 py-2 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
-              >
-                <Settings className="w-4 h-4" />
-                <span>Policy & Settings</span>
-              </Link>
-              <Link
-                to="/staff/audit"
-                className="flex items-center space-x-3 px-3 py-2 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
-              >
-                <ShieldAlert className="w-4 h-4" />
-                <span>Audit & Security</span>
-              </Link>
-            </div>
-          </div>
+          ) : (
+            navigationContent
+          )}
         </aside>
 
-        {/* Staff Main View */}
-        <main className="flex-1 p-6 overflow-y-auto">
+        {/* Mobile Off-canvas Drawer */}
+        {mobileDrawerOpen && (
+          <div
+            className="fixed inset-0 z-50 lg:hidden flex"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Staff Navigation"
+          >
+            {/* Backdrop */}
+            <div
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity animate-in fade-in"
+              onClick={() => setMobileDrawerOpen(false)}
+              aria-hidden="true"
+            />
+
+            {/* Off-canvas Sheet */}
+            <div className="relative w-72 max-w-[85vw] bg-card border-r border-border h-full p-4 overflow-y-auto shadow-elevated z-10 flex flex-col animate-in slide-in-from-left duration-200">
+              <div className="flex items-center justify-between pb-4 border-b border-border mb-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center font-bold">
+                    <BookOpen className="w-4 h-4" />
+                  </div>
+                  <span className="font-heading font-bold text-base text-primary">
+                    LibraryOS
+                  </span>
+                </div>
+                <button
+                  onClick={() => setMobileDrawerOpen(false)}
+                  className="p-1.5 rounded-lg text-muted-foreground hover:bg-muted"
+                  aria-label="Close navigation"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="flex-1">{navigationContent}</div>
+
+              <div className="pt-4 border-t border-border text-xs text-muted-foreground">
+                Branch: <strong className="text-foreground">Colombo Central (HQ)</strong>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Staff Main View with consistent max-width and responsive padding */}
+        <main
+          id="main-content"
+          tabIndex={-1}
+          className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto max-w-[1440px] w-full mx-auto animate-fade-in outline-none"
+        >
           <Outlet />
         </main>
       </div>

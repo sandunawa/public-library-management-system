@@ -18,16 +18,15 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <AuthProvider>
       <AppRouter />
       <Toaster
-        position="top-center"
+        position="top-right"
         richColors
         closeButton
         toastOptions={{
-          className: 'shadow-2xl rounded-2xl border-2 px-5 py-4 font-sans text-sm font-semibold tracking-wide backdrop-blur-md',
+          className:
+            'rounded-xl border border-border bg-card text-card-foreground shadow-elevated px-4 py-3 font-sans text-sm font-medium',
           style: {
             fontSize: '14px',
-            borderRadius: '16px',
-            padding: '14px 20px',
-            boxShadow: '0 20px 35px -5px rgba(0, 0, 0, 0.2), 0 10px 15px -5px rgba(0, 0, 0, 0.1)',
+            borderRadius: '12px',
           },
         }}
       />
