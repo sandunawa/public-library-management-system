@@ -319,15 +319,6 @@ export const SupportingSections: React.FC<SupportingSectionsProps> = ({ lang }) 
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
-
-          <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs text-[#A99BFF]">
-            <a href="/kiosk" target="_blank" className="hover:text-white font-semibold">
-              {t.login.openKiosk}
-            </a>
-            <a href="/#catalog" className="hover:text-white font-semibold">
-              {t.login.searchOpac}
-            </a>
-          </div>
         </div>
       </section>
 

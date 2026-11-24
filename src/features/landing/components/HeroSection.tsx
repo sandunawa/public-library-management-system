@@ -79,27 +79,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ lang, onOpenLogin }) =
                 {t.secondaryCta}
               </a>
             </div>
-
-            {/* Quick Navigation Links */}
-            <div className="flex flex-wrap items-center gap-6 pt-2 text-xs font-semibold text-[#A99BFF]">
-              <a
-                href="/kiosk"
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-1.5 hover:text-[#F5F4FF] transition-colors"
-              >
-                <QrCode className="w-3.5 h-3.5 text-[#A99BFF]" />
-                <span className="underline underline-offset-4">{t.kioskLink}</span>
-              </a>
-              <span>•</span>
-              <a
-                href="/#catalog"
-                className="flex items-center gap-1.5 hover:text-[#F5F4FF] transition-colors"
-              >
-                <Search className="w-3.5 h-3.5 text-[#A99BFF]" />
-                <span className="underline underline-offset-4">{t.catalogLink}</span>
-              </a>
-            </div>
           </motion.div>
 
           {/* Right Column: 3D Floating Mockup Stack */}
