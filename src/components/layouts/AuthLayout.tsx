@@ -24,8 +24,13 @@ export const AuthLayout: React.FC = () => {
       {/* Main split viewport */}
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 gap-8 items-center">
         {/* Left Brand Panel (Desktop) */}
-        <div className="hidden lg:flex lg:col-span-5 flex-col justify-between h-full max-h-[640px] p-8 rounded-2xl bg-gradient-to-br from-primary-soft to-secondary-soft border border-primary/10 shadow-elevated">
-          <div className="space-y-4">
+        <div className="hidden lg:flex lg:col-span-5 flex-col justify-between h-full max-h-[640px] p-8 rounded-2xl bg-gradient-to-br from-primary-soft to-secondary-soft border border-primary/10 shadow-elevated relative overflow-hidden">
+          <img
+            src="/images/auth-hero.webp"
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover opacity-15 pointer-events-none"
+          />
+          <div className="space-y-4 relative z-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card/80 border border-primary/20 text-xs font-semibold text-primary">
               <Sparkles className="w-3.5 h-3.5" />
               <span>National Standard Library Platform</span>

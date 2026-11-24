@@ -81,7 +81,12 @@ export const HomePage: React.FC = () => {
     <div className="space-y-8 sm:space-y-12 pb-16">
       {/* Hero Discovery Banner */}
       <section className="relative overflow-hidden bg-gradient-to-b from-primary-soft/50 via-background to-background py-12 md:py-20 px-4 border-b border-border">
-        <div className="max-w-4xl mx-auto space-y-6 text-center">
+        <img
+          src="/images/opac-hero.webp"
+          alt=""
+          className="absolute right-0 top-0 bottom-0 w-1/2 object-cover opacity-15 pointer-events-none hidden md:block"
+        />
+        <div className="max-w-4xl mx-auto space-y-6 text-center relative z-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-soft text-primary text-xs font-semibold">
             <Sparkles className="w-3.5 h-3.5" />
             <span>National Catalog & Digital Discovery Layer</span>
