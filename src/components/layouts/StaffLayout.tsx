@@ -366,7 +366,7 @@ export const StaffLayout: React.FC = () => {
         <main
           id="main-content"
           tabIndex={-1}
-          className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto max-w-[1440px] w-full mx-auto animate-fade-in outline-none"
+          className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto w-full animate-fade-in outline-none"
         >
           <Outlet />
         </main>
