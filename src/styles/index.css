@@ -13,27 +13,27 @@
    * Text-2 (Muted): Slate #475569 (215 16% 35%)
    */
   :root {
-    --background: 210 40% 98%;
+    --background: 240 25% 99%; /* #FBFBFE Crisp Landing Page Background */
     --foreground: 222 47% 11%;
     --card: 0 0% 100%;
     --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
-    --primary: 243 61% 52%; /* Deep Indigo #4338CA */
+    --primary: 246 84% 36%; /* Royal Blue #1E0FA8 (Landing Theme) */
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 244 55% 42%; /* #3730A3 */
-    --primary-soft: 240 60% 96%;
-    --primary-soft-foreground: 243 61% 42%;
+    --primary-hover: 248 80% 56%; /* #4F35E8 */
+    --primary-soft: 240 60% 97%;
+    --primary-soft-foreground: 246 84% 36%;
     
-    --secondary: 175 77% 26%; /* Teal #0F766E */
+    --secondary: 248 80% 56%; /* Indigo #4F35E8 */
     --secondary-foreground: 0 0% 100%;
-    --secondary-soft: 173 58% 95%;
-    --secondary-soft-foreground: 175 77% 23%;
+    --secondary-soft: 240 60% 97%;
+    --secondary-soft-foreground: 246 84% 36%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215 16% 38%;
-    --accent: 240 60% 96%;
-    --accent-foreground: 243 61% 42%;
+    --muted: 220 20% 97%;
+    --muted-foreground: 215 16% 45%;
+    --accent: 240 60% 97%;
+    --accent-foreground: 246 84% 36%;
 
     --destructive: 0 72% 51%; /* #DC2626 */
     --destructive-foreground: 0 0% 100%;
@@ -391,11 +391,11 @@ table tbody tr:nth-child(odd) {
 }
 
 table tbody tr:nth-child(even) {
-  background-color: #F1EDFC !important; /* Soft distinct purple tint */
+  background-color: #F8FAFD !important; /* Soft distinct pure blue tint matching landing theme */
 }
 
 table tbody tr:hover {
-  background-color: #E6DEF9 !important; /* Rich hover highlight */
+  background-color: #EFF4FE !important; /* Rich light blue hover highlight */
 }
 
 /* Dark mode dual colors */
