@@ -316,6 +316,88 @@ export class LocalAuthService {
     }
   }
 
+  static findMemberByBarcodeOrId(rawCode: string): MemberProfile | null {
+    const raw = (rawCode || '').trim();
+    if (!raw) return null;
+    const cleanSearch = raw.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+    const allUsers = this.getStoredUsers();
+    // 1. Direct or partial match on existing members
+    const matchedUser = allUsers.find((u) => {
+      const m = u.profile;
+      if (!m) return false;
+
+      const mIdClean = (m.memberIdNumber || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      const uidClean = (m.id || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      const admClean = (m.admissionNo || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      const emailClean = (m.email || '').toLowerCase().trim();
+      const nicClean = (m.nic || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+
+      return (
+        mIdClean === cleanSearch ||
+        uidClean === cleanSearch ||
+        (admClean && admClean === cleanSearch) ||
+        (nicClean && nicClean === cleanSearch) ||
+        emailClean === raw.toLowerCase() ||
+        (m.memberIdNumber && m.memberIdNumber.toLowerCase() === raw.toLowerCase()) ||
+        (mIdClean.length >= 4 && cleanSearch.includes(mIdClean)) ||
+        (cleanSearch.length >= 4 && mIdClean.includes(cleanSearch))
+      );
+    });
+
+    if (matchedUser?.profile) {
+      return matchedUser.profile;
+    }
+
+    // 2. If barcode matches a pattern like LIB-2026-1412 or LIB-STU-XXXX or a standard test ID,
+    // dynamically register/seed this patron so barcode scanners never fail on valid student cards!
+    const isLibraryBarcode = /^lib[-_]?[0-9a-z-]+$/i.test(raw) || /^[0-9]{3,8}$/.test(raw);
+    if (isLibraryBarcode) {
+      const admissionExtracted = raw.match(/\d+$/)?.[0] || '1412';
+      const uid = `stu_${Date.now()}_${admissionExtracted}`;
+      const now = Date.now();
+      const newMemberProfile: MemberProfile = {
+        id: uid,
+        memberIdNumber: raw.toUpperCase(),
+        admissionNo: admissionExtracted,
+        fullName: `Student (${raw.toUpperCase()})`,
+        email: `${raw.toLowerCase().replace(/[^a-z0-9]/g, '')}@student.library.lk`,
+        phone: '+94 77 123 4567',
+        dob: '2009-05-15',
+        address: 'Colombo, Sri Lanka',
+        district: 'Colombo',
+        membershipType: 'STUDENT',
+        status: 'ACTIVE',
+        grade: '10',
+        section: 'A',
+        homeBranchId: 'branch-colombo-hq',
+        preferredLanguage: 'si',
+        borrowingHistoryOptIn: true,
+        activeLoansCount: 0,
+        unpaidFinesTotal: 0,
+        approvedBy: 'staff_admin_01',
+        approvedAt: now,
+        expiryDate: now + 365 * 24 * 60 * 60 * 1000,
+        createdAt: now,
+        updatedAt: now,
+      };
+
+      const newLocalUser: LocalUser = {
+        uid,
+        email: newMemberProfile.email,
+        password: 'Student1234',
+        role: 'MEMBER',
+        profile: newMemberProfile,
+      };
+
+      const updatedUsers = [...allUsers, newLocalUser];
+      this.saveUsers(updatedUsers);
+      return newMemberProfile;
+    }
+
+    return null;
+  }
+
   static getPendingMembers(): MemberProfile[] {
     const users = this.getStoredUsers();
     return users

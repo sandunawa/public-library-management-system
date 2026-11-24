@@ -328,25 +328,8 @@ export const StudentGateKioskPage: React.FC = () => {
   const handleBarcodeScanned = async (scannedString: string) => {
     if (!scannedString.trim()) return;
     const raw = scannedString.trim();
-    const cleanSearch = raw.toLowerCase().replace(/[^a-z0-9]/g, '');
 
-    const allMembers = LocalAuthService.getAllMembers();
-    const matched = allMembers.find((m) => {
-      const mIdClean = (m.memberIdNumber || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-      const uidClean = (m.id || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-      const admClean = (m.admissionNo || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-      const emailClean = (m.email || '').toLowerCase().trim();
-
-      return (
-        mIdClean === cleanSearch ||
-        uidClean === cleanSearch ||
-        (admClean && admClean === cleanSearch) ||
-        emailClean === raw.toLowerCase() ||
-        (m.memberIdNumber && m.memberIdNumber.toLowerCase() === raw.toLowerCase()) ||
-        cleanSearch.includes(mIdClean) ||
-        (mIdClean && mIdClean.includes(cleanSearch))
-      );
-    });
+    const matched = LocalAuthService.findMemberByBarcodeOrId(raw);
 
     if (matched) {
       const todayStr = new Date().toISOString().split('T')[0];
