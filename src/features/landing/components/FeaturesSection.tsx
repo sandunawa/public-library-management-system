@@ -97,10 +97,10 @@ export const FeaturesSection: React.FC<FeaturesSectionProps> = ({ lang }) => {
   ];
 
   return (
-    <div id="features" className="py-24 relative overflow-hidden">
+    <div id="features" className="py-14 relative overflow-hidden">
       {/* Numbers Band (Section 3) */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-sm text-left hover:border-[#4F35E8]/60 hover:shadow-md transition-all">
             <span className="text-4xl sm:text-5xl font-black text-[#1E0FA8] font-heading block mb-1">
               {numT.stat1Val}
@@ -184,9 +184,9 @@ export const FeaturesSection: React.FC<FeaturesSectionProps> = ({ lang }) => {
         </div>
 
         {/* Section 5: Interactive Feature Showcase Highlight */}
-        <div id="showcase" className="mt-28 pt-12 border-t border-slate-200/90 space-y-20">
+        <div id="showcase" className="mt-16 pt-10 border-t border-slate-200/90 space-y-16">
           {/* Showcase 01: Smart Gate Kiosk Hardware */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             {/* Left text */}
             <div className="lg:col-span-6 space-y-6 text-left">
               <span className="text-xs font-bold uppercase tracking-wider text-[#1E0FA8] px-3 py-1 rounded-full bg-violet-50 border border-violet-200">

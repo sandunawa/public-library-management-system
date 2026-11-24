@@ -105,18 +105,18 @@ export const SupportingSections: React.FC<SupportingSectionsProps> = ({ lang }) 
   };
 
   return (
-    <div className="space-y-32">
+    <div className="space-y-16 sm:space-y-20">
       {/* SECTIONS 6 & 7: UNIFIED WORKFLOWS + STAKEHOLDERS WITH PANORAMIC SMART LIBRARY BACKGROUND */}
       <div
-        className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-cover bg-center bg-no-repeat overflow-hidden rounded-[2.5rem] max-w-[96rem] mx-auto shadow-2xl border border-slate-200/80"
+        className="relative py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-cover bg-center bg-no-repeat overflow-hidden rounded-[2.5rem] max-w-[96rem] mx-auto shadow-2xl border border-slate-200/80"
         style={{
           backgroundImage: `url(${workflowsBgImage})`,
         }}
       >
-        <div className="max-w-7xl mx-auto space-y-28 relative z-10">
+        <div className="max-w-7xl mx-auto space-y-16 relative z-10">
           {/* SECTION 6: HOW IT WORKS (Timeline) */}
           <section id="how-it-works">
-            <div className="text-center max-w-3xl mx-auto mb-16 space-y-4 p-6 sm:p-8 rounded-3xl bg-white/85 backdrop-blur-md border border-white/70 shadow-lg">
+            <div className="text-center max-w-3xl mx-auto mb-10 space-y-3 p-6 sm:p-7 rounded-3xl bg-white/85 backdrop-blur-md border border-white/70 shadow-lg">
               <span className="text-xs font-bold uppercase tracking-wider text-[#1E0FA8] px-3.5 py-1 rounded-full bg-violet-50 border border-violet-200">
                 Workflows
               </span>

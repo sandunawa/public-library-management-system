@@ -49,8 +49,8 @@ export const EnivacLandingPage: React.FC = () => {
       <HeroSection lang={lang} onOpenLogin={handleOpenLogin} />
 
       {/* Section 2: What is Smart Library Intro with Connected Ecosystem Visual */}
-      <section className="py-20 max-w-6xl mx-auto px-4 sm:px-6 text-center space-y-10">
-        <div className="space-y-4 max-w-3xl mx-auto">
+      <section className="py-12 max-w-6xl mx-auto px-4 sm:px-6 text-center space-y-8">
+        <div className="space-y-3 max-w-3xl mx-auto">
           <span className="text-xs font-bold uppercase tracking-wider text-[#4F35E8] px-4 py-1.5 rounded-full bg-violet-50 border border-violet-200 shadow-xs">
             Enterprise Overview
           </span>
@@ -94,7 +94,7 @@ export const EnivacLandingPage: React.FC = () => {
       <FeaturesSection lang={lang} />
 
       {/* Sections 6-11: How it Works, Who It's For, Hardware, Login, Demo & Footer */}
-      <div className="mt-20">
+      <div className="mt-12">
         <SupportingSections lang={lang} />
       </div>
 
