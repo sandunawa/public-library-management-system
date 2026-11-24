@@ -82,16 +82,15 @@ export const LandingNavbar: React.FC<LandingNavbarProps> = ({
           </div>
         </a>
 
-        {/* Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-6">
+        {/* Desktop Navigation Links — Spaced & Styled as Professional Glass Nav Pills */}
+        <nav className="hidden lg:flex items-center gap-3">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="text-xs font-semibold text-[#F5F4FF]/80 hover:text-[#A99BFF] transition-colors relative py-1 group"
+              className="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-[#F5F4FF]/85 bg-white/[0.04] hover:bg-[#4F35E8]/25 border border-white/[0.08] hover:border-[#A99BFF]/50 hover:text-white transition-all duration-200 shadow-xs hover:shadow-md hover:scale-[1.03] active:scale-[0.98]"
             >
               {link.label}
-              <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-gradient-to-r from-[#4F35E8] to-[#A99BFF] group-hover:w-full transition-all duration-300" />
             </a>
           ))}
         </nav>
