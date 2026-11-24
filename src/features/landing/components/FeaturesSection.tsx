@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import kioskScanImg from '/images/enivac-kiosk-scan-v3.jpg?url';
+import libraryInteriorImg from '/images/enivac-library-interior-v3.jpg?url';
 import {
   QrCode,
   ScanLine,
@@ -228,11 +230,11 @@ export const FeaturesSection: React.FC<FeaturesSectionProps> = ({ lang }) => {
             <div className="lg:col-span-6 space-y-4">
               <div className="rounded-3xl overflow-hidden border border-slate-200/90 shadow-xl relative group">
                 <img
-                  src="/images/enivac-kiosk-scan.jpg"
+                  src={kioskScanImg}
                   alt="Student scanning smart barcode card at entrance kiosk"
-                  className="w-full h-56 object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-64 object-cover object-center group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
                 <span className="absolute bottom-3 left-4 text-xs font-bold text-white bg-slate-900/80 px-3 py-1 rounded-full border border-white/20 backdrop-blur">
                   Hardware Integration: 1D/2D High-Speed Laser Scanner
                 </span>
@@ -292,11 +294,11 @@ export const FeaturesSection: React.FC<FeaturesSectionProps> = ({ lang }) => {
             {/* Left Photo */}
             <div className="lg:col-span-6 rounded-3xl overflow-hidden border border-slate-200/90 shadow-xl relative group order-2 lg:order-1">
               <img
-                src="/images/enivac-library-interior.jpg"
+                src={libraryInteriorImg}
                 alt="Modern High-Tech University Library Learning Center"
                 className="w-full h-80 object-cover object-center group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent opacity-75" />
               <div className="absolute bottom-4 left-4 right-4 p-3 rounded-2xl bg-white/95 border border-slate-200/90 backdrop-blur text-left shadow-lg">
                 <span className="text-xs font-bold text-slate-900 block">Next-Generation Smart Architecture</span>
                 <span className="text-[11px] text-slate-600">Designed for high throughput in leading schools and university libraries</span>
