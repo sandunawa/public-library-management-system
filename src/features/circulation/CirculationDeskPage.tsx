@@ -444,7 +444,7 @@ export const CirculationDeskPage: React.FC = () => {
       {/* 2. Three Summary Cards with solid black border & blinking hover effect */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {/* Issued this session */}
-        <div className="bg-white rounded-2xl p-5 border-2 border-black shadow-sm flex items-center justify-between hover-border-blink transition-all duration-200 cursor-pointer">
+        <div className="bg-white rounded-2xl p-5 border-2 border-[#7654D7] shadow-sm flex items-center justify-between hover-border-blink transition-all duration-200 cursor-pointer">
           <div className="space-y-1">
             <span className="text-xs font-semibold text-muted-foreground block">
               Issued this session
@@ -462,7 +462,7 @@ export const CirculationDeskPage: React.FC = () => {
         </div>
 
         {/* Returned this session */}
-        <div className="bg-white rounded-2xl p-5 border-2 border-black shadow-sm flex items-center justify-between hover-border-blink transition-all duration-200 cursor-pointer">
+        <div className="bg-white rounded-2xl p-5 border-2 border-[#7654D7] shadow-sm flex items-center justify-between hover-border-blink transition-all duration-200 cursor-pointer">
           <div className="space-y-1">
             <span className="text-xs font-semibold text-muted-foreground block">
               Returned this session
@@ -480,7 +480,7 @@ export const CirculationDeskPage: React.FC = () => {
         </div>
 
         {/* In checkout queue */}
-        <div className="bg-white rounded-2xl p-5 border-2 border-black shadow-sm flex items-center justify-between hover-border-blink transition-all duration-200 cursor-pointer">
+        <div className="bg-white rounded-2xl p-5 border-2 border-[#7654D7] shadow-sm flex items-center justify-between hover-border-blink transition-all duration-200 cursor-pointer">
           <div className="space-y-1">
             <span className="text-xs font-semibold text-muted-foreground block">
               In checkout queue
@@ -502,7 +502,7 @@ export const CirculationDeskPage: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* LEFT COLUMN: Identify Patron */}
         <div className="lg:col-span-5 space-y-4">
-          <div className="bg-white rounded-2xl p-6 border-2 border-black shadow-sm space-y-5 hover-border-blink transition-all duration-200">
+          <div className="bg-white rounded-2xl p-6 border-2 border-[#7654D7] shadow-sm space-y-5 hover-border-blink transition-all duration-200">
             <div>
               <h2 className="text-base font-bold text-[#242335] flex items-center gap-2">
                 <ScanLine className="w-4 h-4 text-[#7654D7]" />
@@ -683,7 +683,7 @@ export const CirculationDeskPage: React.FC = () => {
           </div>
 
           {/* Keyboard Workflow Tip Card */}
-          <div className="bg-[#FAF9FC] rounded-2xl p-4 border-2 border-black text-xs text-muted-foreground flex items-start gap-3 hover-border-blink transition-all duration-200">
+          <div className="bg-[#FAF9FC] rounded-2xl p-4 border-2 border-[#7654D7] text-xs text-muted-foreground flex items-start gap-3 hover-border-blink transition-all duration-200">
             <Keyboard className="w-4 h-4 text-[#7654D7] shrink-0 mt-0.5" />
             <div>
               <strong className="text-[#242335] block mb-0.5">Desk Workflow Tip:</strong>
@@ -694,7 +694,7 @@ export const CirculationDeskPage: React.FC = () => {
 
         {/* RIGHT COLUMN: Scan & Checkout */}
         <div className="lg:col-span-7 space-y-4">
-          <div className="bg-white rounded-2xl p-6 border-2 border-black shadow-sm space-y-5 hover-border-blink transition-all duration-200">
+          <div className="bg-white rounded-2xl p-6 border-2 border-[#7654D7] shadow-sm space-y-5 hover-border-blink transition-all duration-200">
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-base font-bold text-[#242335] flex items-center gap-2">
@@ -854,7 +854,7 @@ export const CirculationDeskPage: React.FC = () => {
       </div>
 
       {/* 4. Session Activity Table Below */}
-      <div className="bg-white rounded-2xl p-6 border-2 border-black shadow-sm space-y-4 hover-border-blink transition-all duration-200">
+      <div className="bg-white rounded-2xl p-6 border-2 border-[#7654D7] shadow-sm space-y-4 hover-border-blink transition-all duration-200">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#E6E3EE]">
           <div>
             <h3 className="text-base font-bold text-[#242335] flex items-center gap-2">

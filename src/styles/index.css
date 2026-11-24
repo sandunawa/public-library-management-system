@@ -298,16 +298,33 @@
 
 @keyframes borderBlink {
   0%, 100% {
-    border-color: #000000;
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.9), 0 10px 25px -5px rgba(0, 0, 0, 0.15);
+    border-color: #7654D7;
+    box-shadow: 0 0 0 2px rgba(118, 84, 215, 0.8), 0 0 20px rgba(118, 84, 215, 0.4), 0 10px 25px -5px rgba(118, 84, 215, 0.2);
   }
   50% {
-    border-color: transparent;
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15), 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border-color: rgba(118, 84, 215, 0.25);
+    box-shadow: 0 0 0 1px rgba(118, 84, 215, 0.15), 0 4px 6px -1px rgba(0, 0, 0, 0.05);
   }
 }
 
+.hover-border-blink {
+  border-color: #7654D7 !important;
+  border-width: 2px !important;
+  transition: all 0.25s ease-in-out;
+}
+
 .hover-border-blink:hover {
+  animation: borderBlink 1.2s ease-in-out infinite;
+}
+
+/* Global purple border highlight for cards across the whole system */
+.card-purple-glow {
+  border: 2px solid #7654D7 !important;
+  box-shadow: 0 4px 14px -2px rgba(118, 84, 215, 0.12);
+  transition: all 0.25s ease-in-out;
+}
+
+.card-purple-glow:hover {
   animation: borderBlink 1.2s ease-in-out infinite;
 }
 
