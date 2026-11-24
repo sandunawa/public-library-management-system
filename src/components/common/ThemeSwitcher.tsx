@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Sun, Moon, Eye } from 'lucide-react';
+import { Sun, Moon } from 'lucide-react';
 
 type Theme = 'light' | 'dark' | 'high-contrast' | 'warm-paper';
 
@@ -46,17 +46,6 @@ export const ThemeSwitcher: React.FC = () => {
         }`}
       >
         <Moon className="w-3.5 h-3.5" />
-      </button>
-      <button
-        type="button"
-        title="High Contrast (A11y)"
-        aria-label="High Contrast"
-        onClick={() => setTheme('high-contrast')}
-        className={`p-1.5 rounded transition-colors ${
-          theme === 'high-contrast' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground'
-        }`}
-      >
-        <Eye className="w-3.5 h-3.5" />
       </button>
     </div>
   );
