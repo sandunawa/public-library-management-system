@@ -350,20 +350,31 @@ export const StaffMembersPage: React.FC = () => {
                       <td className="p-3 text-right">
                         <div className="flex items-center justify-end space-x-1.5" onClick={(e) => e.stopPropagation()}>
                           <Button
+                            type="button"
                             size="sm"
                             variant="outline"
-                            onClick={() => setShowIdCardModal(m)}
-                            className="h-7 px-2 text-xs font-semibold gap-1"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              setShowIdCardModal(m);
+                            }}
+                            className="h-7 px-2.5 text-xs font-semibold gap-1.5 hover:bg-primary/10 hover:text-primary transition-all shadow-xs"
                             title="Print Member Card with Barcode"
                           >
                             <Printer className="w-3.5 h-3.5 text-primary" />
                             <span>ID Card</span>
                           </Button>
                           <Button
+                            type="button"
                             size="sm"
                             variant="ghost"
-                            onClick={() => setSelectedMember(m)}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              setSelectedMember(m);
+                            }}
                             className="h-7 px-2 text-xs"
+                            title="View Full Details"
                           >
                             <Eye className="w-3.5 h-3.5" />
                           </Button>
@@ -466,38 +477,48 @@ export const StaffMembersPage: React.FC = () => {
         </div>
       )}
 
-      {/* Official Library ID Card Print Modal (Triggered on Approval or View) */}
+      {/* Official Library ID Card Print Modal (Centered Screen Dialog Popup directly over row) */}
       {showIdCardModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <Card className="w-full max-w-sm bg-card shadow-2xl overflow-hidden">
-            <CardHeader className="p-4 border-b flex flex-row items-center justify-between">
+        <div
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in duration-200"
+          onClick={() => setShowIdCardModal(null)}
+        >
+          <div
+            className="w-full max-w-sm bg-card border border-border shadow-2xl rounded-2xl overflow-hidden animate-in zoom-in-95 duration-200"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="p-4 border-b flex flex-row items-center justify-between bg-muted/40">
               <div>
-                <CardTitle className="text-sm font-bold">Official Library ID Card</CardTitle>
-                <div className="text-xs text-muted-foreground font-mono">
+                <h3 className="text-sm font-bold text-foreground">Official Library ID Card</h3>
+                <div className="text-xs text-muted-foreground font-mono font-semibold">
                   {showIdCardModal.memberIdNumber}
                 </div>
               </div>
               <button
+                type="button"
                 onClick={() => setShowIdCardModal(null)}
-                className="p-1 rounded-lg text-muted-foreground hover:bg-muted"
+                className="p-1.5 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+                title="Close"
               >
                 <X className="w-5 h-5" />
               </button>
-            </CardHeader>
-            <CardContent className="p-4 flex flex-col items-center">
+            </div>
+
+            <div className="p-4 flex flex-col items-center bg-background">
               <MemberIdCard member={showIdCardModal} />
-            </CardContent>
+            </div>
+
             <div className="p-3 border-t flex justify-end bg-muted/20">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => setShowIdCardModal(null)}
-                className="text-xs"
+                className="text-xs font-semibold px-4"
               >
                 Done
               </Button>
             </div>
-          </Card>
+          </div>
         </div>
       )}
     </div>
