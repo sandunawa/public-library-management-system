@@ -98,6 +98,15 @@ export const StaffLayout: React.FC = () => {
             <ScanLine className="w-4 h-4 shrink-0 text-primary" />
             <span className="truncate">Desk Scan Mode</span>
           </NavLink>
+          <NavLink to="/kiosk" target="_blank" className={navLinkClass}>
+            <QrCode className="w-4 h-4 shrink-0 text-amber-500" />
+            <div className="flex flex-col min-w-0">
+              <span className="truncate">Smart Entrance Kiosk</span>
+              <span className="text-xs text-muted-foreground font-normal leading-tight font-sinhala truncate">
+                ස්වයංක්‍රීය ඇතුල්වීම
+              </span>
+            </div>
+          </NavLink>
           <NavLink to="/staff/issued-books" className={navLinkClass}>
             <BookOpen className="w-4 h-4 shrink-0 text-success" />
             <div className="flex flex-col min-w-0">

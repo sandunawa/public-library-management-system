@@ -22,6 +22,7 @@ import { OverdueFinesPage } from '@/features/circulation/OverdueFinesPage';
 import { ReservationsPage } from '@/features/circulation/ReservationsPage';
 import { SuspendedMembersPage } from '@/features/members/SuspendedMembersPage';
 import { PolicySettingsPage } from '@/features/settings/PolicySettingsPage';
+import { KioskPage } from '@/features/kiosk/KioskPage';
 
 import { ErrorBoundaryPage } from '@/components/common/ErrorBoundaryPage';
 import { NotFoundPage } from '@/components/common/NotFoundPage';
@@ -35,6 +36,12 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
     ],
+  },
+  // Kiosk Fullscreen Route
+  {
+    path: '/kiosk',
+    element: <KioskPage />,
+    errorElement: <ErrorBoundaryPage />,
   },
   // 2. Unified Auth Hub Surface
   {
