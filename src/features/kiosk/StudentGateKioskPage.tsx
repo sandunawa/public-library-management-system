@@ -441,13 +441,14 @@ export const StudentGateKioskPage: React.FC = () => {
         <img
           src="/images/smart-gate-kiosk-bg.jpg"
           alt="Smart Gate Library Access Terminal Background"
-          className="w-full h-full object-cover object-center filter brightness-[0.92] contrast-[1.04]"
+          className="w-full h-full object-cover object-center"
           onError={(e) => {
             // fallback
             (e.target as HTMLImageElement).src = '/images/enivac-hero-bg.jpg';
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/70 backdrop-blur-[0.5px]" />
+        {/* Soft, subtle header & footer gradient scrims so text remains readable without dimming the bright library */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/35" />
       </div>
 
       {/* INVISIBLE HIGH-SPEED SCANNER INPUT */}
