@@ -12,6 +12,7 @@ export const PolicySettingsPage: React.FC = () => {
   const [telegramConfig, setTelegramConfig] = useState<TelegramBackupConfig>(() => TelegramBackupService.getConfig());
   const [savedTelegramConfig, setSavedTelegramConfig] = useState<TelegramBackupConfig>(() => TelegramBackupService.getConfig());
   const [showToken, setShowToken] = useState(false);
+  const [showChatId, setShowChatId] = useState(false);
   const [isSendingTelegram, setIsSendingTelegram] = useState(false);
   const [telegramProgress, setTelegramProgress] = useState(0);
   const [telegramStatusText, setTelegramStatusText] = useState('');
@@ -280,12 +281,23 @@ export const PolicySettingsPage: React.FC = () => {
               </div>
               <div className="space-y-1.5">
                 <label className="text-xs font-semibold text-foreground">Telegram Chat ID / User ID:</label>
-                <Input
-                  type="text"
-                  value={telegramConfig.chatId}
-                  onChange={(e) => setTelegramConfig((prev) => ({ ...prev, chatId: e.target.value }))}
-                  className="font-mono text-xs"
-                />
+                <div className="relative">
+                  <Input
+                    type={showChatId ? 'text' : 'password'}
+                    value={telegramConfig.chatId}
+                    onChange={(e) => setTelegramConfig((prev) => ({ ...prev, chatId: e.target.value }))}
+                    className="font-mono text-xs pr-10"
+                    placeholder="e.g. 123456789 or -100123456789"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowChatId(!showChatId)}
+                    aria-label={showChatId ? 'Hide chat ID' : 'Show chat ID'}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1 rounded-md"
+                  >
+                    {showChatId ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
               </div>
             </div>
 
