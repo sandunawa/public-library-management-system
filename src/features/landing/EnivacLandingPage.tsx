@@ -93,9 +93,9 @@ export const EnivacLandingPage: React.FC = () => {
       {/* Sections 3-5: Key Numbers, 9 Features Grid & Showcase */}
       <FeaturesSection lang={lang} />
 
-      {/* Sections 6-11: How it Works, Who It's For, Hardware, Login, Demo & Footer */}
+      {/* Sections 6-11: How it Works, Who It's For, Hardware, Demo & Footer */}
       <div className="mt-12">
-        <SupportingSections lang={lang} />
+        <SupportingSections lang={lang} onOpenLogin={handleOpenLogin} />
       </div>
 
       {/* Auth Pop-up Modal (Login & Registration) */}

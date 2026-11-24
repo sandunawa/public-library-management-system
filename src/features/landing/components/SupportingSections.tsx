@@ -35,19 +35,13 @@ import { useAuth } from '@/contexts/AuthContext';
 
 interface SupportingSectionsProps {
   lang: 'en' | 'si';
+  onOpenLogin?: () => void;
 }
 
-export const SupportingSections: React.FC<SupportingSectionsProps> = ({ lang }) => {
+export const SupportingSections: React.FC<SupportingSectionsProps> = ({ lang, onOpenLogin }) => {
   const navigate = useNavigate();
   const { setLocalSession } = useAuth();
   const t = lang === 'en' ? landingEn : landingSi;
-
-  // Login form state
-  const [selectedRole, setSelectedRole] = useState<'SUPER_ADMIN' | 'STAFF' | 'MEMBER'>('SUPER_ADMIN');
-  const [loginEmail, setLoginEmail] = useState('admin@library.lk');
-  const [loginPassword, setLoginPassword] = useState('Admin1234');
-  const [showPassword, setShowPassword] = useState(false);
-  const [loginLoading, setLoginLoading] = useState(false);
 
   // Demo Contact Form State
   const [demoName, setDemoName] = useState('');
@@ -56,43 +50,6 @@ export const SupportingSections: React.FC<SupportingSectionsProps> = ({ lang }) 
   const [demoEmail, setDemoEmail] = useState('');
   const [demoMessage, setDemoMessage] = useState('');
   const [demoSubmitted, setDemoSubmitted] = useState(false);
-
-  const handleRoleSelect = (role: 'SUPER_ADMIN' | 'STAFF' | 'MEMBER') => {
-    setSelectedRole(role);
-    if (role === 'SUPER_ADMIN') {
-      setLoginEmail('admin@library.lk');
-      setLoginPassword('Admin1234');
-    } else if (role === 'STAFF') {
-      setLoginEmail('librarian@library.lk');
-      setLoginPassword('Staff1234');
-    } else {
-      setLoginEmail('member1@library.lk');
-      setLoginPassword('Member1234');
-    }
-  };
-
-  const handleExecuteLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoginLoading(true);
-    try {
-      const authenticatedUser = await LocalAuthService.login(loginEmail, loginPassword);
-      if (authenticatedUser) {
-        setLocalSession(authenticatedUser);
-        toast.success('Login Successful! Redirecting to workspace...');
-        if (authenticatedUser.role === 'MEMBER') {
-          navigate('/portal/profile');
-        } else {
-          navigate('/staff');
-        }
-      } else {
-        toast.error('Invalid email or password. Please try again.');
-      }
-    } catch (err: any) {
-      toast.error(err.message || 'Login failed. Please check your credentials.');
-    } finally {
-      setLoginLoading(false);
-    }
-  };
 
   const handleDemoSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -244,106 +201,6 @@ export const SupportingSections: React.FC<SupportingSectionsProps> = ({ lang }) 
         </div>
       </section>
 
-      {/* SECTION 9: LOGIN SECTION */}
-      <section id="login" className="max-w-xl mx-auto px-4 sm:px-6">
-        <div className="p-8 sm:p-10 rounded-3xl bg-white border border-slate-200/90 shadow-xl text-left space-y-6">
-          <div className="text-center space-y-2">
-            <div className="w-12 h-12 rounded-2xl bg-[#1E0FA8] text-white flex items-center justify-center mx-auto shadow-md">
-              <Lock className="w-6 h-6" />
-            </div>
-            <h3 className="text-2xl font-black text-slate-900 font-heading">{t.login.title}</h3>
-            <p className="text-xs text-slate-600">{t.login.subtitle}</p>
-          </div>
-
-          {/* Role Selector Tabs */}
-          <div className="grid grid-cols-3 gap-2 p-1 rounded-xl bg-slate-100 border border-slate-200 text-xs">
-            <button
-              type="button"
-              onClick={() => handleRoleSelect('SUPER_ADMIN')}
-              className={`py-2 rounded-lg font-bold transition-all ${
-                selectedRole === 'SUPER_ADMIN'
-                  ? 'bg-[#1E0FA8] text-white shadow'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              Admin
-            </button>
-            <button
-              type="button"
-              onClick={() => handleRoleSelect('STAFF')}
-              className={`py-2 rounded-lg font-bold transition-all ${
-                selectedRole === 'STAFF'
-                  ? 'bg-[#1E0FA8] text-white shadow'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              Staff
-            </button>
-            <button
-              type="button"
-              onClick={() => handleRoleSelect('MEMBER')}
-              className={`py-2 rounded-lg font-bold transition-all ${
-                selectedRole === 'MEMBER'
-                  ? 'bg-[#1E0FA8] text-white shadow'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              Member
-            </button>
-          </div>
-
-          <form onSubmit={handleExecuteLogin} className="space-y-4">
-            <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1.5">
-                {t.login.usernameLabel}
-              </label>
-              <div className="relative">
-                <Mail className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
-                <input
-                  type="text"
-                  required
-                  value={loginEmail}
-                  onChange={(e) => setLoginEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs focus:border-[#4F35E8] focus:bg-white outline-none transition-all"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1.5">
-                {t.login.passwordLabel}
-              </label>
-              <div className="relative">
-                <Lock className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  required
-                  value={loginPassword}
-                  onChange={(e) => setLoginPassword(e.target.value)}
-                  className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs focus:border-[#4F35E8] focus:bg-white outline-none transition-all"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-700"
-                >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              disabled={loginLoading}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-[#1E0FA8] via-[#4F35E8] to-[#1E0FA8] text-white font-bold text-xs shadow-lg shadow-indigo-500/20 hover:scale-[1.01] transition-all flex items-center justify-center gap-2"
-            >
-              <span>{loginLoading ? 'Authenticating...' : t.login.submit}</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </form>
-        </div>
-      </section>
-
       {/* SECTION 10: DEMO REQUEST / CONTACT */}
       <section id="contact" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
@@ -485,12 +342,13 @@ export const SupportingSections: React.FC<SupportingSectionsProps> = ({ lang }) 
             {t.cta.sub}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-            <a
-              href="#login"
-              className="px-8 py-3.5 rounded-2xl bg-white text-[#1E0FA8] font-extrabold text-sm hover:scale-105 transition-all shadow-md"
+            <button
+              type="button"
+              onClick={onOpenLogin}
+              className="px-8 py-3.5 rounded-2xl bg-white text-[#1E0FA8] font-extrabold text-sm hover:scale-105 transition-all shadow-md cursor-pointer"
             >
               {t.cta.loginBtn}
-            </a>
+            </button>
             <a
               href="#contact"
               className="px-8 py-3.5 rounded-2xl bg-white/10 border border-white/30 text-white font-bold text-sm hover:bg-white/20 transition-all"
