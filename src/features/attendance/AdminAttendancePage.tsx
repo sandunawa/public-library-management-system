@@ -34,10 +34,12 @@ import {
   Filter,
   FileSpreadsheet,
   Search,
+  BookOpen,
 } from 'lucide-react';
 import { LocalAuthService } from '@/services/auth/LocalAuthService';
 import { GateAttendanceService, GateAttendanceRecord } from '@/services/infrastructure/GateAttendanceService';
 import { PhotoStore } from '@/services/infrastructure/PhotoStore';
+import { CirculationRepository } from '@/services/repositories/CirculationRepository';
 import { MemberProfile } from '@libraryos/shared';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -89,6 +91,53 @@ export const AdminAttendancePage: React.FC = () => {
   // Historical Session Archive & Search
   const [historySelectedDate, setHistorySelectedDate] = useState(sessionDate);
   const [historySearchQuery, setHistorySearchQuery] = useState('');
+  const [historyTimeRange, setHistoryTimeRange] = useState<'today' | '1m' | '1y'>('today');
+  const [selectedPatronForDrilldown, setSelectedPatronForDrilldown] = useState<{
+    member: MemberProfile;
+    records: GateAttendanceRecord[];
+    loans: any[];
+  } | null>(null);
+
+  // Helper to get active book borrow/return status for a member
+  const getMemberBookActionSummary = (memberId: string): string => {
+    try {
+      const allLoans = CirculationRepository.getLocalLoans();
+      const memberLoans = allLoans.filter((l) => l.memberId === memberId && l.status === 'ACTIVE');
+      if (memberLoans.length > 0) {
+        return `Borrowed ${memberLoans.length} Book(s) (Active Loan)`;
+      }
+    } catch {}
+    return 'Library Reading / Study';
+  };
+
+  const openPatronDrilldown = (memberOrId: string | MemberProfile) => {
+    const patron =
+      typeof memberOrId === 'string'
+        ? LocalAuthService.findMemberByBarcodeOrId(memberOrId) ||
+          members.find((m) => m.id === memberOrId || m.memberIdNumber === memberOrId)
+        : memberOrId;
+
+    if (!patron) {
+      toast.error('Patron profile not found for drilldown.');
+      return;
+    }
+
+    const patronRecords = attendance.filter(
+      (a) =>
+        a.studentId === patron.id ||
+        a.studentId === patron.memberIdNumber ||
+        (patron.admissionNo && a.studentId.includes(patron.admissionNo))
+    );
+
+    const allLoans = CirculationRepository.getLocalLoans();
+    const patronLoans = allLoans.filter((l) => l.memberId === patron.id);
+
+    setSelectedPatronForDrilldown({
+      member: patron,
+      records: patronRecords,
+      loans: patronLoans,
+    });
+  };
 
   const loadData = () => {
     setAttendance(GateAttendanceService.getAttendance());
@@ -314,12 +363,32 @@ export const AdminAttendancePage: React.FC = () => {
   const todayPresentCount = todayBatchAttendance.length;
 
   const filteredHistory = attendance.filter((a) => {
-    const matchesDate = historySelectedDate ? a.sessionDate === historySelectedDate : true;
-    const matchesQuery = historySearchQuery
-      ? a.studentName.toLowerCase().includes(historySearchQuery.toLowerCase()) ||
-        a.studentId.toLowerCase().includes(historySearchQuery.toLowerCase())
-      : true;
-    return matchesDate && matchesQuery;
+    // 1. Time range check
+    if (historyTimeRange === 'today') {
+      const matchDate = historySelectedDate ? a.sessionDate === historySelectedDate : a.sessionDate === sessionDate;
+      if (!matchDate) return false;
+    } else if (historyTimeRange === '1m') {
+      const oneMonthAgo = new Date();
+      oneMonthAgo.setDate(oneMonthAgo.getDate() - 30);
+      const recDate = new Date(a.sessionDate);
+      if (recDate < oneMonthAgo) return false;
+    } else if (historyTimeRange === '1y') {
+      const oneYearAgo = new Date();
+      oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+      const recDate = new Date(a.sessionDate);
+      if (recDate < oneYearAgo) return false;
+    }
+
+    // 2. Query check (name, studentId, barcode)
+    if (historySearchQuery) {
+      const q = historySearchQuery.toLowerCase().trim();
+      const nameMatch = (a.studentName || '').toLowerCase().includes(q);
+      const idMatch = (a.studentId || '').toLowerCase().includes(q);
+      const foundMember = members.find((m) => m.id === a.studentId || m.memberIdNumber === a.studentId);
+      const barcodeMatch = (foundMember?.memberIdNumber || '').toLowerCase().includes(q);
+      return nameMatch || idMatch || barcodeMatch;
+    }
+    return true;
   });
 
   return (
@@ -592,29 +661,82 @@ export const AdminAttendancePage: React.FC = () => {
       {/* Daily Library Attendance Log & Patron Archive */}
       <Card className="border-2 border-[#C69A35]/30">
         <CardContent className="p-6 space-y-4">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-4 border-b">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 pb-4 border-b">
             <div>
-              <h3 className="font-bold text-base flex items-center gap-2">
-                <History className="w-4 h-4 text-emerald-600" />
-                <span>Today's Library Attendance & Gate Activity Log</span>
-              </h3>
+              <div className="flex items-center gap-2">
+                <History className="w-5 h-5 text-emerald-600" />
+                <h3 className="font-bold text-base">
+                  {historyTimeRange === 'today'
+                    ? "Today's Library Attendance & Gate Activity Log"
+                    : historyTimeRange === '1m'
+                    ? 'Past 1 Month Library Attendance Archive'
+                    : 'Annual 1-Year Comprehensive Attendance Archive'}
+                </h3>
+              </div>
               <p className="text-xs text-muted-foreground mt-0.5">
-                Browse and filter members who checked in to the library premises today and past dates
+                Default shows members checked in/out today. Filter by barcode, member name, or expand date ranges.
               </p>
             </div>
-            <div className="flex gap-2 w-full sm:w-auto">
-              <Input
-                type="date"
-                value={historySelectedDate}
-                onChange={(e) => setHistorySelectedDate(e.target.value)}
-                className="w-auto text-xs font-mono"
-              />
-              <div className="relative">
+
+            {/* Time Range Filters & Search */}
+            <div className="flex flex-wrap items-center gap-2 w-full lg:w-auto">
+              <div className="flex items-center bg-muted p-1 rounded-xl border text-xs">
+                <button
+                  type="button"
+                  onClick={() => setHistoryTimeRange('today')}
+                  className={`px-3 py-1.5 rounded-lg font-bold transition-all ${
+                    historyTimeRange === 'today'
+                      ? 'bg-[#064B2A] text-white shadow-sm'
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  Today Only (අද දින)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setHistoryTimeRange('1m')}
+                  className={`px-3 py-1.5 rounded-lg font-bold transition-all ${
+                    historyTimeRange === '1m'
+                      ? 'bg-[#064B2A] text-white shadow-sm'
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  Past 1 Month (මාසයකට පෙර)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setHistoryTimeRange('1y')}
+                  className={`px-3 py-1.5 rounded-lg font-bold transition-all ${
+                    historyTimeRange === '1y'
+                      ? 'bg-[#C69A35] text-black shadow-sm'
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  More (වසර 1 ක වාර්තා)
+                </button>
+              </div>
+
+              {historyTimeRange === 'today' && (
+                <Input
+                  type="date"
+                  value={historySelectedDate}
+                  onChange={(e) => setHistorySelectedDate(e.target.value)}
+                  className="w-auto text-xs font-mono"
+                />
+              )}
+
+              <div className="relative flex-1 sm:w-64">
                 <Search className="w-4 h-4 absolute left-3 top-2.5 text-muted-foreground" />
                 <Input
-                  placeholder="Search by student name/ID..."
+                  placeholder="Scan/Type Student ID or Name..."
                   value={historySearchQuery}
                   onChange={(e) => setHistorySearchQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && historySearchQuery.trim()) {
+                      e.preventDefault();
+                      openPatronDrilldown(historySearchQuery.trim());
+                    }
+                  }}
                   className="pl-9 text-xs"
                 />
               </div>
@@ -627,57 +749,299 @@ export const AdminAttendancePage: React.FC = () => {
                 <tr className="bg-muted/50 border-b text-xs text-left">
                   <th className="p-2.5">Student ID</th>
                   <th className="p-2.5">Member Name</th>
-                  <th className="p-2.5">Batch / Purpose</th>
+                  <th className="p-2.5">Batch / Purpose (Book Checkout)</th>
                   <th className="p-2.5">Date</th>
                   <th className="p-2.5">Arrival Time</th>
+                  <th className="p-2.5">Exit Time</th>
                   <th className="p-2.5">Status</th>
+                  <th className="p-2.5 text-center">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredHistory.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="p-6 text-center text-muted-foreground text-xs">
-                      No library attendance records found for {historySelectedDate || 'today'}.
+                    <td colSpan={8} className="p-8 text-center text-muted-foreground text-xs">
+                      No attendance or gate activity records found for this selection.
                     </td>
                   </tr>
                 ) : (
-                  filteredHistory.map((rec) => (
-                    <tr key={rec.id} className="border-b hover:bg-muted/20">
-                      <td className="p-2.5 font-mono font-bold text-xs text-[#064B2A]">
-                        {getDisplayStudentId(rec.studentId)}
-                      </td>
-                      <td className="p-2.5 font-medium">{rec.studentName}</td>
-                      <td className="p-2.5 text-xs text-muted-foreground">{rec.batchName}</td>
-                      <td className="p-2.5 font-mono text-xs">{rec.sessionDate}</td>
-                      <td className="p-2.5 text-xs font-mono font-semibold text-muted-foreground">
-                        {new Date(rec.markedAt).toLocaleTimeString([], {
-                          hour: '2-digit',
-                          minute: '2-digit',
-                          second: '2-digit',
-                          hour12: true,
-                        })}
-                      </td>
-                      <td className="p-2.5">
-                        <Badge
-                          className={
-                            rec.status === 'present'
-                              ? 'bg-emerald-600 text-white font-bold text-[11px]'
-                              : rec.status === 'late'
-                              ? 'bg-amber-600 text-white font-bold text-[11px]'
-                              : 'bg-rose-600 text-white font-bold text-[11px]'
-                          }
-                        >
-                          {rec.status.toUpperCase()}
-                        </Badge>
-                      </td>
-                    </tr>
-                  ))
+                  filteredHistory.map((rec) => {
+                    const memberProfile = members.find(
+                      (m) => m.id === rec.studentId || m.memberIdNumber === rec.studentId
+                    );
+                    const bookSummary = memberProfile
+                      ? getMemberBookActionSummary(memberProfile.id)
+                      : 'Library Reading / Study';
+
+                    return (
+                      <tr key={rec.id} className="border-b hover:bg-muted/20">
+                        <td className="p-2.5 font-mono font-bold text-xs text-[#064B2A]">
+                          {getDisplayStudentId(rec.studentId)}
+                        </td>
+                        <td className="p-2.5">
+                          <button
+                            type="button"
+                            onClick={() => openPatronDrilldown(rec.studentId)}
+                            className="font-medium hover:underline text-left text-primary"
+                          >
+                            {rec.studentName}
+                          </button>
+                        </td>
+                        <td className="p-2.5 text-xs">
+                          <div className="flex items-center gap-1.5">
+                            <Badge variant="outline" className="text-[11px] font-normal bg-muted/40">
+                              {rec.batchName || 'General Library'}
+                            </Badge>
+                            {bookSummary.includes('Borrowed') ? (
+                              <Badge className="bg-amber-600 text-white text-[10px] flex items-center gap-1">
+                                <BookOpen className="w-3 h-3" />
+                                <span>{bookSummary}</span>
+                              </Badge>
+                            ) : null}
+                          </div>
+                        </td>
+                        <td className="p-2.5 font-mono text-xs">{rec.sessionDate}</td>
+                        <td className="p-2.5 text-xs font-mono font-semibold text-emerald-700">
+                          {new Date(rec.markedAt).toLocaleTimeString([], {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            second: '2-digit',
+                            hour12: true,
+                          })}
+                        </td>
+                        <td className="p-2.5 text-xs font-mono font-semibold">
+                          {rec.exitTime ? (
+                            <span className="text-rose-700">
+                              {new Date(rec.exitTime).toLocaleTimeString([], {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                second: '2-digit',
+                                hour12: true,
+                              })}
+                            </span>
+                          ) : (
+                            <Badge variant="outline" className="text-[10px] border-emerald-500 text-emerald-700">
+                              Currently Inside
+                            </Badge>
+                          )}
+                        </td>
+                        <td className="p-2.5">
+                          <Badge
+                            className={
+                              rec.status === 'present'
+                                ? 'bg-emerald-600 text-white font-bold text-[11px]'
+                                : rec.status === 'late'
+                                ? 'bg-amber-600 text-white font-bold text-[11px]'
+                                : 'bg-rose-600 text-white font-bold text-[11px]'
+                            }
+                          >
+                            {rec.status.toUpperCase()}
+                          </Badge>
+                        </td>
+                        <td className="p-2.5 text-center">
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => openPatronDrilldown(rec.studentId)}
+                            className="h-7 text-xs font-bold text-[#064B2A] hover:bg-[#064B2A]/10"
+                          >
+                            View History
+                          </Button>
+                        </td>
+                      </tr>
+                    );
+                  })
                 )}
               </tbody>
             </table>
           </div>
         </CardContent>
       </Card>
+
+      {/* Patron Detailed Gate & Book History Modal */}
+      {selectedPatronForDrilldown && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-card border-2 border-[#C69A35] rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl">
+            {/* Modal Header */}
+            <div className="p-5 bg-gradient-to-r from-[#064B2A] to-[#003D22] text-white flex items-center justify-between">
+              <div>
+                <div className="flex items-center gap-2">
+                  <UserCheck className="w-5 h-5 text-[#C69A35]" />
+                  <h3 className="font-bold text-lg">{selectedPatronForDrilldown.member.fullName}</h3>
+                  <Badge className="bg-[#C69A35] text-black font-bold text-xs">
+                    {selectedPatronForDrilldown.member.memberIdNumber}
+                  </Badge>
+                </div>
+                <p className="text-xs text-[#FFF5DF]/80 mt-1">
+                  Comprehensive Gate Entrance & Exit History, Visit Frequency & Circulation Details
+                </p>
+              </div>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setSelectedPatronForDrilldown(null)}
+                className="text-white hover:bg-white/10 rounded-full"
+              >
+                <X className="w-5 h-5" />
+              </Button>
+            </div>
+
+            {/* Modal Content */}
+            <div className="p-6 overflow-y-auto space-y-6">
+              {/* Stat summary cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="p-4 rounded-xl bg-muted/50 border">
+                  <span className="text-xs text-muted-foreground block">Total Library Visits</span>
+                  <span className="text-2xl font-bold text-[#064B2A]">
+                    {selectedPatronForDrilldown.records.length} Times
+                  </span>
+                </div>
+                <div className="p-4 rounded-xl bg-muted/50 border">
+                  <span className="text-xs text-muted-foreground block">Active Borrowed Books</span>
+                  <span className="text-2xl font-bold text-amber-600">
+                    {selectedPatronForDrilldown.loans.filter((l) => l.status === 'ACTIVE').length} Books
+                  </span>
+                </div>
+                <div className="p-4 rounded-xl bg-muted/50 border">
+                  <span className="text-xs text-muted-foreground block">Outstanding Fines</span>
+                  <span className="text-2xl font-bold text-rose-600">
+                    Rs. {(selectedPatronForDrilldown.member.unpaidFinesTotal || 0).toFixed(2)}
+                  </span>
+                </div>
+              </div>
+
+              {/* Attendance Log for this Member */}
+              <div>
+                <h4 className="font-bold text-sm mb-3 flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-primary" />
+                  <span>Entrance & Exit Timestamp Log (පැමිණි දිනයන් හා වේලාවන්)</span>
+                </h4>
+                <div className="border rounded-xl overflow-hidden max-h-60 overflow-y-auto">
+                  <table className="w-full text-xs">
+                    <thead>
+                      <tr className="bg-muted text-left font-bold border-b">
+                        <th className="p-2.5">Date</th>
+                        <th className="p-2.5">Arrival (ඇතුල් වූ වේලාව)</th>
+                        <th className="p-2.5">Exit (පිට වූ වේලාව)</th>
+                        <th className="p-2.5">Batch / Purpose</th>
+                        <th className="p-2.5">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {selectedPatronForDrilldown.records.length === 0 ? (
+                        <tr>
+                          <td colSpan={5} className="p-4 text-center text-muted-foreground">
+                            No entrance records recorded for this member.
+                          </td>
+                        </tr>
+                      ) : (
+                        selectedPatronForDrilldown.records.map((r, i) => (
+                          <tr key={r.id || i} className="border-b hover:bg-muted/30">
+                            <td className="p-2.5 font-mono font-bold">{r.sessionDate}</td>
+                            <td className="p-2.5 font-mono text-emerald-700 font-semibold">
+                              {new Date(r.markedAt).toLocaleTimeString([], {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                second: '2-digit',
+                                hour12: true,
+                              })}
+                            </td>
+                            <td className="p-2.5 font-mono text-rose-700 font-semibold">
+                              {r.exitTime ? (
+                                new Date(r.exitTime).toLocaleTimeString([], {
+                                  hour: '2-digit',
+                                  minute: '2-digit',
+                                  second: '2-digit',
+                                  hour12: true,
+                                })
+                              ) : (
+                                <Badge variant="outline" className="text-[10px] text-emerald-600">
+                                  Currently Inside
+                                </Badge>
+                              )}
+                            </td>
+                            <td className="p-2.5">{r.batchName || 'General Library'}</td>
+                            <td className="p-2.5">
+                              <Badge
+                                className={
+                                  r.status === 'present'
+                                    ? 'bg-emerald-600'
+                                    : r.status === 'late'
+                                    ? 'bg-amber-600'
+                                    : 'bg-rose-600'
+                                }
+                              >
+                                {r.status.toUpperCase()}
+                              </Badge>
+                            </td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Book Circulation History */}
+              {selectedPatronForDrilldown.loans.length > 0 && (
+                <div>
+                  <h4 className="font-bold text-sm mb-3 flex items-center gap-2">
+                    <BookOpen className="w-4 h-4 text-primary" />
+                    <span>Associated Borrowed Books (ණයට ගත් පොත් පිළිබඳ තොරතුරු)</span>
+                  </h4>
+                  <div className="border rounded-xl overflow-hidden max-h-48 overflow-y-auto">
+                    <table className="w-full text-xs">
+                      <thead>
+                        <tr className="bg-muted text-left font-bold border-b">
+                          <th className="p-2.5">Copy Barcode</th>
+                          <th className="p-2.5">Issue Date</th>
+                          <th className="p-2.5">Due Date</th>
+                          <th className="p-2.5">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {selectedPatronForDrilldown.loans.map((loan) => (
+                          <tr key={loan.id} className="border-b hover:bg-muted/30">
+                            <td className="p-2.5 font-mono font-bold text-primary">{loan.copyBarcode}</td>
+                            <td className="p-2.5 font-mono">{new Date(loan.issuedAt).toLocaleDateString()}</td>
+                            <td className="p-2.5 font-mono text-amber-600">
+                              {new Date(loan.dueDate).toLocaleDateString()}
+                            </td>
+                            <td className="p-2.5">
+                              <Badge
+                                className={
+                                  loan.status === 'ACTIVE'
+                                    ? 'bg-emerald-600'
+                                    : loan.status === 'OVERDUE'
+                                    ? 'bg-rose-600'
+                                    : 'bg-muted-foreground'
+                                }
+                              >
+                                {loan.status}
+                              </Badge>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-4 border-t bg-muted/40 flex justify-end">
+              <Button
+                variant="outline"
+                onClick={() => setSelectedPatronForDrilldown(null)}
+                className="font-bold"
+              >
+                Close (වසන්න)
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -28,9 +28,13 @@ export interface GateAttendanceRecord {
   studentName: string;
   status: 'present' | 'absent' | 'late' | 'excused';
   markedAt: string;
+  exitTime?: string;
+  direction?: 'in' | 'out';
+  entryCount?: number;
   markedBy: string;
   verificationMethod: 'qr_scan' | 'manual' | 'gate_kiosk';
   notes?: string;
+  bookActionSummary?: string;
 }
 
 const LOCAL_GATE_ATTENDANCE_KEY = 'libraryos_gate_attendance_v1';
@@ -111,10 +115,15 @@ class GateAttendanceServiceClass {
 
   public recordAttendance(record: Omit<GateAttendanceRecord, 'id' | 'markedAt'>): GateAttendanceRecord {
     const list = this.getAttendance();
+    const nowIso = new Date().toISOString();
+
+    // Check if the student has an existing record today without an exit time
+    // If they scan within a short window, or if we toggle in/out:
     const newRecord: GateAttendanceRecord = {
       ...record,
       id: `gate-att-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
-      markedAt: new Date().toISOString(),
+      markedAt: nowIso,
+      direction: record.direction || 'in',
     };
 
     list.unshift(newRecord);
@@ -133,6 +142,7 @@ class GateAttendanceServiceClass {
             batchId: newRecord.batchId,
             batchName: newRecord.batchName,
             timestamp: newRecord.markedAt,
+            direction: newRecord.direction,
           },
         });
         channel.close();
@@ -142,6 +152,20 @@ class GateAttendanceServiceClass {
     }
 
     return newRecord;
+  }
+
+  public recordStudentExit(studentId: string, sessionDate: string) {
+    const list = this.getAttendance();
+    const target = list.find(
+      (r) => (r.studentId === studentId || r.id === studentId) && r.sessionDate === sessionDate && !r.exitTime
+    );
+    if (target) {
+      target.exitTime = new Date().toISOString();
+      target.direction = 'out';
+      this.saveAttendance(list);
+      return target;
+    }
+    return null;
   }
 
   /**
