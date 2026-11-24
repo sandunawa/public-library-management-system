@@ -160,6 +160,15 @@ export const StaffLayout: React.FC = () => {
             <BookCopy className="w-4 h-4 shrink-0" />
             <span className="truncate">Catalogue & Copies</span>
           </NavLink>
+          <NavLink to="/staff/timetable" className={navLinkClass}>
+            <CalendarCheck className="w-4 h-4 shrink-0 text-[#7654D7]" />
+            <div className="flex flex-col min-w-0">
+              <span className="truncate">Library Timetable</span>
+              <span className="text-xs text-muted-foreground font-normal leading-tight font-sinhala truncate">
+                කාලසටහන
+              </span>
+            </div>
+          </NavLink>
           <NavLink
             to="/staff/members?tab=directory"
             className={() =>

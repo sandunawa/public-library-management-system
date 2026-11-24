@@ -13,6 +13,7 @@ import { CirculationDeskPage } from '@/features/circulation/CirculationDeskPage'
 import { StaffApprovalQueuePage } from '@/features/members/StaffApprovalQueuePage';
 import { StaffMembersPage } from '@/features/members/StaffMembersPage';
 import { BulkRegistrationPage } from '@/features/members/BulkRegistrationPage';
+import { TimetablePage } from '@/features/timetable/TimetablePage';
 import { CatalogManagementPage } from '@/features/books/CatalogManagementPage';
 import { InventoryStocktakePage } from '@/features/inventory/InventoryStocktakePage';
 import { MissingBooksPage } from '@/features/inventory/MissingBooksPage';
@@ -83,6 +84,7 @@ const router = createBrowserRouter([
       { path: 'members', element: <StaffMembersPage /> },
       { path: 'bulk-registration', element: <BulkRegistrationPage /> },
       { path: 'requests', element: <StaffMembersPage /> },
+      { path: 'timetable', element: <TimetablePage /> },
       { path: 'inventory', element: <InventoryStocktakePage /> },
       { path: 'missing-books', element: <MissingBooksPage /> },
       { path: 'audit', element: <ShelfAuditSecurityPage /> },
