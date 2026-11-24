@@ -16,6 +16,7 @@ import {
   BookOpen,
   GraduationCap,
   LogOut,
+  ScanLine,
 } from 'lucide-react';
 import { LocalAuthService } from '@/services/auth/LocalAuthService';
 import { GateAttendanceService, GateScanEvent, DEFAULT_GATE_SETTINGS } from '@/services/infrastructure/GateAttendanceService';
@@ -471,40 +472,37 @@ export const StudentGateKioskPage: React.FC = () => {
       )}
 
       {/* Top Banner */}
-      <header className="relative z-20 px-6 sm:px-10 py-5 flex items-center justify-between border-b border-[#C69A35]/30 backdrop-blur-xl bg-black/45 shadow-xl">
+      <header className="relative z-20 px-6 sm:px-10 py-4 flex items-center justify-between border-b border-indigo-200/80 backdrop-blur-xl bg-white/85 shadow-lg shadow-indigo-950/5">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#064B2A] via-[#003D22] to-[#C69A35] p-[2px] shadow-2xl">
-            <div className="w-full h-full bg-[#002213] rounded-[14px] flex items-center justify-center font-black text-[#C69A35] text-xl tracking-wider">
-              <BookOpen className="w-7 h-7 text-[#C69A35]" />
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#1E0FA8] via-[#3621D8] to-[#4F35E8] p-[2px] shadow-lg shadow-indigo-500/20">
+            <div className="w-full h-full bg-[#1E0FA8] rounded-[14px] flex items-center justify-center font-black text-white text-xl tracking-wider">
+              <BookOpen className="w-6 h-6 text-white" />
             </div>
           </div>
-          <div>
-            <h1 className="text-xl sm:text-2xl font-black tracking-tight text-white flex items-center gap-2.5">
+          <div className="text-left">
+            <h1 className="text-lg sm:text-xl font-black tracking-tight text-slate-900 flex items-center gap-2.5">
               <span>Smart Gate Attendance Display</span>
               <span
-                className={`px-3 py-0.5 rounded-full text-xs font-black uppercase tracking-wider flex items-center gap-1.5 shadow ${
+                className={`px-3 py-0.5 rounded-full text-[11px] font-black uppercase tracking-wider flex items-center gap-1.5 shadow ${
                   isBlinkingRed
                     ? 'bg-rose-600 text-white animate-bounce'
-                    : 'bg-[#064B2A] text-[#FFF5DF] border border-[#C69A35]/50'
+                    : 'bg-indigo-50 text-[#1E0FA8] border border-indigo-200'
                 }`}
               >
                 <span
-                  className={`w-2 h-2 rounded-full ${isBlinkingRed ? 'bg-white' : 'bg-emerald-400'} animate-ping`}
+                  className={`w-2 h-2 rounded-full ${isBlinkingRed ? 'bg-white' : 'bg-[#1E0FA8]'} animate-ping`}
                 />
                 {isBlinkingRed ? 'Security Alert' : 'Live Terminal'}
               </span>
             </h1>
-            <p className="text-xs sm:text-sm text-[#FFF5DF]/80 font-medium">
-              {webSettings.kioskInstituteName}
-            </p>
           </div>
         </div>
 
         {/* Live Clock & Screen Controls */}
         <div className="flex items-center gap-6">
           <div className="hidden md:flex flex-col items-end">
-            <div className="font-mono text-2xl font-black text-[#C69A35] tracking-wider flex items-center gap-2 drop-shadow">
-              <Clock className="w-5 h-5 text-[#C69A35]" />
+            <div className="font-mono text-2xl font-black text-[#1E0FA8] tracking-wider flex items-center gap-2">
+              <Clock className="w-5 h-5 text-[#1E0FA8]" />
               {currentTime.toLocaleTimeString('en-US', {
                 hour: '2-digit',
                 minute: '2-digit',
@@ -512,9 +510,9 @@ export const StudentGateKioskPage: React.FC = () => {
                 hour12: true,
               })}
             </div>
-            <div className="text-xs text-[#FFF5DF]/70 font-semibold tracking-wide flex items-center gap-1.5">
-              <Calendar className="w-3.5 h-3.5 text-[#C69A35]" />
-              {currentTime.toLocaleDateString('si-LK', {
+            <div className="text-xs text-slate-500 font-semibold tracking-wide flex items-center gap-1.5">
+              <Calendar className="w-3.5 h-3.5 text-[#1E0FA8]" />
+              {currentTime.toLocaleDateString('en-US', {
                 weekday: 'long',
                 month: 'short',
                 day: 'numeric',
@@ -526,22 +524,22 @@ export const StudentGateKioskPage: React.FC = () => {
           <div className="flex items-center gap-2.5">
             <button
               onClick={() => setSoundEnabled(!soundEnabled)}
-              className={`p-3 rounded-2xl border transition-all shadow-md ${
+              className={`p-2.5 rounded-2xl border transition-all shadow-sm ${
                 soundEnabled
-                  ? 'bg-[#064B2A] text-[#FFF5DF] border-[#C69A35]/60 hover:bg-[#003D22]'
-                  : 'bg-black/60 text-slate-400 border-white/20 hover:bg-black/80'
+                  ? 'bg-indigo-50 text-[#1E0FA8] border-indigo-200 hover:bg-indigo-100'
+                  : 'bg-slate-100 text-slate-400 border-slate-200 hover:bg-slate-200'
               }`}
               title={soundEnabled ? 'Speech Voice Enabled' : 'Speech Muted'}
             >
-              {soundEnabled ? <Volume2 className="w-5 h-5 text-[#C69A35]" /> : <VolumeX className="w-5 h-5" />}
+              {soundEnabled ? <Volume2 className="w-5 h-5 text-[#1E0FA8]" /> : <VolumeX className="w-5 h-5" />}
             </button>
 
             <button
               onClick={toggleFullScreen}
-              className="p-3 rounded-2xl bg-black/60 text-[#FFF5DF] border border-[#C69A35]/40 hover:bg-black/80 transition-all shadow-md"
+              className="p-2.5 rounded-2xl bg-white border border-slate-200 text-slate-700 hover:text-[#1E0FA8] hover:border-[#1E0FA8] transition-all shadow-sm"
               title="Toggle Fullscreen"
             >
-              <Maximize2 className="w-5 h-5 text-[#C69A35]" />
+              <Maximize2 className="w-5 h-5" />
             </button>
           </div>
         </div>
@@ -571,34 +569,26 @@ export const StudentGateKioskPage: React.FC = () => {
           </div>
         ) : activeScan ? (
           <div
-            className={`w-full max-w-2xl rounded-3xl p-8 sm:p-10 shadow-2xl backdrop-blur-2xl animate-in zoom-in-95 duration-300 flex flex-col items-center text-center relative overflow-hidden transition-all ${
+            className={`w-full max-w-2xl rounded-3xl p-8 sm:p-10 shadow-2xl backdrop-blur-xl animate-in zoom-in-95 duration-300 flex flex-col items-center text-center relative overflow-hidden transition-all ${
               isBlinkingRed
-                ? 'bg-gradient-to-b from-[#2a080c]/98 to-[#180306]/98 border-4 border-rose-500 shadow-rose-500/50'
-                : 'bg-gradient-to-b from-[#002B18]/95 via-[#064B2A]/95 to-[#001A0E]/95 border-2 border-[#C69A35] shadow-2xl shadow-black/80'
+                ? 'bg-white/95 border-2 border-rose-500 shadow-rose-500/20'
+                : 'bg-white/95 border border-indigo-200 shadow-xl shadow-indigo-950/10'
             }`}
           >
             {/* Top decorative badge */}
             <div
-              className={`absolute top-0 inset-x-0 h-2.5 ${
+              className={`absolute top-0 inset-x-0 h-2 ${
                 isBlinkingRed
                   ? 'bg-gradient-to-r from-rose-600 via-amber-400 to-rose-600 animate-pulse'
-                  : 'bg-gradient-to-r from-[#C69A35] via-[#FFF5DF] to-[#C69A35]'
+                  : 'bg-gradient-to-r from-[#1E0FA8] via-[#4F35E8] to-[#1E0FA8]'
               }`}
             />
 
             <div className="relative mb-5">
-              <div
-                className={`absolute -inset-3 rounded-full blur-xl opacity-85 ${
-                  isBlinkingRed
-                    ? 'bg-gradient-to-tr from-rose-600 via-red-500 to-amber-500 animate-ping'
-                    : 'bg-gradient-to-tr from-[#C69A35] via-[#064B2A] to-[#D4AF37] animate-pulse'
-                }`}
-              />
-
               {/* Student Photo */}
               <div
-                className={`relative w-36 h-36 sm:w-44 sm:h-44 rounded-full overflow-hidden border-4 shadow-2xl bg-black ${
-                  isBlinkingRed ? 'border-rose-400' : 'border-[#C69A35]'
+                className={`relative w-36 h-36 sm:w-44 sm:h-44 rounded-full overflow-hidden border-4 shadow-xl bg-slate-100 ${
+                  isBlinkingRed ? 'border-rose-400' : 'border-[#1E0FA8]'
                 }`}
               >
                 {activeScan.avatarUrl ? (
@@ -608,7 +598,7 @@ export const StudentGateKioskPage: React.FC = () => {
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <div className="w-full h-full bg-gradient-to-tr from-[#064B2A] to-[#002B18] flex items-center justify-center text-4xl sm:text-5xl font-black text-[#FFF5DF]">
+                  <div className="w-full h-full bg-gradient-to-tr from-[#1E0FA8] to-[#4F35E8] flex items-center justify-center text-4xl sm:text-5xl font-black text-white">
                     {activeScan.studentName.charAt(0)}
                   </div>
                 )}
@@ -616,14 +606,14 @@ export const StudentGateKioskPage: React.FC = () => {
 
               {/* Status Badge Icon */}
               <div
-                className={`absolute bottom-1 right-2 w-11 h-11 rounded-full border-4 border-[#002B18] flex items-center justify-center text-white shadow-lg ${
-                  isBlinkingRed ? 'bg-rose-600 animate-bounce' : 'bg-[#C69A35] text-black font-black'
+                className={`absolute bottom-1 right-2 w-11 h-11 rounded-full border-4 border-white flex items-center justify-center text-white shadow-lg ${
+                  isBlinkingRed ? 'bg-rose-600 animate-bounce' : 'bg-emerald-500'
                 }`}
               >
                 {isBlinkingRed ? (
                   <AlertTriangle className="w-6 h-6 text-white" />
                 ) : (
-                  <CheckCircle2 className="w-7 h-7 text-[#002B18]" />
+                  <CheckCircle2 className="w-7 h-7 text-white" />
                 )}
               </div>
             </div>
@@ -632,118 +622,116 @@ export const StudentGateKioskPage: React.FC = () => {
             <div
               className={`inline-flex items-center gap-2 px-5 py-1.5 rounded-full text-xs sm:text-sm font-black uppercase tracking-wider mb-2 border ${
                 activeScan.alertType === 'debounced'
-                  ? 'bg-amber-500/30 border-amber-400 text-amber-200 animate-pulse'
+                  ? 'bg-amber-50 border-amber-300 text-amber-800 animate-pulse'
                   : isBlinkingRed
-                  ? 'bg-rose-500/30 border-rose-400 text-rose-200 animate-pulse'
+                  ? 'bg-rose-50 border-rose-300 text-rose-800 animate-pulse'
                   : activeScan.direction === 'out'
-                  ? 'bg-blue-600/30 border-blue-400 text-blue-200'
-                  : 'bg-[#C69A35]/20 border-[#C69A35]/60 text-[#FFF5DF]'
+                  ? 'bg-blue-50 border-blue-300 text-blue-800'
+                  : 'bg-emerald-50 border-emerald-300 text-emerald-800'
               }`}
             >
               {activeScan.alertType === 'debounced' ? (
                 <>
-                  <Clock className="w-4 h-4 text-amber-300 animate-spin" />
-                  <span>3-MINUTE COOLDOWN ACTIVE</span>
+                  <Clock className="w-4 h-4 text-amber-600 animate-spin" />
+                  <span>3-MINUTE SCAN BUFFER ACTIVE</span>
                 </>
               ) : isBlinkingRed ? (
                 <>
-                  <AlertTriangle className="w-4 h-4 text-rose-300 animate-bounce" />
+                  <AlertTriangle className="w-4 h-4 text-rose-600 animate-bounce" />
                   <span>{activeScan.alertTitle}</span>
                 </>
               ) : activeScan.direction === 'out' ? (
                 <>
-                  <LogOut className="w-4 h-4 text-blue-300" />
-                  <span>EXIT VERIFIED — පුස්තකාලයෙන් පිටවීම</span>
+                  <LogOut className="w-4 h-4 text-blue-600" />
+                  <span>EXIT VERIFIED</span>
                 </>
               ) : (
                 <>
-                  <Sparkles className="w-4 h-4 text-[#C69A35] animate-spin" />
+                  <Sparkles className="w-4 h-4 text-[#1E0FA8]" />
                   <span>{activeScan.greetingType.toUpperCase()} CHECK-IN VERIFIED</span>
                 </>
               )}
             </div>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight mb-2">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-2 font-heading">
               {activeScan.studentName}
             </h2>
 
-            <div className="flex flex-wrap items-center justify-center gap-2 text-sm text-[#FFF5DF]/90 mb-5 font-medium">
-              <span className="font-mono px-3 py-1 rounded-lg bg-black/50 text-[#C69A35] font-bold border border-[#C69A35]/30">
+            <div className="flex flex-wrap items-center justify-center gap-2 text-sm text-slate-600 mb-5 font-medium">
+              <span className="font-mono px-3 py-1 rounded-lg bg-slate-100 text-[#1E0FA8] font-bold border border-slate-200">
                 ID: {activeScan.studentId}
               </span>
               <span>•</span>
-              <span className="text-white font-semibold">
+              <span className="text-slate-700 font-semibold">
                 {activeScan.direction === 'out' ? (
-                  <span className="text-blue-300 font-bold">LIBRARY EXIT (පිටවීම)</span>
+                  <span className="text-blue-700 font-bold">LIBRARY EXIT</span>
                 ) : (
-                  <span className="text-emerald-400 font-bold">LIBRARY ENTRANCE (ඇතුල්වීම)</span>
+                  <span className="text-emerald-700 font-bold">LIBRARY ENTRANCE</span>
                 )}
               </span>
               <span>•</span>
-              <span className="text-[#C69A35] font-mono font-bold">{activeScan.scanTime}</span>
+              <span className="text-[#1E0FA8] font-mono font-bold">{activeScan.scanTime}</span>
             </div>
 
             <div
               className={`w-full p-4 rounded-2xl border text-sm sm:text-base font-bold ${
                 activeScan.alertType === 'debounced'
-                  ? 'bg-amber-950/70 border-amber-500/60 text-amber-100 shadow-inner'
+                  ? 'bg-amber-50 border-amber-200 text-amber-900 shadow-sm'
                   : isBlinkingRed
-                  ? 'bg-rose-950/70 border-rose-500/60 text-rose-100 shadow-inner'
+                  ? 'bg-rose-50 border-rose-200 text-rose-900 shadow-sm'
                   : activeScan.direction === 'out'
-                  ? 'bg-blue-950/70 border-blue-500/60 text-blue-100 shadow-inner'
-                  : 'bg-black/40 border-[#C69A35]/40 text-[#FFF5DF] shadow-inner'
+                  ? 'bg-blue-50 border-blue-200 text-blue-900 shadow-sm'
+                  : 'bg-emerald-50 border-emerald-200 text-emerald-900 shadow-sm'
               }`}
             >
               {activeScan.alertMessage ||
                 (activeScan.direction === 'out'
-                  ? '👋 ඔබට සුබ දවසක්! පුස්තකාලයෙන් සාර්ථකව පිටවීම සටහන් විය.'
-                  : '✨ සාදරයෙන් පිළිගනිමු! කරුණාකර ඔබගේ ආසනය වෙත යන්න. සාර්ථක දවසක් වේවා!')}
+                  ? '👋 Have a great day! Your library exit has been recorded.'
+                  : '✨ Welcome to the library! Enjoy your study session.')}
             </div>
           </div>
         ) : (
-          <div className="max-w-xl w-full text-center flex flex-col items-center backdrop-blur-md bg-black/45 p-8 sm:p-10 rounded-3xl border border-[#C69A35]/40 shadow-2xl">
+          /* DEFAULT IDLE STATE: Clean White Frosted Glass Card with Animated Barcode Scanning Laser */
+          <div className="max-w-md w-full text-center flex flex-col items-center backdrop-blur-2xl bg-white/90 p-8 sm:p-10 rounded-3xl border border-indigo-200/80 shadow-2xl shadow-indigo-950/10">
+            {/* Animated Barcode Scanner Terminal */}
             <div className="relative mb-6">
-              <div className="w-36 h-36 rounded-3xl bg-[#064B2A]/50 border-2 border-dashed border-[#C69A35] flex items-center justify-center shadow-inner relative group">
-                <QrCode className="w-20 h-20 text-[#C69A35] animate-pulse" />
-                <div className="absolute inset-x-2 h-1 bg-gradient-to-r from-transparent via-[#C69A35] to-transparent top-5 animate-bounce duration-1000 shadow-[0_0_20px_#C69A35]" />
+              <div className="w-36 h-36 rounded-3xl bg-violet-50/80 border-2 border-[#1E0FA8]/40 flex flex-col items-center justify-center shadow-inner relative overflow-hidden group">
+                <ScanLine className="w-16 h-16 text-[#1E0FA8]" />
+                {/* Horizontal Scanning Laser Bar Animation */}
+                <div className="absolute inset-x-2 h-0.5 bg-gradient-to-r from-transparent via-[#4F35E8] to-transparent animate-pulse shadow-[0_0_12px_#4F35E8]" />
               </div>
               <div className="absolute -bottom-3 inset-x-0 flex justify-center">
-                <span className="px-4 py-1.5 rounded-full bg-[#064B2A] text-[#FFF5DF] text-xs font-black uppercase tracking-wider shadow-lg border border-[#C69A35]/60 flex items-center gap-1.5">
+                <span className="px-4 py-1.5 rounded-full bg-[#1E0FA8] text-white text-xs font-black uppercase tracking-wider shadow-md flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                  Ready To Scan Barcode
+                  Ready to Scan
                 </span>
               </div>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight mb-2 font-sinhala">
-              ශිෂ්‍ය හැඳුනුම්පත ස්කෑන් කරන්න
+            {/* Simple concise English text */}
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-2 font-heading">
+              Scan Your ID Card
             </h2>
-            <p className="text-xs sm:text-sm text-[#FFF5DF]/80 max-w-md mx-auto font-medium leading-relaxed font-sinhala">
-              කරුණාකර ඔබගේ ශිෂ්‍ය කාඩ්පතෙහි ඇති Barcode එක හෝ QR කේතය ස්කෑනරය වෙත යොමු කරන්න.
+            <p className="text-xs sm:text-sm text-slate-600 max-w-sm mx-auto font-medium leading-relaxed">
+              Please present your student or member barcode card to the scanner.
             </p>
-
-            <div className="mt-5 pt-4 border-t border-[#C69A35]/25 w-full text-center">
-              <span className="text-[#C69A35] text-xs font-bold font-serif tracking-wide italic">
-                “{webSettings.kioskQuoteText}”
-              </span>
-            </div>
           </div>
         )}
       </main>
 
       {/* Footer Instructions */}
-      <footer className="relative z-20 px-8 py-4 border-t border-[#C69A35]/30 backdrop-blur-xl bg-black/45 flex flex-wrap items-center justify-between text-xs text-[#FFF5DF]/70">
+      <footer className="relative z-20 px-8 py-3.5 border-t border-slate-200/80 backdrop-blur-xl bg-white/85 flex flex-wrap items-center justify-between text-xs text-slate-600">
         <div className="flex items-center gap-2">
-          <ShieldCheck className="w-4 h-4 text-[#C69A35]" />
-          <span>Smart Gate Check-in System • Dual-Screen Enabled</span>
+          <ShieldCheck className="w-4 h-4 text-[#1E0FA8]" />
+          <span className="font-semibold text-slate-700">Smart Gate Check-in System • Dual-Screen Enabled</span>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 font-medium">
           <span>
-            ප්‍රධාන දොරටුව: <b className="text-[#C69A35]">{webSettings.kioskGateTerminalName}</b>
+            Terminal Gate: <b className="text-[#1E0FA8]">Gate 01 (Main Entrance)</b>
           </span>
           <span className="hidden sm:inline">•</span>
           <span>
-            කටහඬ ආචාරය (Voice): <b className="text-emerald-400">{soundEnabled ? 'Active' : 'Muted'}</b>
+            Audio Feedback: <b className="text-emerald-600">{soundEnabled ? 'Active' : 'Muted'}</b>
           </span>
         </div>
       </footer>
