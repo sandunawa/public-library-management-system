@@ -366,6 +366,27 @@
   animation: successRadialPulse 700ms ease-out forwards;
 }
 
+/* Zebra Striping for all tables across the entire system */
+tbody tr:nth-child(even) {
+  background-color: rgba(118, 84, 215, 0.035);
+}
+
+tbody tr:nth-child(odd) {
+  background-color: transparent;
+}
+
+tbody tr:hover {
+  background-color: rgba(118, 84, 215, 0.09) !important;
+}
+
+.dark tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.025);
+}
+
+.dark tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+}
+
 /* Reduced Motion Guard */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
