@@ -372,10 +372,10 @@ export const AdminAttendancePage: React.FC = () => {
                 <div>
                   <h3 className="font-bold text-base flex items-center gap-2">
                     <Radio className="w-4 h-4 text-emerald-600 animate-pulse" />
-                    <span>Select Active Class Session / Batch</span>
+                    <span>Live Gate Scanner Terminal</span>
                   </h3>
                   <p className="text-xs text-muted-foreground mt-0.5">
-                    Controls which class batch receives attendance from the gate scanner
+                    Fast automated attendance verification for patrons entering the library premises
                   </p>
                 </div>
                 <div className="flex items-center gap-2 font-mono text-xs bg-muted px-3 py-1.5 rounded-lg">
@@ -384,44 +384,8 @@ export const AdminAttendancePage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-xs font-bold block mb-1">Target Batch / Cohort</label>
-                  <select
-                    value={selectedBatchId}
-                    onChange={(e) => setSelectedBatchId(e.target.value)}
-                    className="w-full h-10 px-3 rounded-lg border border-input bg-background text-sm font-medium"
-                  >
-                    {batches.map((b) => (
-                      <option key={b.id} value={b.id}>
-                        {b.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="flex gap-2 items-end">
-                  <div className="flex-1">
-                    <label className="text-xs font-bold block mb-1">Start Time</label>
-                    <Input
-                      type="time"
-                      value={startTime}
-                      onChange={(e) => setStartTime(e.target.value)}
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <label className="text-xs font-bold block mb-1">End Time</label>
-                    <Input
-                      type="time"
-                      value={endTime}
-                      onChange={(e) => setEndTime(e.target.value)}
-                    />
-                  </div>
-                </div>
-              </div>
-
               {/* Hardware Scanner Field */}
-              <div className="pt-4 border-t">
+              <div className="pt-2">
                 <label className="text-xs font-bold block mb-1 flex items-center gap-1.5">
                   <QrCode className="w-4 h-4 text-emerald-600" />
                   <span>Hardware Barcode / QR Scanner Input</span>

@@ -100,57 +100,27 @@ export const StaffLayout: React.FC = () => {
           </NavLink>
           <NavLink to="/kiosk" target="_blank" className={navLinkClass}>
             <QrCode className="w-4 h-4 shrink-0 text-amber-500" />
-            <div className="flex flex-col min-w-0">
-              <span className="truncate">Smart Gate Kiosk Display</span>
-              <span className="text-xs text-muted-foreground font-normal leading-tight font-sinhala truncate">
-                ස්වයංක්‍රීය ඇතුල්වීමේ තිරය
-              </span>
-            </div>
+            <span className="truncate">Smart Gate Kiosk Display</span>
           </NavLink>
           <NavLink to="/staff/attendance" className={navLinkClass}>
             <Users className="w-4 h-4 shrink-0 text-emerald-500" />
-            <div className="flex flex-col min-w-0">
-              <span className="truncate">Gate Attendance Console</span>
-              <span className="text-xs text-muted-foreground font-normal leading-tight font-sinhala truncate">
-                පැමිණීමේ පාලන පුවරුව
-              </span>
-            </div>
+            <span className="truncate">Gate Attendance Console</span>
           </NavLink>
           <NavLink to="/staff/issued-books" className={navLinkClass}>
             <BookOpen className="w-4 h-4 shrink-0 text-success" />
-            <div className="flex flex-col min-w-0">
-              <span className="truncate">Issued Books</span>
-              <span className="text-xs text-muted-foreground font-normal leading-tight font-sinhala truncate">
-                ණයට දුන් පොත්
-              </span>
-            </div>
+            <span className="truncate">Issued Books</span>
           </NavLink>
           <NavLink to="/staff/reservations" className={navLinkClass}>
             <BookmarkCheck className="w-4 h-4 shrink-0 text-[#7654D7]" />
-            <div className="flex flex-col min-w-0">
-              <span className="truncate">Hold Requests</span>
-              <span className="text-xs text-muted-foreground font-normal leading-tight font-sinhala truncate">
-                වෙන්කිරීම් පෝලිම
-              </span>
-            </div>
+            <span className="truncate">Hold Requests</span>
           </NavLink>
           <NavLink to="/staff/fines" className={navLinkClass}>
             <Coins className="w-4 h-4 shrink-0 text-warning" />
-            <div className="flex flex-col min-w-0">
-              <span className="truncate">Overdue & Fines</span>
-              <span className="text-xs text-muted-foreground font-normal leading-tight font-sinhala truncate">
-                ප්‍රමාද දඩ මුදල්
-              </span>
-            </div>
+            <span className="truncate">Overdue & Fines</span>
           </NavLink>
           <NavLink to="/staff/suspended" className={navLinkClass}>
             <ShieldAlert className="w-4 h-4 shrink-0 text-danger" />
-            <div className="flex flex-col min-w-0">
-              <span className="truncate">Suspended</span>
-              <span className="text-xs text-muted-foreground font-normal leading-tight font-sinhala truncate">
-                අත්හිටුවූ ගිණුම්
-              </span>
-            </div>
+            <span className="truncate">Suspended Members</span>
           </NavLink>
         </div>
       </div>
@@ -171,12 +141,7 @@ export const StaffLayout: React.FC = () => {
           </NavLink>
           <NavLink to="/staff/timetable" className={navLinkClass}>
             <CalendarCheck className="w-4 h-4 shrink-0 text-[#7654D7]" />
-            <div className="flex flex-col min-w-0">
-              <span className="truncate">Library Timetable</span>
-              <span className="text-xs text-muted-foreground font-normal leading-tight font-sinhala truncate">
-                කාලසටහන
-              </span>
-            </div>
+            <span className="truncate">Library Timetable</span>
           </NavLink>
           <NavLink
             to="/staff/members?tab=directory"
@@ -194,12 +159,7 @@ export const StaffLayout: React.FC = () => {
           </NavLink>
           <NavLink to="/staff/bulk-registration" className={navLinkClass}>
             <UserPlus className="w-4 h-4 shrink-0 text-[#7654D7]" />
-            <div className="flex flex-col min-w-0">
-              <span className="truncate">Bulk Class Enrol</span>
-              <span className="text-xs text-muted-foreground font-normal leading-tight font-sinhala truncate">
-                කණ්ඩායම් ලියාපදිංචිය
-              </span>
-            </div>
+            <span className="truncate">Bulk Class Enrol</span>
           </NavLink>
           <NavLink
             to="/staff/members?tab=requests"
@@ -220,12 +180,7 @@ export const StaffLayout: React.FC = () => {
           </NavLink>
           <NavLink to="/staff/missing-books" className={navLinkClass}>
             <AlertOctagon className="w-4 h-4 shrink-0 text-warning" />
-            <div className="flex flex-col min-w-0">
-              <span className="truncate">Missing Books</span>
-              <span className="text-xs text-muted-foreground font-normal leading-tight font-sinhala truncate">
-                අස්ථානගත පොත්
-              </span>
-            </div>
+            <span className="truncate">Missing Books</span>
           </NavLink>
           <NavLink to="/staff/reports" className={navLinkClass}>
             <FileSpreadsheet className="w-4 h-4 shrink-0" />
