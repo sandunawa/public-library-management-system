@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import workflowsBgImage from '/images/enivac-workflows-bg.jpg?url';
 import {
   CreditCard,
   QrCode,
@@ -105,95 +106,108 @@ export const SupportingSections: React.FC<SupportingSectionsProps> = ({ lang }) 
 
   return (
     <div className="space-y-32">
-      {/* SECTION 6: HOW IT WORKS (Timeline) */}
-      <section id="how-it-works" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-          <span className="text-xs font-bold uppercase tracking-wider text-[#1E0FA8] px-3.5 py-1 rounded-full bg-violet-50 border border-violet-200">
-            Workflows
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 font-heading">
-            {t.howItWorks.title}
-          </h2>
-          <p className="text-sm text-slate-600">{t.howItWorks.subtitle}</p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative">
-          <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md transition-all text-left relative">
-            <span className="w-8 h-8 rounded-full bg-[#1E0FA8] text-white font-black flex items-center justify-center text-xs mb-4">
-              1
-            </span>
-            <h4 className="font-bold text-slate-900 text-base mb-2">{t.howItWorks.step1}</h4>
-            <p className="text-xs text-slate-600 leading-relaxed">{t.howItWorks.step1Desc}</p>
-          </div>
-
-          <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md transition-all text-left relative">
-            <span className="w-8 h-8 rounded-full bg-[#4F35E8] text-white font-black flex items-center justify-center text-xs mb-4">
-              2
-            </span>
-            <h4 className="font-bold text-slate-900 text-base mb-2">{t.howItWorks.step2}</h4>
-            <p className="text-xs text-slate-600 leading-relaxed">{t.howItWorks.step2Desc}</p>
-          </div>
-
-          <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md transition-all text-left relative">
-            <span className="w-8 h-8 rounded-full bg-[#16A34A] text-white font-black flex items-center justify-center text-xs mb-4">
-              3
-            </span>
-            <h4 className="font-bold text-slate-900 text-base mb-2">{t.howItWorks.step3}</h4>
-            <p className="text-xs text-slate-600 leading-relaxed">{t.howItWorks.step3Desc}</p>
-          </div>
-
-          <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md transition-all text-left relative">
-            <span className="w-8 h-8 rounded-full bg-[#C69A35] text-white font-black flex items-center justify-center text-xs mb-4">
-              4
-            </span>
-            <h4 className="font-bold text-slate-900 text-base mb-2">{t.howItWorks.step4}</h4>
-            <p className="text-xs text-slate-600 leading-relaxed">{t.howItWorks.step4Desc}</p>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 7: WHO IS IT FOR */}
-      <section id="who-its-for" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 font-heading">
-            {t.whoItsFor.title}
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md transition-all text-left space-y-3">
-            <div className="w-10 h-10 rounded-xl bg-violet-50 text-[#1E0FA8] flex items-center justify-center">
-              <Users className="w-5 h-5" />
+      {/* SECTIONS 6 & 7: UNIFIED WORKFLOWS + STAKEHOLDERS WITH PANORAMIC SMART LIBRARY BACKGROUND */}
+      <div
+        className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-cover bg-center bg-no-repeat overflow-hidden rounded-[2.5rem] max-w-[96rem] mx-auto shadow-2xl border border-slate-200/80"
+        style={{
+          backgroundImage: `url(${workflowsBgImage})`,
+        }}
+      >
+        <div className="max-w-7xl mx-auto space-y-28 relative z-10">
+          {/* SECTION 6: HOW IT WORKS (Timeline) */}
+          <section id="how-it-works">
+            <div className="text-center max-w-3xl mx-auto mb-16 space-y-4 p-6 sm:p-8 rounded-3xl bg-white/85 backdrop-blur-md border border-white/70 shadow-lg">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#1E0FA8] px-3.5 py-1 rounded-full bg-violet-50 border border-violet-200">
+                Workflows
+              </span>
+              <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 font-heading">
+                {t.howItWorks.title}
+              </h2>
+              <p className="text-sm sm:text-base text-slate-700 leading-relaxed font-normal">{t.howItWorks.subtitle}</p>
             </div>
-            <h4 className="text-base font-bold text-slate-900">{t.whoItsFor.librarians}</h4>
-            <p className="text-xs text-slate-600 leading-relaxed">{t.whoItsFor.librariansDesc}</p>
-          </div>
 
-          <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md transition-all text-left space-y-3">
-            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-[#16A34A] flex items-center justify-center">
-              <Building className="w-5 h-5" />
-            </div>
-            <h4 className="text-base font-bold text-slate-900">{t.whoItsFor.management}</h4>
-            <p className="text-xs text-slate-600 leading-relaxed">{t.whoItsFor.managementDesc}</p>
-          </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+              <div className="p-6 rounded-3xl bg-white/90 backdrop-blur-md border border-white/80 shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all text-left relative">
+                <span className="w-9 h-9 rounded-full bg-[#1E0FA8] text-white font-black flex items-center justify-center text-xs mb-4 shadow-md">
+                  1
+                </span>
+                <h4 className="font-bold text-slate-900 text-base mb-2">{t.howItWorks.step1}</h4>
+                <p className="text-xs text-slate-600 leading-relaxed font-medium">{t.howItWorks.step1Desc}</p>
+              </div>
 
-          <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md transition-all text-left space-y-3">
-            <div className="w-10 h-10 rounded-xl bg-amber-50 text-[#C69A35] flex items-center justify-center">
-              <GraduationCap className="w-5 h-5" />
-            </div>
-            <h4 className="text-base font-bold text-slate-900">{t.whoItsFor.members}</h4>
-            <p className="text-xs text-slate-600 leading-relaxed">{t.whoItsFor.membersDesc}</p>
-          </div>
+              <div className="p-6 rounded-3xl bg-white/90 backdrop-blur-md border border-white/80 shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all text-left relative">
+                <span className="w-9 h-9 rounded-full bg-[#4F35E8] text-white font-black flex items-center justify-center text-xs mb-4 shadow-md">
+                  2
+                </span>
+                <h4 className="font-bold text-slate-900 text-base mb-2">{t.howItWorks.step2}</h4>
+                <p className="text-xs text-slate-600 leading-relaxed font-medium">{t.howItWorks.step2Desc}</p>
+              </div>
 
-          <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md transition-all text-left space-y-3">
-            <div className="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center">
-              <Laptop className="w-5 h-5" />
+              <div className="p-6 rounded-3xl bg-white/90 backdrop-blur-md border border-white/80 shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all text-left relative">
+                <span className="w-9 h-9 rounded-full bg-[#16A34A] text-white font-black flex items-center justify-center text-xs mb-4 shadow-md">
+                  3
+                </span>
+                <h4 className="font-bold text-slate-900 text-base mb-2">{t.howItWorks.step3}</h4>
+                <p className="text-xs text-slate-600 leading-relaxed font-medium">{t.howItWorks.step3Desc}</p>
+              </div>
+
+              <div className="p-6 rounded-3xl bg-white/90 backdrop-blur-md border border-white/80 shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all text-left relative">
+                <span className="w-9 h-9 rounded-full bg-[#C69A35] text-white font-black flex items-center justify-center text-xs mb-4 shadow-md">
+                  4
+                </span>
+                <h4 className="font-bold text-slate-900 text-base mb-2">{t.howItWorks.step4}</h4>
+                <p className="text-xs text-slate-600 leading-relaxed font-medium">{t.howItWorks.step4Desc}</p>
+              </div>
             </div>
-            <h4 className="text-base font-bold text-slate-900">{t.whoItsFor.itAdmin}</h4>
-            <p className="text-xs text-slate-600 leading-relaxed">{t.whoItsFor.itAdminDesc}</p>
-          </div>
+          </section>
+
+          {/* SECTION 7: WHO IS IT FOR */}
+          <section id="who-its-for">
+            <div className="text-center max-w-3xl mx-auto mb-16 p-6 rounded-3xl bg-white/85 backdrop-blur-md border border-white/70 shadow-lg">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#4F35E8] px-3.5 py-1 rounded-full bg-violet-50 border border-violet-200">
+                Institutional Roles
+              </span>
+              <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 font-heading mt-3">
+                {t.whoItsFor.title}
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="p-6 rounded-3xl bg-white/90 backdrop-blur-md border border-white/80 shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all text-left space-y-3">
+                <div className="w-10 h-10 rounded-xl bg-violet-50 text-[#1E0FA8] flex items-center justify-center shadow-xs">
+                  <Users className="w-5 h-5" />
+                </div>
+                <h4 className="text-base font-bold text-slate-900">{t.whoItsFor.librarians}</h4>
+                <p className="text-xs text-slate-600 leading-relaxed font-medium">{t.whoItsFor.librariansDesc}</p>
+              </div>
+
+              <div className="p-6 rounded-3xl bg-white/90 backdrop-blur-md border border-white/80 shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all text-left space-y-3">
+                <div className="w-10 h-10 rounded-xl bg-emerald-50 text-[#16A34A] flex items-center justify-center shadow-xs">
+                  <Building className="w-5 h-5" />
+                </div>
+                <h4 className="text-base font-bold text-slate-900">{t.whoItsFor.management}</h4>
+                <p className="text-xs text-slate-600 leading-relaxed font-medium">{t.whoItsFor.managementDesc}</p>
+              </div>
+
+              <div className="p-6 rounded-3xl bg-white/90 backdrop-blur-md border border-white/80 shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all text-left space-y-3">
+                <div className="w-10 h-10 rounded-xl bg-amber-50 text-[#C69A35] flex items-center justify-center shadow-xs">
+                  <GraduationCap className="w-5 h-5" />
+                </div>
+                <h4 className="text-base font-bold text-slate-900">{t.whoItsFor.members}</h4>
+                <p className="text-xs text-slate-600 leading-relaxed font-medium">{t.whoItsFor.membersDesc}</p>
+              </div>
+
+              <div className="p-6 rounded-3xl bg-white/90 backdrop-blur-md border border-white/80 shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all text-left space-y-3">
+                <div className="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center shadow-xs">
+                  <Laptop className="w-5 h-5" />
+                </div>
+                <h4 className="text-base font-bold text-slate-900">{t.whoItsFor.itAdmin}</h4>
+                <p className="text-xs text-slate-600 leading-relaxed font-medium">{t.whoItsFor.itAdminDesc}</p>
+              </div>
+            </div>
+          </section>
         </div>
-      </section>
+      </div>
 
       {/* SECTION 8: SUPPORTED HARDWARE */}
       <section id="hardware" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
