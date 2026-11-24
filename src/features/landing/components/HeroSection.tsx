@@ -27,8 +27,19 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ lang, onOpenLogin }) =
 
   return (
     <section className="relative min-h-[92vh] pt-32 pb-20 flex flex-col justify-center overflow-hidden">
+      {/* MASTER CINEMATIC HERO BACKGROUND IMAGE */}
+      <div className="absolute inset-0 -z-20 overflow-hidden">
+        <img
+          src="/images/enivac-hero-mesh.jpg"
+          alt="Enivac Smart Library 3D Mesh Grid"
+          className="w-full h-full object-cover object-center filter brightness-[0.6] contrast-[1.15]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0B0630]/90 via-[#0B0630]/70 to-[#0B0630]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#0B0630_100%)] opacity-80" />
+      </div>
+
       {/* Background Radial Glow & Concentric Rings */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-gradient-to-tr from-[#1E0FA8]/40 via-[#4F35E8]/30 to-[#A99BFF]/10 rounded-full blur-[140px] pointer-events-none -z-10" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-gradient-to-tr from-[#1E0FA8]/30 via-[#4F35E8]/20 to-[#A99BFF]/10 rounded-full blur-[140px] pointer-events-none -z-10" />
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] border border-[#4F35E8]/10 rounded-full pointer-events-none -z-10" />
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1400px] h-[1400px] border border-[#4F35E8]/5 rounded-full pointer-events-none -z-10" />
 

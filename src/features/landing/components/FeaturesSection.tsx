@@ -184,7 +184,8 @@ export const FeaturesSection: React.FC<FeaturesSectionProps> = ({ lang }) => {
         </div>
 
         {/* Section 5: Interactive Feature Showcase Highlight */}
-        <div id="showcase" className="mt-28 pt-12 border-t border-white/10">
+        <div id="showcase" className="mt-28 pt-12 border-t border-white/10 space-y-20">
+          {/* Showcase 01: Smart Gate Kiosk Hardware */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left text */}
             <div className="lg:col-span-6 space-y-6 text-left">
@@ -223,8 +224,20 @@ export const FeaturesSection: React.FC<FeaturesSectionProps> = ({ lang }) => {
               </div>
             </div>
 
-            {/* Right: Live Interactive Mini Kiosk Demo */}
-            <div className="lg:col-span-6">
+            {/* Right: Live Interactive Mini Kiosk Demo with Photo */}
+            <div className="lg:col-span-6 space-y-4">
+              <div className="rounded-3xl overflow-hidden border border-[#4F35E8]/40 shadow-2xl relative group">
+                <img
+                  src="/images/enivac-kiosk-scan.jpg"
+                  alt="Student scanning smart barcode card at entrance kiosk"
+                  className="w-full h-56 object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0B0630] via-transparent to-transparent" />
+                <span className="absolute bottom-3 left-4 text-xs font-bold text-white bg-black/60 px-3 py-1 rounded-full border border-white/20 backdrop-blur">
+                  Hardware Integration: 1D/2D High-Speed Laser Scanner
+                </span>
+              </div>
+
               <div className="p-6 rounded-3xl bg-gradient-to-br from-[#0B0630] via-[#002213] to-[#0B0630] border-2 border-[#C69A35]/50 shadow-2xl relative overflow-hidden text-center">
                 <div className="flex items-center justify-between pb-3 border-b border-[#C69A35]/30 mb-5">
                   <span className="text-xs font-bold text-[#FFF5DF] flex items-center gap-2">
@@ -238,9 +251,9 @@ export const FeaturesSection: React.FC<FeaturesSectionProps> = ({ lang }) => {
                   <motion.div
                     initial={{ scale: 0.9, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    className="space-y-4 py-4"
+                    className="space-y-4 py-2"
                   >
-                    <div className="w-24 h-24 rounded-full border-4 border-[#C69A35] mx-auto overflow-hidden bg-[#064B2A] flex items-center justify-center font-black text-2xl text-white">
+                    <div className="w-20 h-20 rounded-full border-4 border-[#C69A35] mx-auto overflow-hidden bg-[#064B2A] flex items-center justify-center font-black text-2xl text-white">
                       K
                     </div>
                     <div>
@@ -258,22 +271,61 @@ export const FeaturesSection: React.FC<FeaturesSectionProps> = ({ lang }) => {
                     </button>
                   </motion.div>
                 ) : (
-                  <div className="space-y-6 py-6">
-                    <div className="w-24 h-24 rounded-2xl bg-[#064B2A]/50 border-2 border-dashed border-[#C69A35] mx-auto flex items-center justify-center">
-                      <QrCode className="w-12 h-12 text-[#C69A35] animate-pulse" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-white">Tap below to test instant card scan</p>
-                      <p className="text-xs text-[#A99BFF] mt-1">Simulates USB laser barcode scanner trigger</p>
-                    </div>
+                  <div className="space-y-4 py-2">
+                    <p className="text-xs text-[#A99BFF]">
+                      Simulate scanning barcode card <strong>LIB-STU-2026014</strong>
+                    </p>
                     <Button
                       onClick={() => setDemoStudentScanned(true)}
-                      className="bg-[#C69A35] hover:bg-[#b0872c] text-black font-bold px-6 py-2.5 rounded-xl shadow-lg"
+                      className="bg-[#C69A35] hover:bg-[#b0872c] text-black font-bold px-6 py-2 rounded-xl shadow-lg text-xs"
                     >
-                      Scan Student Card (LIB-STU-2026014)
+                      Trigger Test Scan
                     </Button>
                   </div>
                 )}
+              </div>
+            </div>
+          </div>
+
+          {/* Showcase 02: High-Tech Connected Library Learning Spaces */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            {/* Left Photo */}
+            <div className="lg:col-span-6 rounded-3xl overflow-hidden border border-[#4F35E8]/40 shadow-2xl relative group order-2 lg:order-1">
+              <img
+                src="/images/enivac-library-interior.jpg"
+                alt="Modern High-Tech University Library Learning Center"
+                className="w-full h-80 object-cover object-center group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0B0630] via-transparent to-transparent opacity-80" />
+              <div className="absolute bottom-4 left-4 right-4 p-3 rounded-2xl bg-[#0B0630]/80 border border-white/10 backdrop-blur text-left">
+                <span className="text-xs font-bold text-white block">Next-Generation Smart Architecture</span>
+                <span className="text-[11px] text-[#A99BFF]">Designed for high throughput in leading schools and university libraries</span>
+              </div>
+            </div>
+
+            {/* Right Text */}
+            <div className="lg:col-span-6 space-y-6 text-left order-1 lg:order-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#A99BFF] px-3 py-1 rounded-full bg-[#4F35E8]/20 border border-[#4F35E8]/40">
+                Showcase 02
+              </span>
+              <h3 className="text-3xl sm:text-4xl font-extrabold text-white font-heading">
+                Zero-Touch Circulation & Real-Time Stock Auditing
+              </h3>
+              <p className="text-sm text-[#F5F4FF]/80 leading-relaxed">
+                Empower your library staff with hands-free loan circulation. The system auto-focuses
+                between member card barcodes and book copies in milliseconds, eliminating manual mouse clicks.
+                Issue, return, print 80mm thermal receipts, and audit shelf inventory effortlessly.
+              </p>
+
+              <div className="grid grid-cols-2 gap-3 text-xs">
+                <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10">
+                  <span className="font-bold text-white block mb-0.5">3.2 Seconds</span>
+                  <span className="text-[#A99BFF]">Average checkout duration</span>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10">
+                  <span className="font-bold text-white block mb-0.5">Zero Clicks</span>
+                  <span className="text-[#A99BFF]">Hardware scanner focus loop</span>
+                </div>
               </div>
             </div>
           </div>
