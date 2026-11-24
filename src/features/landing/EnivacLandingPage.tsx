@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ecosystemImage from '/images/enivac-ecosystem.jpg?url';
 import { LandingNavbar } from './components/LandingNavbar';
 import { HeroSection } from './components/HeroSection';
 import { FeaturesSection } from './components/FeaturesSection';
@@ -65,7 +66,7 @@ export const EnivacLandingPage: React.FC = () => {
         <div className="relative rounded-3xl overflow-hidden border border-slate-200/80 shadow-2xl bg-white p-2 sm:p-4 group">
           <div className="relative rounded-2xl overflow-hidden border border-slate-100 shadow-inner">
             <img
-              src="/images/enivac-ecosystem.jpg"
+              src={ecosystemImage}
               alt="Interconnected Smart Library Operating System Modules"
               className="w-full h-auto max-h-[460px] object-cover object-center group-hover:scale-[1.02] transition-transform duration-700"
             />
