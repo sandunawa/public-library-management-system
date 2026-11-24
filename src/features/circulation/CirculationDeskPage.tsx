@@ -2,7 +2,21 @@ import React, { useState, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ScanLine, CheckCircle2, CornerDownLeft, Undo2, ArrowLeftRight, UserX, Trash2, UserCheck, BookOpen, ShoppingBag, ArrowRight, ShieldAlert, AlertTriangle } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { PageHeader } from '@/components/ui/page-header';
+import {
+  ScanLine,
+  CheckCircle2,
+  CornerDownLeft,
+  UserX,
+  Trash2,
+  UserCheck,
+  BookOpen,
+  ShoppingBag,
+  ShieldAlert,
+  AlertTriangle,
+  RotateCcw,
+} from 'lucide-react';
 import { CirculationRepository } from '@/services/repositories/CirculationRepository';
 import { CatalogRepository } from '@/services/repositories/CatalogRepository';
 import { PolicyService } from '@/services/circulation/PolicyService';
@@ -31,7 +45,7 @@ export const CirculationDeskPage: React.FC = () => {
   const [memberInput, setMemberInput] = useState('');
   const [activeMember, setActiveMember] = useState<MemberProfile | null>(null);
   const [itemBarcode, setItemBarcode] = useState('');
-  
+
   // Staged items awaiting final checkout confirmation
   const [stagedItems, setStagedItems] = useState<StagedCartItem[]>([]);
   // Completed transaction history for receipts
@@ -53,7 +67,7 @@ export const CirculationDeskPage: React.FC = () => {
   const handleClearPatron = () => {
     setActiveMember(null);
     setMemberInput('');
-    setStagedItems([]); // Clear unconfirmed staged items
+    setStagedItems([]);
     toast.info('Patron cleared. Ready to scan new member card.');
     setTimeout(() => {
       memberInputRef.current?.focus();
@@ -78,7 +92,7 @@ export const CirculationDeskPage: React.FC = () => {
     focusItemInput();
   };
 
-  // Step 1: Patron Lookup (Supports Enter, Submit & Barcode Reader Wedge)
+  // Step 1: Patron Lookup
   const executeMemberLookup = (inputVal: string): boolean => {
     const raw = inputVal.trim();
     if (!raw) return false;
@@ -124,7 +138,6 @@ export const CirculationDeskPage: React.FC = () => {
     setIsProcessing(false);
   };
 
-  // Keyboard wedge scanner listener: catches Enter key from scanner instantly!
   const handleMemberKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -137,13 +150,11 @@ export const CirculationDeskPage: React.FC = () => {
     }
   };
 
-  // Auto-detect Barcode Reader Scanner for Patron ID Card
   const handleMemberInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     setMemberInput(val);
     const clean = val.replace(/[^a-zA-Z0-9-]/g, '').trim();
 
-    // Barcodes like LIB-MEM-2026081 or numeric scanner feeds
     if (clean.length >= 6) {
       executeMemberLookup(clean);
     }
@@ -164,7 +175,6 @@ export const CirculationDeskPage: React.FC = () => {
           return;
         }
 
-        // Check if barcode already added to this staged list
         if (stagedItems.some((item) => item.barcode.toLowerCase() === code.toLowerCase())) {
           toast.warning(`Copy ${code} is already in the checkout queue!`);
           setItemBarcode('');
@@ -173,7 +183,6 @@ export const CirculationDeskPage: React.FC = () => {
           return;
         }
 
-        // Check dynamic borrow limits from Policy & Settings
         const policySettings = PolicyService.getSettings();
         const maxLoans = policySettings.maxLoans || 5;
         const totalProjected = (activeMember.activeLoansCount || 0) + stagedItems.length + 1;
@@ -184,7 +193,6 @@ export const CirculationDeskPage: React.FC = () => {
           return;
         }
 
-        // Verify copy exists in inventory and is AVAILABLE
         const copy = await CirculationRepository.findCopyByBarcode(code);
         if (!copy) {
           toast.error(`Copy barcode '${code}' not found in library catalog.`);
@@ -200,7 +208,6 @@ export const CirculationDeskPage: React.FC = () => {
           return;
         }
 
-        // Retrieve book title
         const allBooks = CatalogRepository.getLocalBooks();
         const book = allBooks.find((b) => b.id === copy.bookId);
         const bookTitle = book ? book.title : `Copy ${code}`;
@@ -218,11 +225,8 @@ export const CirculationDeskPage: React.FC = () => {
         setItemBarcode('');
         focusItemInput();
       } else {
-        // Return Flow (Instant check-in)
-        const res = await CirculationRepository.returnCopy(
-          code,
-          'branch-colombo-hq'
-        );
+        // Return Flow
+        const res = await CirculationRepository.returnCopy(code, 'branch-colombo-hq');
 
         if (!res.success) {
           toast.error(res.error || 'Return check-in failed.');
@@ -249,7 +253,7 @@ export const CirculationDeskPage: React.FC = () => {
     }
   };
 
-  // Final Action: Checkout all staged books at once!
+  // Final Action: Checkout
   const handleFinalCheckout = async () => {
     if (!activeMember) {
       toast.error('No active patron selected.');
@@ -291,12 +295,11 @@ export const CirculationDeskPage: React.FC = () => {
 
     if (successCount > 0) {
       toast.success(`Successfully checked out ${successCount} book(s) for ${activeMember.fullName}!`);
-      // Update local activeMember count
       setActiveMember((prev) =>
         prev ? { ...prev, activeLoansCount: (prev.activeLoansCount || 0) + successCount } : null
       );
       setSessionItems((prev) => [...newReceipts, ...prev]);
-      setStagedItems([]); // Clear queue after successful checkout
+      setStagedItems([]);
     }
     setIsProcessing(false);
     focusItemInput();
@@ -305,49 +308,51 @@ export const CirculationDeskPage: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Top Desk Header with Mode Selector */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b pb-4">
-        <div>
-          <h1 className="text-2xl font-serif font-bold text-foreground">Circulation Desk Terminal</h1>
-          <p className="text-sm text-muted-foreground">High-speed keyboard-first barcode checkout and return mode</p>
-        </div>
-
-        {/* Issue / Return Toggle */}
-        <div className="flex bg-muted p-1 rounded-xl">
-          <button
-            type="button"
-            onClick={() => setActiveTab('ISSUE')}
-            className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all ${
-              activeTab === 'ISSUE' ? 'bg-primary text-primary-foreground shadow' : 'text-muted-foreground'
-            }`}
-          >
-            Check Out (Issue)
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab('RETURN')}
-            className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all ${
-              activeTab === 'RETURN' ? 'bg-primary text-primary-foreground shadow' : 'text-muted-foreground'
-            }`}
-          >
-            Check In (Return)
-          </button>
-        </div>
-      </div>
+      <PageHeader
+        title="Circulation Desk Terminal"
+        description="High-speed keyboard-first barcode checkout and return terminal"
+        actions={
+          <div className="flex bg-muted p-1 rounded-xl">
+            <button
+              type="button"
+              onClick={() => setActiveTab('ISSUE')}
+              className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all min-h-[36px] ${
+                activeTab === 'ISSUE'
+                  ? 'bg-card text-foreground shadow-subtle'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Check Out (Issue)
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('RETURN')}
+              className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all min-h-[36px] ${
+                activeTab === 'RETURN'
+                  ? 'bg-card text-foreground shadow-subtle'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Check In (Return)
+            </button>
+          </div>
+        }
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Left Column: Patron Verification (Required for Issue) */}
+        {/* Left Column: Patron Verification */}
         {activeTab === 'ISSUE' && (
-          <Card className="md:col-span-1">
-            <CardHeader>
-              <CardTitle className="text-base flex items-center space-x-2">
+          <Card className="md:col-span-1 shadow-card border-border">
+            <CardHeader className="p-5 pb-3">
+              <CardTitle className="text-base font-semibold flex items-center gap-2">
                 <ScanLine className="w-5 h-5 text-primary" />
                 <span>1. Identify Patron Card</span>
               </CardTitle>
               <CardDescription className="text-xs">
-                Scan member digital barcode or enter Member ID
+                Scan digital member barcode or enter Member ID
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="p-5 pt-2 space-y-4">
               <form onSubmit={handleMemberScan} className="flex gap-2">
                 <Input
                   ref={memberInputRef}
@@ -356,79 +361,84 @@ export const CirculationDeskPage: React.FC = () => {
                   onChange={handleMemberInputChange}
                   onKeyDown={handleMemberKeyDown}
                   autoFocus
-                  className="font-mono text-xs border-primary/50 focus:border-primary ring-1 ring-primary/20"
+                  className="font-mono text-xs"
                 />
-                <Button type="submit" disabled={isProcessing} className="text-xs font-semibold">
+                <Button type="submit" disabled={isProcessing} size="sm" className="font-semibold">
                   Find
                 </Button>
               </form>
 
               {activeMember && (
-                <div className={`p-4 rounded-xl border space-y-3 text-xs ${
-                  activeMember.status === 'SUSPENDED'
-                    ? 'bg-rose-500/10 border-rose-500/40 text-foreground ring-2 ring-rose-500/30'
-                    : 'bg-primary/5 border-primary/20'
-                }`}>
+                <div
+                  className={`p-4 rounded-xl border space-y-3 text-xs ${
+                    activeMember.status === 'SUSPENDED'
+                      ? 'bg-danger-soft border-danger/30 text-foreground'
+                      : 'bg-primary-soft/40 border-primary/20'
+                  }`}
+                >
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-sm text-foreground flex items-center gap-1.5">
                       {activeMember.status === 'SUSPENDED' ? (
-                        <UserX className="w-4 h-4 text-rose-600" />
+                        <UserX className="w-4 h-4 text-danger" />
                       ) : (
-                        <UserCheck className="w-4 h-4 text-emerald-600" />
+                        <UserCheck className="w-4 h-4 text-success" />
                       )}
                       {activeMember.fullName}
                     </span>
-                    <span
-                      className={`px-2 py-0.5 rounded font-bold uppercase ${
+                    <Badge
+                      variant={
                         activeMember.status === 'ACTIVE'
-                          ? 'bg-emerald-500/10 text-emerald-600'
+                          ? 'success'
                           : activeMember.status === 'SUSPENDED'
-                          ? 'bg-rose-600 text-white animate-pulse'
-                          : 'bg-amber-500/10 text-amber-600'
-                      }`}
+                          ? 'danger'
+                          : 'warning'
+                      }
+                      size="sm"
                     >
                       {activeMember.status}
-                    </span>
+                    </Badge>
                   </div>
 
                   {/* Red Alert Banner if Suspended */}
                   {activeMember.status === 'SUSPENDED' && (
-                    <div className="p-2.5 rounded-lg bg-rose-600 text-white font-bold text-xs flex items-center gap-2 shadow-sm">
+                    <div className="p-2.5 rounded-lg bg-danger text-danger-foreground font-bold text-xs flex items-center gap-2 shadow-sm">
                       <ShieldAlert className="w-4 h-4 shrink-0" />
-                      <span>SUSPENDED ACCOUNT! (අත්හිටවූ ගිණුමකි - පොත් නිකුත් කළ නොහැක)</span>
+                      <span>SUSPENDED ACCOUNT! (අත්හිටවූ ගිණුමකි)</span>
                     </div>
                   )}
 
-                  <div className="text-muted-foreground">Card No: <span className="font-mono font-bold text-foreground">{activeMember.memberIdNumber}</span></div>
+                  <div className="text-muted-foreground">
+                    Card No: <span className="font-mono font-bold text-foreground">{activeMember.memberIdNumber}</span>
+                  </div>
                   <div className="text-muted-foreground">Type: {activeMember.membershipType}</div>
                   <div className="text-muted-foreground">
-                    Active Loans: <strong className="text-foreground">{activeMember.activeLoansCount || 0}</strong> / {PolicyService.getSettings().maxLoans} Max
+                    Active Loans: <strong className="text-foreground">{activeMember.activeLoansCount || 0}</strong> /{' '}
+                    {PolicyService.getSettings().maxLoans} Max
                   </div>
 
-                  {/* Late Fine Warning if member has outstanding fines */}
-                  {(activeMember.unpaidFinesTotal && activeMember.unpaidFinesTotal > 0) ? (
-                    <div className="p-2.5 rounded-lg bg-rose-500/15 border-2 border-rose-500/40 text-rose-800 dark:text-rose-200 font-bold flex items-center justify-between shadow-sm">
+                  {activeMember.unpaidFinesTotal && activeMember.unpaidFinesTotal > 0 ? (
+                    <div className="p-2.5 rounded-lg bg-danger-soft border border-danger/30 text-danger-soft-foreground font-bold flex items-center justify-between shadow-sm">
                       <span className="flex items-center gap-1">
-                        <AlertTriangle className="w-4 h-4 text-rose-600" />
-                        Outstanding Late Fine (හිඟ දඩ මුදල):
+                        <AlertTriangle className="w-4 h-4 text-danger" />
+                        Outstanding Late Fine:
                       </span>
-                      <span className="font-mono text-base font-extrabold text-rose-700 dark:text-rose-300">
+                      <span className="font-mono text-sm font-bold">
                         Rs. {activeMember.unpaidFinesTotal.toFixed(2)}
                       </span>
                     </div>
                   ) : null}
 
                   {/* Clear / Change Patron Button */}
-                  <div className="pt-2 border-t border-primary/10 flex justify-end">
+                  <div className="pt-2 border-t border-border flex justify-end">
                     <Button
                       type="button"
-                      variant="destructive"
+                      variant="outline"
                       size="sm"
                       onClick={handleClearPatron}
-                      className="text-xs h-7 gap-1"
+                      className="text-xs h-8 gap-1 text-danger hover:bg-danger-soft hover:text-danger"
                     >
                       <UserX className="w-3.5 h-3.5" />
-                      Clear / Change Patron
+                      Clear Patron
                     </Button>
                   </div>
                 </div>
@@ -438,9 +448,9 @@ export const CirculationDeskPage: React.FC = () => {
         )}
 
         {/* Right Column: Barcode Scanning Feed */}
-        <Card className={activeTab === 'ISSUE' ? 'md:col-span-2' : 'md:col-span-3'}>
-          <CardHeader>
-            <CardTitle className="text-base flex items-center space-x-2">
+        <Card className={activeTab === 'ISSUE' ? 'md:col-span-2 shadow-card' : 'md:col-span-3 shadow-card'}>
+          <CardHeader className="p-5 pb-3">
+            <CardTitle className="text-base font-semibold flex items-center gap-2">
               <CornerDownLeft className="w-5 h-5 text-primary" />
               <span>
                 {activeTab === 'ISSUE' ? '2. Scan Item Copy Barcodes' : 'Scan Returned Item Barcodes'}
@@ -448,12 +458,12 @@ export const CirculationDeskPage: React.FC = () => {
             </CardTitle>
             <CardDescription className="text-xs">
               {activeTab === 'ISSUE'
-                ? 'Scan all book barcodes to add to the checkout queue, then click "Complete Check Out" at the bottom'
+                ? 'Scan book barcodes to add to the checkout queue, then confirm checkout'
                 : 'Consecutively scan returned item barcodes to process check-in'}
             </CardDescription>
           </CardHeader>
 
-          <CardContent className="space-y-4">
+          <CardContent className="p-5 pt-2 space-y-4">
             {/* Barcode input form */}
             <form onSubmit={handleItemScan} className="flex gap-2">
               <Input
@@ -479,26 +489,26 @@ export const CirculationDeskPage: React.FC = () => {
             {/* In ISSUE Mode: Scanned Staged Items waiting for checkout */}
             {activeTab === 'ISSUE' && (
               <div className="space-y-3">
-                <div className="border-2 border-dashed border-primary/20 rounded-xl overflow-hidden bg-primary/5">
-                  <div className="p-3 bg-primary/10 font-semibold uppercase tracking-wider text-xs text-primary flex justify-between items-center">
+                <div className="border border-primary/20 rounded-xl overflow-hidden bg-primary-soft/20">
+                  <div className="p-3 bg-primary-soft/50 font-semibold text-xs text-primary flex justify-between items-center">
                     <span className="flex items-center gap-1.5">
                       <ShoppingBag className="w-4 h-4" />
                       Books Ready for Checkout ({stagedItems.length} Scanned)
                     </span>
-                    <span className="text-[11px] font-normal lowercase text-muted-foreground">
-                      * Not added to loans until Checkout button is clicked
+                    <span className="text-[11px] font-normal text-muted-foreground">
+                      * Not added to loans until Check Out is confirmed
                     </span>
                   </div>
 
                   {stagedItems.length === 0 ? (
-                    <div className="p-6 text-center text-xs text-muted-foreground">
+                    <div className="p-8 text-center text-xs text-muted-foreground">
                       No books scanned yet. Scan book copy barcodes above to add them to this checkout batch.
                     </div>
                   ) : (
-                    <div className="divide-y divide-primary/10">
+                    <div className="divide-y divide-border bg-card">
                       {stagedItems.map((item, idx) => (
-                        <div key={idx} className="p-3 flex items-center justify-between text-xs hover:bg-primary/5">
-                          <div className="flex items-center space-x-3">
+                        <div key={idx} className="p-3.5 flex items-center justify-between text-xs hover:bg-muted/40">
+                          <div className="flex items-center gap-3">
                             <BookOpen className="w-4 h-4 text-primary shrink-0" />
                             <div>
                               <div className="font-semibold text-sm text-foreground">{item.title}</div>
@@ -508,10 +518,11 @@ export const CirculationDeskPage: React.FC = () => {
                           <Button
                             type="button"
                             variant="ghost"
-                            size="sm"
+                            size="icon-sm"
                             onClick={() => handleRemoveStagedItem(idx)}
                             title="Remove this book from queue"
-                            className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                            aria-label="Remove book"
+                            className="text-muted-foreground hover:text-danger"
                           >
                             <Trash2 className="w-4 h-4" />
                           </Button>
@@ -522,16 +533,18 @@ export const CirculationDeskPage: React.FC = () => {
 
                   {/* BOTTOM CHECKOUT BUTTON */}
                   {stagedItems.length > 0 && (
-                    <div className="p-3 bg-background border-t border-primary/20 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div className="p-4 bg-card border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3">
                       <div className="text-xs text-muted-foreground">
-                        Ready to issue <strong className="text-foreground">{stagedItems.length}</strong> book(s) to <strong className="text-primary">{activeMember?.fullName}</strong>.
+                        Ready to issue <strong className="text-foreground">{stagedItems.length}</strong> book(s) to{' '}
+                        <strong className="text-primary">{activeMember?.fullName}</strong>.
                       </div>
                       <Button
                         type="button"
                         size="default"
                         disabled={isProcessing}
                         onClick={handleFinalCheckout}
-                        className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-bold gap-2 shadow-md px-6"
+                        variant="success"
+                        className="w-full sm:w-auto font-semibold gap-2 shadow-subtle px-6"
                       >
                         <CheckCircle2 className="w-4 h-4" />
                         Check Out ({stagedItems.length} Books)
@@ -543,8 +556,8 @@ export const CirculationDeskPage: React.FC = () => {
             )}
 
             {/* Session Transactions History (Receipts) */}
-            <div className="border rounded-xl divide-y overflow-hidden text-xs mt-4">
-              <div className="p-3 bg-muted font-semibold uppercase tracking-wider text-muted-foreground flex justify-between">
+            <div className="border border-border rounded-xl divide-y divide-border overflow-hidden text-xs mt-4">
+              <div className="p-3 bg-muted/60 font-semibold text-muted-foreground flex justify-between">
                 <span>Completed Session Receipts ({sessionItems.length} Items)</span>
                 <span>Details / Due Date / Action</span>
               </div>
@@ -555,30 +568,33 @@ export const CirculationDeskPage: React.FC = () => {
               ) : (
                 sessionItems.map((item, idx) => (
                   <div key={idx} className="p-3 flex items-center justify-between hover:bg-muted/30">
-                    <div className="flex items-center space-x-3">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <div className="flex items-center gap-3">
+                      <CheckCircle2 className="w-4 h-4 text-success shrink-0" />
                       <div>
                         <div className="font-semibold text-sm">{item.title}</div>
                         <div className="text-muted-foreground font-mono">Barcode: {item.barcode}</div>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-3">
+                    <div className="flex items-center gap-3">
                       <div>
                         {item.status === 'ISSUED' ? (
-                          <span className="font-semibold text-primary">Due: {item.dueDate}</span>
+                          <Badge variant="info" size="sm">
+                            Due: {item.dueDate}
+                          </Badge>
                         ) : (
-                          <span className="font-semibold text-emerald-600">
+                          <Badge variant="success" size="sm">
                             Returned {item.fine && item.fine > 0 ? `(Fine: LKR ${item.fine})` : '(No Fines)'}
-                          </span>
+                          </Badge>
                         )}
                       </div>
                       <Button
                         type="button"
                         variant="ghost"
-                        size="sm"
+                        size="icon-sm"
                         onClick={() => handleRemoveSessionItem(idx)}
-                        title="Remove / Void from receipt history"
-                        className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                        title="Remove from receipt history"
+                        aria-label="Remove receipt"
+                        className="text-muted-foreground hover:text-danger"
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>

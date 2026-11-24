@@ -1,11 +1,36 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { BookOpen, Users, Clock, CreditCard, ArrowUpRight, TrendingUp, AlertTriangle, CloudUpload, CheckCircle2 } from 'lucide-react';
+import {
+  BookOpen,
+  Users,
+  Clock,
+  CloudUpload,
+  ArrowRight,
+  TrendingUp,
+  AlertTriangle,
+  ScanLine,
+  BookCopy,
+  ClipboardList,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import { StatCard } from '@/components/ui/stat-card';
+import { PageHeader } from '@/components/ui/page-header';
 import { CatalogRepository } from '@/services/repositories/CatalogRepository';
 import { LocalAuthService } from '@/services/auth/LocalAuthService';
 import { FirebaseSyncService } from '@/services/firebase/FirebaseSyncService';
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  Legend,
+} from 'recharts';
 import { toast } from 'sonner';
 
 export const StaffDashboardPage: React.FC = () => {
@@ -22,7 +47,10 @@ export const StaffDashboardPage: React.FC = () => {
     const books = CatalogRepository.getLocalBooks();
     const members = LocalAuthService.getAllMembers();
     const pending = members.filter((m) => m.status === 'PENDING').length;
-    const activeLoans = members.reduce((sum, m) => sum + (m.activeLoansCount || 0), 0);
+    const activeLoans = members.reduce(
+      (sum, m) => sum + (m.activeLoansCount || 0),
+      0
+    );
 
     setStats({
       totalBooks: books.length,
@@ -54,10 +82,12 @@ export const StaffDashboardPage: React.FC = () => {
     toast.info('Starting full sync to Cloud Firestore (libraryos-app-9fc34)...');
 
     try {
-      const res = await FirebaseSyncService.syncAllToCloudFirestore((percent, status) => {
-        setSyncProgress(percent);
-        setSyncStatusText(status);
-      });
+      const res = await FirebaseSyncService.syncAllToCloudFirestore(
+        (percent, status) => {
+          setSyncProgress(percent);
+          setSyncStatusText(status);
+        }
+      );
 
       toast.success(
         `Firebase Cloud Synced! ${res.booksCount} Books, ${res.copiesCount} Barcodes, and ${res.membersCount} Members saved to Firestore.`
@@ -75,128 +105,160 @@ export const StaffDashboardPage: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Title */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b pb-4">
-        <div>
-          <h1 className="text-2xl font-serif font-bold text-foreground">Library Operations Dashboard</h1>
-          <p className="text-xs text-muted-foreground">
-            Connected to Firebase Project: <strong className="text-primary">libraryos-app-9fc34</strong>
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
+      {/* Title with PageHeader */}
+      <PageHeader
+        title="Library Operations Dashboard"
+        description="Connected to Firebase Project: libraryos-app-9fc34 • Colombo Central (HQ)"
+        badge={<Badge variant="success">Live Project Active</Badge>}
+        actions={
           <Button
             size="sm"
             onClick={handleSyncToFirebase}
             disabled={isSyncing}
-            className="text-xs font-bold gap-2 bg-primary text-primary-foreground shadow-md hover:opacity-90 min-w-[200px]"
+            isLoading={isSyncing}
+            className="text-xs font-semibold gap-2 min-w-[200px]"
           >
-            <CloudUpload className={`w-4 h-4 ${isSyncing ? 'animate-bounce' : ''}`} />
+            <CloudUpload className="w-4 h-4" />
             <span>
-              {isSyncing ? `Uploading... ${syncProgress}%` : 'Upload Data to Firebase'}
+              {isSyncing
+                ? `Uploading... ${syncProgress}%`
+                : 'Upload Data to Firebase'}
             </span>
           </Button>
-
-          <div className="text-xs font-semibold px-2.5 py-1 bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 rounded-full flex items-center space-x-1">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>Live Project Active</span>
-          </div>
-        </div>
-      </div>
+        }
+      />
 
       {/* Progress Bar Display when syncing (0% to 100%) */}
       {isSyncing && (
-        <Card className="p-4 bg-primary/5 border border-primary/20 shadow-sm animate-in fade-in">
+        <Card className="p-4 bg-primary-soft/40 border border-primary/20 animate-in fade-in">
           <div className="space-y-2">
-            <div className="flex justify-between items-center text-xs font-bold">
+            <div className="flex justify-between items-center text-xs font-semibold">
               <span className="text-primary flex items-center gap-1.5">
                 <CloudUpload className="w-4 h-4 animate-spin" />
                 <span>{syncStatusText}</span>
               </span>
-              <span className="font-mono text-sm font-black text-primary">{syncProgress}%</span>
+              <span className="font-mono text-sm font-bold text-primary">
+                {syncProgress}%
+              </span>
             </div>
-            {/* Visual Progress Bar Track */}
-            <div className="w-full h-3 bg-muted rounded-full overflow-hidden p-0.5 border">
-              <div
-                className="h-full bg-primary rounded-full transition-all duration-300 ease-out shadow-sm"
-                style={{ width: `${syncProgress}%` }}
-              ></div>
-            </div>
+            <Progress value={syncProgress} />
           </div>
         </Card>
       )}
 
       {/* Bento Grid: 4 Metric Tiles */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card>
-          <CardHeader className="p-4 pb-2 flex flex-row items-center justify-between space-y-0">
-            <CardTitle className="text-xs font-semibold text-muted-foreground uppercase">Catalogued Titles</CardTitle>
-            <BookOpen className="w-4 h-4 text-primary" />
-          </CardHeader>
-          <CardContent className="p-4 pt-1">
-            <div className="text-2xl font-bold">{loading ? '...' : stats.totalBooks}</div>
-            <p className="text-[11px] text-muted-foreground flex items-center mt-1">
-              <TrendingUp className="w-3 h-3 text-emerald-600 mr-1" />
-              <span>Multi-branch unified catalog</span>
-            </p>
-          </CardContent>
-        </Card>
+        <StatCard
+          title="Catalogued Titles"
+          value={loading ? '...' : stats.totalBooks}
+          subtitle="Multi-branch unified catalog"
+          icon={BookOpen}
+        />
+        <StatCard
+          title="Registered Patrons"
+          value={loading ? '...' : stats.totalMembers}
+          subtitle="Citizens with digital cards"
+          icon={Users}
+        />
+        <StatCard
+          title="Active Circulating Loans"
+          value={loading ? '...' : stats.activeLoans}
+          subtitle="Items in patron hands"
+          icon={Clock}
+        />
+        <StatCard
+          title="Pending Approvals"
+          value={loading ? '...' : stats.pendingApprovals}
+          subtitle="Awaiting staff verification"
+          icon={AlertTriangle}
+          className={
+            stats.pendingApprovals > 0 ? 'border-warning/50 bg-warning-soft/20' : ''
+          }
+        />
+      </div>
 
-        <Card>
-          <CardHeader className="p-4 pb-2 flex flex-row items-center justify-between space-y-0">
-            <CardTitle className="text-xs font-semibold text-muted-foreground uppercase">Registered Patrons</CardTitle>
-            <Users className="w-4 h-4 text-blue-600" />
-          </CardHeader>
-          <CardContent className="p-4 pt-1">
-            <div className="text-2xl font-bold">{loading ? '...' : stats.totalMembers}</div>
-            <p className="text-[11px] text-muted-foreground flex items-center mt-1">
-              <span>Citizens with digital cards</span>
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="p-4 pb-2 flex flex-row items-center justify-between space-y-0">
-            <CardTitle className="text-xs font-semibold text-muted-foreground uppercase">Active Circulating Loans</CardTitle>
-            <Clock className="w-4 h-4 text-emerald-600" />
-          </CardHeader>
-          <CardContent className="p-4 pt-1">
-            <div className="text-2xl font-bold">{loading ? '...' : stats.activeLoans}</div>
-            <p className="text-[11px] text-muted-foreground flex items-center mt-1">
-              <span>Items in patron hands</span>
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className={stats.pendingApprovals > 0 ? 'border-amber-300 bg-amber-50/20' : ''}>
-          <CardHeader className="p-4 pb-2 flex flex-row items-center justify-between space-y-0">
-            <CardTitle className="text-xs font-semibold text-muted-foreground uppercase">Pending Approvals</CardTitle>
-            <AlertTriangle className="w-4 h-4 text-amber-600" />
-          </CardHeader>
-          <CardContent className="p-4 pt-1">
-            <div className="text-2xl font-bold text-amber-600">{loading ? '...' : stats.pendingApprovals}</div>
-            <p className="text-[11px] text-muted-foreground flex items-center mt-1">
-              <span>Awaiting staff verification</span>
-            </p>
-          </CardContent>
-        </Card>
+      {/* Quick Action Navigation Buttons */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <Button asChild variant="outline" className="justify-between h-auto py-3 px-4">
+          <Link to="/staff/circulation">
+            <div className="flex items-center gap-2.5">
+              <ScanLine className="w-4 h-4 text-primary" />
+              <div className="text-left">
+                <div className="font-semibold text-xs">Circulation Desk</div>
+                <div className="text-[11px] text-muted-foreground">Scan loans and returns</div>
+              </div>
+            </div>
+            <ArrowRight className="w-4 h-4 text-muted-foreground" />
+          </Link>
+        </Button>
+        <Button asChild variant="outline" className="justify-between h-auto py-3 px-4">
+          <Link to="/staff/catalog">
+            <div className="flex items-center gap-2.5">
+              <BookCopy className="w-4 h-4 text-secondary" />
+              <div className="text-left">
+                <div className="font-semibold text-xs">Catalog Management</div>
+                <div className="text-[11px] text-muted-foreground">Manage books and copies</div>
+              </div>
+            </div>
+            <ArrowRight className="w-4 h-4 text-muted-foreground" />
+          </Link>
+        </Button>
+        <Button asChild variant="outline" className="justify-between h-auto py-3 px-4">
+          <Link to="/staff/members?tab=requests">
+            <div className="flex items-center gap-2.5">
+              <ClipboardList className="w-4 h-4 text-warning" />
+              <div className="text-left">
+                <div className="font-semibold text-xs">Pending Requests</div>
+                <div className="text-[11px] text-muted-foreground">{stats.pendingApprovals} members awaiting review</div>
+              </div>
+            </div>
+            <ArrowRight className="w-4 h-4 text-muted-foreground" />
+          </Link>
+        </Button>
       </div>
 
       {/* Circulation Chart & Operational Alerts */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle className="text-base font-bold">Weekly Circulation Throughput</CardTitle>
-            <CardDescription className="text-xs">Daily comparisons of checkouts vs check-ins</CardDescription>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+              <CardTitle className="text-base font-semibold">
+                Weekly Circulation Throughput
+              </CardTitle>
+              <CardDescription className="text-xs">
+                Daily comparisons of checkouts vs check-ins
+              </CardDescription>
+            </div>
+            <Badge variant="muted" size="sm">
+              Sample data
+            </Badge>
           </CardHeader>
           <CardContent className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={circulationData}>
-                <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
-                <XAxis dataKey="day" fontSize={11} />
-                <YAxis fontSize={11} />
-                <Tooltip />
-                <Bar dataKey="loans" fill="#142B4A" name="Loans" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="returns" fill="#2563EB" name="Returns" radius={[4, 4, 0, 0]} />
+                <CartesianGrid strokeDasharray="3 3" opacity={0.15} />
+                <XAxis dataKey="day" fontSize={12} stroke="#64748b" />
+                <YAxis fontSize={12} stroke="#64748b" />
+                <Tooltip
+                  contentStyle={{
+                    borderRadius: '8px',
+                    border: '1px solid var(--border)',
+                    boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)',
+                  }}
+                />
+                <Legend />
+                <Bar
+                  dataKey="loans"
+                  fill="#4338CA"
+                  name="Loans (ණයට දීම්)"
+                  radius={[4, 4, 0, 0]}
+                />
+                <Bar
+                  dataKey="returns"
+                  fill="#0F766E"
+                  name="Returns (ආපසු ලැබීම්)"
+                  radius={[4, 4, 0, 0]}
+                />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
@@ -204,19 +266,29 @@ export const StaffDashboardPage: React.FC = () => {
 
         <Card className="lg:col-span-1">
           <CardHeader>
-            <CardTitle className="text-base font-bold">Needs Attention</CardTitle>
-            <CardDescription className="text-xs">Immediate operational tasks</CardDescription>
+            <CardTitle className="text-base font-semibold">
+              Needs Attention
+            </CardTitle>
+            <CardDescription className="text-xs">
+              Immediate operational tasks
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3 text-xs">
-            <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 space-y-1">
-              <div className="font-semibold text-amber-700 dark:text-amber-400">Membership Approval</div>
-              <p className="text-muted-foreground">
+            <div className="p-3.5 rounded-xl bg-warning-soft border border-warning/20 space-y-1">
+              <div className="font-semibold text-warning-soft-foreground flex items-center gap-1.5">
+                <AlertTriangle className="w-3.5 h-3.5" />
+                <span>Membership Approval</span>
+              </div>
+              <p className="text-muted-foreground leading-relaxed">
                 {stats.pendingApprovals} citizen registrations need manual review before card issuance.
               </p>
             </div>
-            <div className="p-3 rounded-lg bg-blue-500/10 border border-blue-500/20 space-y-1">
-              <div className="font-semibold text-blue-700 dark:text-blue-400">Weekly Stocktake</div>
-              <p className="text-muted-foreground">
+            <div className="p-3.5 rounded-xl bg-info-soft border border-info/20 space-y-1">
+              <div className="font-semibold text-info-soft-foreground flex items-center gap-1.5">
+                <BookOpen className="w-3.5 h-3.5" />
+                <span>Weekly Stocktake</span>
+              </div>
+              <p className="text-muted-foreground leading-relaxed">
                 Shelf-reading scheduled for Colombo Central Dewey category 900 (History).
               </p>
             </div>
