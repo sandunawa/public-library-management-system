@@ -441,10 +441,10 @@ export const CirculationDeskPage: React.FC = () => {
         </div>
       </div>
 
-      {/* 2. Three Summary Cards */}
+      {/* 2. Three Summary Cards with solid black border & blinking hover effect */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {/* Issued this session */}
-        <div className="bg-white rounded-2xl p-5 border border-[#E6E3EE] shadow-sm flex items-center justify-between">
+        <div className="bg-white rounded-2xl p-5 border-2 border-black shadow-sm flex items-center justify-between hover-border-blink transition-all duration-200 cursor-pointer">
           <div className="space-y-1">
             <span className="text-xs font-semibold text-muted-foreground block">
               Issued this session
@@ -462,7 +462,7 @@ export const CirculationDeskPage: React.FC = () => {
         </div>
 
         {/* Returned this session */}
-        <div className="bg-white rounded-2xl p-5 border border-[#E6E3EE] shadow-sm flex items-center justify-between">
+        <div className="bg-white rounded-2xl p-5 border-2 border-black shadow-sm flex items-center justify-between hover-border-blink transition-all duration-200 cursor-pointer">
           <div className="space-y-1">
             <span className="text-xs font-semibold text-muted-foreground block">
               Returned this session
@@ -480,7 +480,7 @@ export const CirculationDeskPage: React.FC = () => {
         </div>
 
         {/* In checkout queue */}
-        <div className="bg-white rounded-2xl p-5 border border-[#E6E3EE] shadow-sm flex items-center justify-between">
+        <div className="bg-white rounded-2xl p-5 border-2 border-black shadow-sm flex items-center justify-between hover-border-blink transition-all duration-200 cursor-pointer">
           <div className="space-y-1">
             <span className="text-xs font-semibold text-muted-foreground block">
               In checkout queue
