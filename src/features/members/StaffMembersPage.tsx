@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useSearchParams } from 'react-router-dom';
 import { LocalAuthService } from '@/services/auth/LocalAuthService';
 import { MemberProfile } from '@libraryos/shared';
@@ -390,137 +391,147 @@ export const StaffMembersPage: React.FC = () => {
       )}
 
       {/* Member Details Modal */}
-      {selectedMember && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <Card className="w-full max-w-lg bg-card shadow-2xl">
-            <CardHeader className="p-4 border-b flex flex-row items-center justify-between">
-              <div>
-                <CardTitle className="text-base font-bold">{selectedMember.fullName}</CardTitle>
-                <div className="text-xs font-mono text-primary font-semibold">
-                  Card ID: {selectedMember.memberIdNumber}
-                </div>
-              </div>
-              <button
-                onClick={() => setSelectedMember(null)}
-                className="p-1 rounded-lg text-muted-foreground hover:bg-muted"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </CardHeader>
-
-            <CardContent className="p-6 space-y-4 text-xs">
-              <div className="grid grid-cols-2 gap-3 bg-muted/40 p-3 rounded-xl">
+      {selectedMember &&
+        createPortal(
+          <div
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] flex items-center justify-center p-4"
+            onClick={() => setSelectedMember(null)}
+          >
+            <Card
+              className="w-full max-w-lg bg-card shadow-2xl my-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <CardHeader className="p-4 border-b flex flex-row items-center justify-between">
                 <div>
-                  <div className="text-muted-foreground text-xs uppercase font-bold">Category</div>
-                  <div className="font-semibold">{selectedMember.membershipType}</div>
+                  <CardTitle className="text-base font-bold">{selectedMember.fullName}</CardTitle>
+                  <div className="text-xs font-mono text-primary font-semibold">
+                    Card ID: {selectedMember.memberIdNumber}
+                  </div>
                 </div>
-                <div>
-                  <div className="text-muted-foreground text-xs uppercase font-bold">Status</div>
-                  <div className="font-semibold text-success font-bold">{selectedMember.status}</div>
-                </div>
-                <div>
-                  <div className="text-muted-foreground text-xs uppercase font-bold">Email</div>
-                  <div>{selectedMember.email}</div>
-                </div>
-                <div>
-                  <div className="text-muted-foreground text-xs uppercase font-bold">Phone</div>
-                  <div>{selectedMember.phone}</div>
-                </div>
-                <div>
-                  <div className="text-muted-foreground text-xs uppercase font-bold">District / Address</div>
-                  <div>{selectedMember.district} ({selectedMember.address})</div>
-                </div>
-                <div>
-                  <div className="text-muted-foreground text-xs uppercase font-bold">Home Branch</div>
-                  <div>{selectedMember.homeBranchId}</div>
-                </div>
-              </div>
-
-              {/* ID Card with Barcode Preview */}
-              <div className="pt-2">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => setShowIdCardModal(selectedMember)}
-                  className="w-full text-xs font-bold gap-2"
+                <button
+                  onClick={() => setSelectedMember(null)}
+                  className="p-1 rounded-lg text-muted-foreground hover:bg-muted"
                 >
-                  <Printer className="w-4 h-4 text-primary" />
-                  <span>Preview & Print Official Member ID Card with Barcode</span>
+                  <X className="w-5 h-5" />
+                </button>
+              </CardHeader>
+
+              <CardContent className="p-6 space-y-4 text-xs">
+                <div className="grid grid-cols-2 gap-3 bg-muted/40 p-3 rounded-xl">
+                  <div>
+                    <div className="text-muted-foreground text-xs uppercase font-bold">Category</div>
+                    <div className="font-semibold">{selectedMember.membershipType}</div>
+                  </div>
+                  <div>
+                    <div className="text-muted-foreground text-xs uppercase font-bold">Status</div>
+                    <div className="font-semibold text-success font-bold">{selectedMember.status}</div>
+                  </div>
+                  <div>
+                    <div className="text-muted-foreground text-xs uppercase font-bold">Email</div>
+                    <div>{selectedMember.email}</div>
+                  </div>
+                  <div>
+                    <div className="text-muted-foreground text-xs uppercase font-bold">Phone</div>
+                    <div>{selectedMember.phone}</div>
+                  </div>
+                  <div>
+                    <div className="text-muted-foreground text-xs uppercase font-bold">District / Address</div>
+                    <div>{selectedMember.district} ({selectedMember.address})</div>
+                  </div>
+                  <div>
+                    <div className="text-muted-foreground text-xs uppercase font-bold">Home Branch</div>
+                    <div>{selectedMember.homeBranchId}</div>
+                  </div>
+                </div>
+
+                {/* ID Card with Barcode Preview */}
+                <div className="pt-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => setShowIdCardModal(selectedMember)}
+                    className="w-full text-xs font-bold gap-2"
+                  >
+                    <Printer className="w-4 h-4 text-primary" />
+                    <span>Preview & Print Official Member ID Card with Barcode</span>
+                  </Button>
+                </div>
+
+                {selectedMember.status === 'PENDING' && (
+                  <div className="flex gap-2 pt-2 border-t">
+                    <Button
+                      variant="outline"
+                      onClick={() => handleAction(selectedMember.id, 'REJECTED')}
+                      className="flex-1 text-destructive"
+                    >
+                      Reject Application
+                    </Button>
+                    <Button
+                      onClick={() => handleAction(selectedMember.id, 'ACTIVE')}
+                      className="flex-1 bg-success hover:bg-success/90 text-white"
+                    >
+                      Approve Application
+                    </Button>
+                  </div>
+                )}
+              </CardContent>
+
+              <div className="p-4 border-t flex justify-end bg-muted/20">
+                <Button variant="outline" onClick={() => setSelectedMember(null)} className="text-xs">
+                  Close
                 </Button>
               </div>
+            </Card>
+          </div>,
+          document.body
+        )}
 
-              {selectedMember.status === 'PENDING' && (
-                <div className="flex gap-2 pt-2 border-t">
-                  <Button
-                    variant="outline"
-                    onClick={() => handleAction(selectedMember.id, 'REJECTED')}
-                    className="flex-1 text-destructive"
-                  >
-                    Reject Application
-                  </Button>
-                  <Button
-                    onClick={() => handleAction(selectedMember.id, 'ACTIVE')}
-                    className="flex-1 bg-success hover:bg-success/90 text-white"
-                  >
-                    Approve Application
-                  </Button>
-                </div>
-              )}
-            </CardContent>
-
-            <div className="p-4 border-t flex justify-end bg-muted/20">
-              <Button variant="outline" onClick={() => setSelectedMember(null)} className="text-xs">
-                Close
-              </Button>
-            </div>
-          </Card>
-        </div>
-      )}
-
-      {/* Official Library ID Card Print Modal (Centered Screen Dialog Popup directly over row) */}
-      {showIdCardModal && (
-        <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in duration-200"
-          onClick={() => setShowIdCardModal(null)}
-        >
+      {/* Official Library ID Card Print Modal (Portaled directly to document.body so it floats over viewport with zero scrolling) */}
+      {showIdCardModal &&
+        createPortal(
           <div
-            className="w-full max-w-sm bg-card border border-border shadow-2xl rounded-2xl overflow-hidden animate-in zoom-in-95 duration-200"
-            onClick={(e) => e.stopPropagation()}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] flex items-center justify-center p-4 animate-in fade-in duration-200"
+            onClick={() => setShowIdCardModal(null)}
           >
-            <div className="p-4 border-b flex flex-row items-center justify-between bg-muted/40">
-              <div>
-                <h3 className="text-sm font-bold text-foreground">Official Library ID Card</h3>
-                <div className="text-xs text-muted-foreground font-mono font-semibold">
-                  {showIdCardModal.memberIdNumber}
+            <div
+              className="w-full max-w-sm bg-card border border-border shadow-2xl rounded-2xl overflow-hidden animate-in zoom-in-95 duration-200 my-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="p-4 border-b flex flex-row items-center justify-between bg-muted/40">
+                <div>
+                  <h3 className="text-sm font-bold text-foreground">Official Library ID Card</h3>
+                  <div className="text-xs text-muted-foreground font-mono font-semibold">
+                    {showIdCardModal.memberIdNumber}
+                  </div>
                 </div>
+                <button
+                  type="button"
+                  onClick={() => setShowIdCardModal(null)}
+                  className="p-1.5 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+                  title="Close"
+                >
+                  <X className="w-5 h-5" />
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={() => setShowIdCardModal(null)}
-                className="p-1.5 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
-                title="Close"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
 
-            <div className="p-4 flex flex-col items-center bg-background">
-              <MemberIdCard member={showIdCardModal} />
-            </div>
+              <div className="p-4 flex flex-col items-center bg-background">
+                <MemberIdCard member={showIdCardModal} />
+              </div>
 
-            <div className="p-3 border-t flex justify-end bg-muted/20">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setShowIdCardModal(null)}
-                className="text-xs font-semibold px-4"
-              >
-                Done
-              </Button>
+              <div className="p-3 border-t flex justify-end bg-muted/20">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowIdCardModal(null)}
+                  className="text-xs font-semibold px-4"
+                >
+                  Done
+                </Button>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
     </div>
   );
 };
