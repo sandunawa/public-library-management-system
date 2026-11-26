@@ -4,6 +4,11 @@
 
 ---
 
+## 📖 Official Documentation & User Manual
+- 📄 **[Download Official User Manual (English & සිංහල PDF)](docs/Library_Management_System_User_Manual_EN_SI.pdf)**: Complete step-by-step user manual covering Member Registration, Digital ID Cards, Kiosk Operations, Circulation Desk Workflows, and Fines Management in both English and Sinhala.
+
+---
+
 ## 🏛️ 1. Platform Architecture & Product Surfaces
 
 LibraryOS provides four cohesive surfaces driven by a unified domain and permission layer:
